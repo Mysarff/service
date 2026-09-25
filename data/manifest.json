@@ -1,0 +1,90 @@
+{
+  "version": "2026-09-25",
+  "seed": 20260925,
+  "synthetic": true,
+  "counts": {
+    "source_manuals": 16,
+    "knowledge_units": 208,
+    "faq_variants": 1664,
+    "simulated_tickets": 6000
+  },
+  "files": {
+    "data/faq.jsonl": {
+      "bytes": 715744,
+      "sha256": "c7e76a79a55b0b2a7af3621a71138bf30d27b3d9de2c5da4755d7674de389431"
+    },
+    "data/knowledge.jsonl": {
+      "bytes": 124406,
+      "sha256": "b187f6603562eaa90f66493b9c24c63480c25df1464353a8957ed0ebba95aaf6"
+    },
+    "data/manuals/ACC.md": {
+      "bytes": 4569,
+      "sha256": "634e5a709dfb19d917e92aeb970ba71f1a1bb878e68338163f0414d054c3471a"
+    },
+    "data/manuals/API.md": {
+      "bytes": 4342,
+      "sha256": "44f0a04203fb6be758fd43dde69aa9bf54905ffef997c9219c766d3784fbae05"
+    },
+    "data/manuals/APR.md": {
+      "bytes": 4368,
+      "sha256": "ccfb39f842303df0831f289cf4fff159c97b3b534f0f76af52388f37286b5b6c"
+    },
+    "data/manuals/ASSET.md": {
+      "bytes": 4372,
+      "sha256": "eb5ddb17ca14f6d539a50385a054cf574fd05fe566e99c779b5e0f3aa535a14d"
+    },
+    "data/manuals/AUDIT.md": {
+      "bytes": 4405,
+      "sha256": "bf65031582655d72ed57c8a52da3160027f02cf758219632dad20be296cd7f3d"
+    },
+    "data/manuals/CHAT.md": {
+      "bytes": 4273,
+      "sha256": "bc082708cf07efada793e573150a429feb4bb5fe01f2752008359c6eb333fad8"
+    },
+    "data/manuals/INV.md": {
+      "bytes": 4410,
+      "sha256": "378c6b4e2b400afaec96b534ee2f977705acaf6f0f9d759a1998c4bc4856cd56"
+    },
+    "data/manuals/KB.md": {
+      "bytes": 4410,
+      "sha256": "196b1480a568e27392138c66538f25707e4b9149178bb5ef62baf54aac8af7e3"
+    },
+    "data/manuals/ORD.md": {
+      "bytes": 4299,
+      "sha256": "5d4b546d3a3fc4e079d29a06e162789814b08343a2b5dea2ce0933e89c96c44c"
+    },
+    "data/manuals/ORG.md": {
+      "bytes": 4300,
+      "sha256": "6c9f392d5fe86af4276f548b33ef6dc091ca97cf4139e641f930ec833b80aacb"
+    },
+    "data/manuals/PRJ.md": {
+      "bytes": 4324,
+      "sha256": "c6a3f6e9d586d6eba1837f4219c99ce9a43b7a230fc11a480c7194617ba5fec8"
+    },
+    "data/manuals/REPORT.md": {
+      "bytes": 4142,
+      "sha256": "636e96bd03781daeade38d9956e5baac1b812a040dcacd1f1b5ab85653c8651b"
+    },
+    "data/manuals/RET.md": {
+      "bytes": 4377,
+      "sha256": "00748ad84473f42c5188005a79045f6f8e666b89e78505d4d3e4443837b128c1"
+    },
+    "data/manuals/SHIP.md": {
+      "bytes": 4345,
+      "sha256": "e18078252b26df6d68c21685db6725c51c873a2be2b0d960eb411421d04b745b"
+    },
+    "data/manuals/SUB.md": {
+      "bytes": 4375,
+      "sha256": "43208741de7800569540e0341ddbf3ddcf0d0bc3094d4605cb70713f6dcbbf37"
+    },
+    "data/manuals/TKT.md": {
+      "bytes": 4316,
+      "sha256": "48a64ee9c71d4d680ebf08099e83e89ee2e680cdf174888423d546a9a7d71a1a"
+    },
+    "data/simulated_tickets.jsonl": {
+      "bytes": 3460679,
+      "sha256": "6c87876f68a89bebc63e63838f4d22bf0981f50fa11e88867b569e01f63e6765"
+    }
+  },
+  "note": "FAQ variants and tickets repeat source facts; they are NOT additional knowledge units. No measured 800k-scale claim."
+}

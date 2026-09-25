@@ -1,0 +1,227 @@
+{
+  "corpus_units": 208,
+  "scope": "synthetic development regression, not blind benchmark or LLM accuracy",
+  "methods": {
+    "tfidf": {
+      "n": 32,
+      "top1": 28,
+      "hit5": 32,
+      "mrr5": 0.9323,
+      "mean_retrieval_ms": 2.18,
+      "top1_failures": [
+        {
+          "query": "知识文章更新发布后为什么搜索不到？",
+          "expected": [
+            "KB-09",
+            "KB-07"
+          ],
+          "top5": [
+            "KB-13",
+            "KB-09",
+            "KB-03",
+            "KB-07",
+            "KB-04"
+          ]
+        },
+        {
+          "query": "订单重复创建了要重新扣钱吗？",
+          "expected": [
+            "ORD-09"
+          ],
+          "top5": [
+            "ORD-02",
+            "ORD-09",
+            "ORD-01",
+            "ORG-02",
+            "TKT-02"
+          ]
+        },
+        {
+          "query": "运单轨迹好久没有更新了",
+          "expected": [
+            "SHIP-09"
+          ],
+          "top5": [
+            "TKT-09",
+            "SHIP-09",
+            "SHIP-13",
+            "KB-09",
+            "RET-13"
+          ]
+        },
+        {
+          "query": "报表统计结果和之前对不上",
+          "expected": [
+            "REPORT-09"
+          ],
+          "top5": [
+            "REPORT-05",
+            "REPORT-02",
+            "REPORT-09",
+            "REPORT-03",
+            "REPORT-01"
+          ]
+        }
+      ]
+    },
+    "plain_bm25": {
+      "n": 32,
+      "top1": 29,
+      "hit5": 32,
+      "mrr5": 0.9531,
+      "mean_retrieval_ms": 0.568,
+      "top1_failures": [
+        {
+          "query": "订单重复创建了要重新扣钱吗？",
+          "expected": [
+            "ORD-09"
+          ],
+          "top5": [
+            "ORD-02",
+            "ORD-09",
+            "ORD-01",
+            "SHIP-02",
+            "RET-02"
+          ]
+        },
+        {
+          "query": "运单轨迹好久没有更新了",
+          "expected": [
+            "SHIP-09"
+          ],
+          "top5": [
+            "SHIP-13",
+            "SHIP-09",
+            "TKT-09",
+            "RET-13",
+            "KB-09"
+          ]
+        },
+        {
+          "query": "报表统计结果和之前对不上",
+          "expected": [
+            "REPORT-09"
+          ],
+          "top5": [
+            "REPORT-05",
+            "REPORT-09",
+            "REPORT-02",
+            "REPORT-03",
+            "REPORT-01"
+          ]
+        }
+      ]
+    },
+    "bm25": {
+      "n": 32,
+      "top1": 30,
+      "hit5": 32,
+      "mrr5": 0.9688,
+      "mean_retrieval_ms": 0.569,
+      "top1_failures": [
+        {
+          "query": "订单重复创建了要重新扣钱吗？",
+          "expected": [
+            "ORD-09"
+          ],
+          "top5": [
+            "ORD-02",
+            "ORD-09",
+            "ORD-01",
+            "ORD-06",
+            "SHIP-02"
+          ]
+        },
+        {
+          "query": "报表统计结果和之前对不上",
+          "expected": [
+            "REPORT-09"
+          ],
+          "top5": [
+            "REPORT-05",
+            "REPORT-09",
+            "REPORT-02",
+            "REPORT-03",
+            "REPORT-01"
+          ]
+        }
+      ]
+    }
+  },
+  "evidence_gate": {
+    "n": 12,
+    "rejected": 10,
+    "details": [
+      {
+        "query": "明天上海会下雨吗？",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "写一首关于秋天的诗",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "Python如何实现快速排序？",
+        "rejected": true,
+        "top1": [
+          "TKT-13"
+        ]
+      },
+      {
+        "query": "推荐一只明天会涨的股票",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "感冒应该吃哪种药？",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "帮我解一元二次方程",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "火星到地球有多远？",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "周末晚餐菜谱推荐",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "你们的SOC2证书编号是什么？",
+        "rejected": true,
+        "top1": [
+          "ASSET-09"
+        ]
+      },
+      {
+        "query": "企业套餐当前价格是多少元？",
+        "rejected": false,
+        "top1": [
+          "SUB-05"
+        ]
+      },
+      {
+        "query": "今天美元兑人民币汇率是多少？",
+        "rejected": true,
+        "top1": [
+          "TKT-13"
+        ]
+      },
+      {
+        "query": "帮我查询订单ZX987654现在到哪了",
+        "rejected": false,
+        "top1": [
+          "ORD-07"
+        ]
+      }
+    ]
+  }
+}

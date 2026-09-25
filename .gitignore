@@ -1,0 +1,10 @@
+__pycache__/
+.env
+data/uploads/
+runtime/
+config.ini
+*.log
+*.pyc
+.venv/
+data/faq.jsonl
+data/simulated_tickets.jsonl

@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-25",
+  "cases": [
+    {
+      "query": "我忘记登录密码了，怎么重置？",
+      "answer": "登录页点击忘记密码，输入注册工作邮箱，通过重置邮件设置新密码。链接过期后重新申请；企业SSO账号的密码由公司身份提供方管理，请联系企业IT管理员。客服不会索取密码或验证码。\n\n[ACC-13]",
+      "sources": [
+        {
+          "id": "ACC-13",
+          "parent_id": "ACC-GUIDE",
+          "title": "账号安全｜忘记密码与重置密码",
+          "category": "账号安全",
+          "content": "登录页点击忘记密码，输入注册工作邮箱，通过重置邮件设置新密码。链接过期后重新申请；企业SSO账号的密码由公司身份提供方管理，请联系企业IT管理员。客服不会索取密码或验证码。",
+          "tags": [
+            "忘记密码",
+            "重置密码",
+            "找回密码"
+          ],
+          "source": "data/manuals/ACC.md",
+          "version": "2026-09-25",
+          "synthetic": true,
+          "topic": "special",
+          "score": 52.8202,
+          "matches": 4,
+          "coverage": 0.444
+        }
+      ],
+      "mode": "retrieval_fallback",
+      "notice": "模型暂不可用或引用校验未通过，当前展示知识库原文。",
+      "error_type": "HTTPError",
+      "elapsed_ms": 188
+    },
+    {
+      "query": "取消自动续费后会自动退款吗？",
+      "answer": "账单管理员在组织设置/订阅中关闭自动续费并核对生效日期。关闭续费不等于退款，当前服务是否持续到周期末以订单条款为准。退款申请需提交订单编号由账单团队审核，不能保证全额或即时到账。\n\n[SUB-13]",
+      "sources": [
+        {
+          "id": "SUB-13",
+          "parent_id": "SUB-GUIDE",
+          "title": "订阅管理｜取消自动续费与退款",
+          "category": "订阅管理",
+          "content": "账单管理员在组织设置/订阅中关闭自动续费并核对生效日期。关闭续费不等于退款，当前服务是否持续到周期末以订单条款为准。退款申请需提交订单编号由账单团队审核，不能保证全额或即时到账。",
+          "tags": [
+            "取消续费",
+            "退款",
+            "自动续费"
+          ],
+          "source": "data/manuals/SUB.md",
+          "version": "2026-09-25",
+          "synthetic": true,
+          "topic": "special",
+          "score": 91.9488,
+          "matches": 6,
+          "coverage": 0.545
+        }
+      ],
+      "mode": "retrieval_fallback",
+      "notice": "模型暂不可用或引用校验未通过，当前展示知识库原文。",
+      "error_type": "HTTPError",
+      "elapsed_ms": 75
+    },
+    {
+      "query": "帮我查询订单ZX987654现在到哪了",
+      "answer": "当前助手只连接操作知识库，尚未接入实时订单或物流系统，无法核验这个编号的状态。请提交人工工单，由客服在授权业务系统中查询。",
+      "sources": [],
+      "mode": "insufficient_evidence",
+      "elapsed_ms": 1
+    }
+  ]
+}
