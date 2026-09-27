@@ -1,0 +1,187 @@
+{
+  "created_at_utc": "2026-09-27T03:41:04.058771+00:00",
+  "scope": "synthetic development audit; local loopback extractive HTTP; no external LLM; no production or 800k claim",
+  "host": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.7",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cpus": 16
+  },
+  "seed": 20260927,
+  "corpus_units": 592,
+  "corpus_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "cases_sha256": {
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "91c79957598b8c4a78471392985239da93ce4a55b145f067a2599ddac3a7c3a2"
+  },
+  "code_sha256": {
+    "engine.py": "e9bce0b0bf3fbbfe94e4c16df0a80897bd764810a0fc4f5009f4b6975bac968c",
+    "app.py": "cb084a204b911af34936b0f82df1bb08d5dc1a42cf99077a284eff91e0644419",
+    "evaluation/benchmark.py": "ba0d5e4fab3b6fb064b5147c6e7b75a16c58876d0590a20362e2c5d7a2ef2d39"
+  },
+  "index": {
+    "build_ms_with_tracemalloc": 294.069,
+    "traced_live_bytes": 11819810,
+    "traced_peak_bytes": 11821279,
+    "vocabulary_terms": 6650,
+    "scope": "Python allocations, not total process RSS; one build with tracing overhead"
+  },
+  "ranking_parity": {
+    "passed": 640,
+    "n": 640
+  },
+  "retrieval": {
+    "cases.json": {
+      "tfidf": {
+        "n": 32,
+        "top1": 25,
+        "top1_rate": 0.7812,
+        "top1_wilson95": [
+          0.6124,
+          0.8898
+        ],
+        "hit5": 31,
+        "mrr5": 0.8375
+      },
+      "plain_bm25": {
+        "n": 32,
+        "top1": 27,
+        "top1_rate": 0.8438,
+        "top1_wilson95": [
+          0.6825,
+          0.9314
+        ],
+        "hit5": 31,
+        "mrr5": 0.8917
+      },
+      "bm25": {
+        "n": 32,
+        "top1": 28,
+        "top1_rate": 0.875,
+        "top1_wilson95": [
+          0.7193,
+          0.9503
+        ],
+        "hit5": 32,
+        "mrr5": 0.9297
+      }
+    },
+    "extended_cases.json": {
+      "tfidf": {
+        "n": 32,
+        "top1": 19,
+        "top1_rate": 0.5938,
+        "top1_wilson95": [
+          0.4226,
+          0.7448
+        ],
+        "hit5": 29,
+        "mrr5": 0.725
+      },
+      "plain_bm25": {
+        "n": 32,
+        "top1": 19,
+        "top1_rate": 0.5938,
+        "top1_wilson95": [
+          0.4226,
+          0.7448
+        ],
+        "hit5": 30,
+        "mrr5": 0.75
+      },
+      "bm25": {
+        "n": 32,
+        "top1": 29,
+        "top1_rate": 0.9062,
+        "top1_wilson95": [
+          0.7578,
+          0.9676
+        ],
+        "hit5": 32,
+        "mrr5": 0.9531
+      }
+    }
+  },
+  "negative_evidence_gate": {
+    "cases.json": {
+      "n": 12,
+      "rejected": 12
+    },
+    "extended_cases.json": {
+      "n": 12,
+      "rejected": 12
+    }
+  },
+  "search_performance": {
+    "scan": {
+      "n": 640,
+      "mean_ms": 1.475,
+      "p50_ms": 1.331,
+      "p95_ms": 2.59,
+      "max_ms": 4.088
+    },
+    "inverted": {
+      "n": 640,
+      "mean_ms": 1.074,
+      "p50_ms": 0.888,
+      "p95_ms": 2.357,
+      "max_ms": 5.442
+    }
+  },
+  "http": [
+    {
+      "concurrency": 1,
+      "requests": 2000,
+      "http_successful": 2000,
+      "evidence_answers": 2000,
+      "wall_seconds": 7.2,
+      "successful_requests_per_second": 277.79,
+      "latency_all_requests": {
+        "n": 2000,
+        "mean_ms": 3.571,
+        "p50_ms": 3.02,
+        "p95_ms": 5.017,
+        "max_ms": 28.73
+      },
+      "modes": {
+        "retrieval_only": 2000
+      }
+    },
+    {
+      "concurrency": 4,
+      "requests": 2000,
+      "http_successful": 2000,
+      "evidence_answers": 2000,
+      "wall_seconds": 5.127,
+      "successful_requests_per_second": 390.06,
+      "latency_all_requests": {
+        "n": 2000,
+        "mean_ms": 10.223,
+        "p50_ms": 10.029,
+        "p95_ms": 14.572,
+        "max_ms": 26.277
+      },
+      "modes": {
+        "retrieval_only": 2000
+      }
+    },
+    {
+      "concurrency": 8,
+      "requests": 2000,
+      "http_successful": 2000,
+      "evidence_answers": 2000,
+      "wall_seconds": 5.576,
+      "successful_requests_per_second": 358.71,
+      "latency_all_requests": {
+        "n": 2000,
+        "mean_ms": 20.599,
+        "p50_ms": 15.655,
+        "p95_ms": 21.58,
+        "max_ms": 1029.085
+      },
+      "modes": {
+        "retrieval_only": 2000
+      }
+    }
+  ]
+}

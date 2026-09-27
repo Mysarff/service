@@ -27,13 +27,16 @@ class SystemTests(unittest.TestCase):
             with urlopen(req,timeout=10) as response:return response.status,json.load(response)
         except HTTPError as exc:return exc.code,json.load(exc)
     def test_health_and_grounded_source(self):
-        status,data=self.request('/api/health'); self.assertEqual(status,200); self.assertEqual(data['knowledge_units'],208)
+        status,data=self.request('/api/health'); self.assertEqual(status,200)
+        self.assertEqual(data['knowledge_units'],data['counts']['knowledge_units'])
         _,d=self.request('/api/chat',{'query':'忘记密码怎么重置'}); self.assertEqual(d['sources'][0]['id'],'ACC-13'); self.assertIn('[ACC-13]',d['answer'])
     def test_unknown_question_is_rejected(self):
         _,d=self.request('/api/chat',{'query':'火星到地球有多远？'}); self.assertEqual(d['mode'],'insufficient_evidence'); self.assertEqual(d['sources'],[])
     def test_live_data_and_missing_policy_not_invented(self):
         for q in ['订单AB567891现在什么状态','套餐到底多少钱','提供SOC2证书编号']:
             _,d=self.request('/api/chat',{'query':q}); self.assertEqual(d['mode'],'insufficient_evidence'); self.assertEqual(d['sources'],[])
+        for q in ['请直接说明审批流程','银行账户注销导致退款失败，如何处理？']:
+            _,d=self.request('/api/chat',{'query':q}); self.assertEqual(d['mode'],'retrieval_only')
     def test_malformed_input_does_not_crash(self):
         for raw in [b'{',b'[]',b'{"query":42}',b'{"query":"hello","history":[3]}']:
             self.assertEqual(self.request('/api/chat',raw=raw)[0],400)
@@ -66,5 +69,38 @@ class SystemTests(unittest.TestCase):
         with patch('engine.urlopen',return_value=Response()):
             answer=e.answer('忘记密码怎么重置')
         self.assertEqual(answer['mode'],'retrieval_fallback'); self.assertNotIn('NONEXISTENT',answer['answer'])
+
+    def test_scan_inverted_ranking_parity(self):
+        cases=json.loads((engine.ROOT/'evaluation/cases.json').read_text(encoding='utf-8'))
+        for query,_ in cases['positive']:
+            for method in ('tfidf','plain_bm25','bm25'):
+                with self.subTest(query=query,method=method):
+                    a=self.server.engine.search(query,method=method,strategy='scan')
+                    b=self.server.engine.search(query,method=method,strategy='inverted')
+                    self.assertEqual([(x['id'],x['score']) for x in a],[(x['id'],x['score']) for x in b])
+
+    def test_index_reload_after_upload(self):
+        self.server.engine.ingest('incident.md','穹顶蓝灯故障时先断开实验设备电源，再由负责人核对安全状态。')
+        hits=self.server.engine.search('穹顶蓝灯故障')
+        self.assertTrue(hits[0]['id'].startswith('UP-'))
+
+    def test_short_followup_uses_context(self):
+        result=self.server.engine.answer('然后呢',history=[{'role':'user','content':'忘记密码怎么重置'}],force_extract=True)
+        self.assertEqual(result['sources'][0]['id'],'ACC-13')
+
+    def test_model_network_error_falls_back(self):
+        e=self.server.engine; e.key='fake'; e.model='fake'; e.base='https://invalid.example/v1'
+        with patch('engine.urlopen',side_effect=TimeoutError('test')):
+            result=e.answer('忘记密码怎么重置')
+        self.assertEqual(result['mode'],'retrieval_fallback')
+        self.assertEqual(result['error_type'],'TimeoutError')
+
+    def test_supported_positive_queries_not_rejected(self):
+        for name in ('cases.json','extended_cases.json'):
+            cases=json.loads((engine.ROOT/'evaluation'/name).read_text(encoding='utf-8'))
+            for query,_ in cases['positive']:
+                with self.subTest(query=query):
+                    result=self.server.engine.answer(query,force_extract=True)
+                    self.assertEqual(result['mode'],'retrieval_only')
 
 if __name__=='__main__':unittest.main()

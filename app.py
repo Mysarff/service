@@ -73,6 +73,8 @@ def make_server(port=8088,model_config=None):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(); parser.add_argument('--port',type=int,default=8088); parser.add_argument('--model-config')
+    parser.add_argument('--offline',action='store_true',help='Disable external model calls even when environment credentials exist')
     args=parser.parse_args(); server=make_server(args.port,args.model_config)
+    if args.offline: server.engine.key=''
     print(f'CloudCare http://127.0.0.1:{server.server_port} | units={len(server.engine.docs)} | model_enabled={server.engine.model_ready}',flush=True)
     server.serve_forever()

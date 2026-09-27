@@ -1,0 +1,182 @@
+{
+  "created_at_utc": "2026-09-27T03:17:21.952472+00:00",
+  "scope": "synthetic development audit; local loopback extractive HTTP; no external LLM; no production or 800k claim",
+  "host": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.7",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cpus": 16
+  },
+  "seed": 20260927,
+  "corpus_units": 592,
+  "corpus_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "cases_sha256": {
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "91c79957598b8c4a78471392985239da93ce4a55b145f067a2599ddac3a7c3a2"
+  },
+  "index": {
+    "build_ms_with_tracemalloc": 298.584,
+    "traced_live_bytes": 11796302,
+    "traced_peak_bytes": 11797875,
+    "vocabulary_terms": 6650,
+    "scope": "Python allocations, not total process RSS; one build with tracing overhead"
+  },
+  "ranking_parity": {
+    "passed": 640,
+    "n": 640
+  },
+  "retrieval": {
+    "cases.json": {
+      "tfidf": {
+        "n": 32,
+        "top1": 25,
+        "top1_rate": 0.7812,
+        "top1_wilson95": [
+          0.6124,
+          0.8898
+        ],
+        "hit5": 31,
+        "mrr5": 0.8375
+      },
+      "plain_bm25": {
+        "n": 32,
+        "top1": 27,
+        "top1_rate": 0.8438,
+        "top1_wilson95": [
+          0.6825,
+          0.9314
+        ],
+        "hit5": 31,
+        "mrr5": 0.8917
+      },
+      "bm25": {
+        "n": 32,
+        "top1": 28,
+        "top1_rate": 0.875,
+        "top1_wilson95": [
+          0.7193,
+          0.9503
+        ],
+        "hit5": 31,
+        "mrr5": 0.9073
+      }
+    },
+    "extended_cases.json": {
+      "tfidf": {
+        "n": 32,
+        "top1": 19,
+        "top1_rate": 0.5938,
+        "top1_wilson95": [
+          0.4226,
+          0.7448
+        ],
+        "hit5": 29,
+        "mrr5": 0.725
+      },
+      "plain_bm25": {
+        "n": 32,
+        "top1": 19,
+        "top1_rate": 0.5938,
+        "top1_wilson95": [
+          0.4226,
+          0.7448
+        ],
+        "hit5": 30,
+        "mrr5": 0.75
+      },
+      "bm25": {
+        "n": 32,
+        "top1": 19,
+        "top1_rate": 0.5938,
+        "top1_wilson95": [
+          0.4226,
+          0.7448
+        ],
+        "hit5": 30,
+        "mrr5": 0.7406
+      }
+    }
+  },
+  "negative_evidence_gate": {
+    "cases.json": {
+      "n": 12,
+      "rejected": 12
+    },
+    "extended_cases.json": {
+      "n": 12,
+      "rejected": 5
+    }
+  },
+  "search_performance": {
+    "scan": {
+      "n": 640,
+      "mean_ms": 1.275,
+      "p50_ms": 1.133,
+      "p95_ms": 2.193,
+      "max_ms": 4.713
+    },
+    "inverted": {
+      "n": 640,
+      "mean_ms": 0.889,
+      "p50_ms": 0.69,
+      "p95_ms": 2.145,
+      "max_ms": 4.115
+    }
+  },
+  "http": [
+    {
+      "concurrency": 1,
+      "requests": 160,
+      "successful": 157,
+      "wall_seconds": 0.474,
+      "successful_requests_per_second": 331.35,
+      "latency_all_requests": {
+        "n": 160,
+        "mean_ms": 2.933,
+        "p50_ms": 2.544,
+        "p95_ms": 4.561,
+        "max_ms": 18.931
+      },
+      "modes": {
+        "retrieval_only": 157,
+        "insufficient_evidence": 3
+      }
+    },
+    {
+      "concurrency": 4,
+      "requests": 160,
+      "successful": 157,
+      "wall_seconds": 0.355,
+      "successful_requests_per_second": 442.19,
+      "latency_all_requests": {
+        "n": 160,
+        "mean_ms": 8.745,
+        "p50_ms": 8.586,
+        "p95_ms": 12.369,
+        "max_ms": 14.584
+      },
+      "modes": {
+        "retrieval_only": 157,
+        "insufficient_evidence": 3
+      }
+    },
+    {
+      "concurrency": 8,
+      "requests": 160,
+      "successful": 157,
+      "wall_seconds": 0.56,
+      "successful_requests_per_second": 280.19,
+      "latency_all_requests": {
+        "n": 160,
+        "mean_ms": 19.801,
+        "p50_ms": 13.204,
+        "p95_ms": 19.014,
+        "max_ms": 534.545
+      },
+      "modes": {
+        "retrieval_only": 157,
+        "insufficient_evidence": 3
+      }
+    }
+  ]
+}

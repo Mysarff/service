@@ -57,33 +57,70 @@ class Engine:
             self.df=Counter(w for bag in self.index for w in bag)
             self.lengths=[sum(bag.values()) for bag in self.index]
             self.average=sum(self.lengths)/max(1,len(docs))
+            self.postings = {}
+            for i, bag in enumerate(self.index):
+                for word in bag:
+                    self.postings.setdefault(word, set()).add(i)
+            self.idf = {w: math.log(1+(len(docs)-n+0.5)/(n+0.5)) for w,n in self.df.items()}
+            self.norms = [math.sqrt(sum((n*self.idf[w])**2 for w,n in bag.items())) for bag in self.index]
+            self.title_terms = [set(terms(d['title'])) for d in docs]
+            self.by_parent = {}
+            for i,d in enumerate(docs):
+                self.by_parent.setdefault(d['parent_id'],[]).append(i)
 
-    def search(self, query, category='', method='bm25', limit=5):
+    def search(self, query, category='', method='bm25', limit=5, strategy='inverted'):
+        # Small auditable domain vocabulary shared by all three retrieval controls.
+        query=re.sub(r'晚上|下班后|打烊后','非营业时间',query)
         q=Counter(terms(query))
         if not q: return []
         inferred={cat for cat, aliases in ALIASES.items() if any(a.lower() in query.lower() for a in aliases)}
         result=[]
         with self.lock:
-            for doc, bag, size in zip(self.docs,self.index,self.lengths):
+            if strategy not in ('inverted', 'scan'):
+                raise ValueError('Unknown retrieval strategy')
+            # Sorting preserves corpus-order tie breaking, identical to the scan control.
+            candidates = range(len(self.docs)) if strategy=='scan' else sorted(set().union(*(self.postings.get(w,set()) for w in q)))
+            for i in candidates:
+                doc, bag, size = self.docs[i], self.index[i], self.lengths[i]
                 if category and doc['category']!=category: continue
                 common=q.keys() & bag.keys()
                 if not common: continue
                 score=0.0
                 for word in common:
-                    idf=math.log(1+(len(self.docs)-self.df[word]+0.5)/(self.df[word]+0.5))
+                    idf=self.idf[word]
                     if method=='tfidf': score+=q[word]*bag[word]*idf*idf
                     else: score+=idf*bag[word]*2.2/(bag[word]+1.2*(0.25+0.75*size/max(self.average,1)))
                 if method=='tfidf':
-                    norm=math.sqrt(sum((n*math.log(1+(len(self.docs)-self.df[w]+0.5)/(self.df[w]+0.5)))**2 for w,n in bag.items()))
-                    score/=max(norm,1e-9)
-                title_match=len(set(terms(doc['title'])) & q.keys())
+                    score/=max(self.norms[i],1e-9)
+                title_match=len(self.title_terms[i] & q.keys())
                 if method=='bm25':
                     score*=1+min(title_match,5)*0.08
                     if doc['category'] in inferred: score*=1.6
                 result.append(dict(doc,score=round(score,4),matches=len(common),coverage=round(len(common)/len(q),3)))
-        return sorted(result,key=lambda d:d['score'],reverse=True)[:limit]
+            if method=='bm25':
+                # Group related runbook sections so siblings do not crowd out other sources.
+                # The chosen phase is expanded from the same parent even when that child
+                # does not contain the original query wording. This is lexical, not neural.
+                phase = '定位' if re.search(r'排查|定位|核查|检查|查什么|查哪里|怎么查|要查',query) else '处置'
+                if re.search(r'验收|怎么验证|如何验证|是否修好',query): phase='验收'
+                elif re.search(r'何时停止|什么时候停止|何时升级|交给谁|转交给',query): phase='升级'
+                grouped={}
+                for hit in sorted(result,key=lambda d:d['score'],reverse=True):
+                    key=hit['parent_id'] if hit.get('topic')=='runbook' else hit['id']
+                    if key in grouped: continue
+                    if hit.get('topic')=='runbook':
+                        candidates=[self.docs[i] for i in self.by_parent[key]]
+                        child=next((d for d in candidates if d.get('phase')==phase),hit)
+                        hit={**hit,**child,'matched_child_id':hit['id'],'expanded_from_parent':True}
+                    grouped[key]=hit
+                result=list(grouped.values())
+            return sorted(result,key=lambda d:d['score'],reverse=True)[:limit]
 
     def capability_gap(self, query):
+        if re.search(r'注册资本|创始人|付费客户|真实客户|训练.*参数|工资|薪资|税率|哪(?:一家|个|家|些)?银行|银行.*(?:账号是多少|账户号码)|收款账号',query):
+            return '当前资料没有这些企业事实、薪资、税务数值或银行账户信息。请联系对应业务负责人核验，不能用相关流程资料推断具体事实。'
+        if re.search(r'(?:请直接|请马上|请立即|帮我执行|替我|代我).{0,12}(?:批准|删除|退款|打款|停用)',query) and not re.search(r'如何|怎么|步骤|流程|解释|说明',query):
+            return '当前助手只能解释知识库流程，不能执行真实退款、审批、删除或其他业务操作。请由有权限的业务人员在正式系统中核验并操作。'
         if re.search(r'(多少钱|价格|报价|单价|售价|费用|收费)', query):
             return '当前知识库没有经确认的价格表。请由销售或账单人员核对套餐、席位数和订单条款后报价。'
         if re.search(r'(?i)(SOC\s?2|ISO\s?27001|证书编号|认证编号)',query):
@@ -125,7 +162,8 @@ class Engine:
             cited=set(re.findall(r'\[([A-Z0-9_-]+)\]',text))
             valid={d['id'] for d in hits}
             if not cited or not cited<=valid: raise ValueError('citation_validation_failed')
-            return dict(answer=text,sources=[d for d in hits if d['id'] in cited],mode='grounded_llm',model=self.model)
+            return dict(answer=text,sources=[d for d in hits if d['id'] in cited],mode='grounded_llm',model=self.model,
+                        usage={k:(obj.get('usage') or {}).get(k) for k in ('prompt_tokens','completion_tokens','total_tokens')})
         except Exception as exc:
             return dict(answer=fallback,sources=hits[:1],mode='retrieval_fallback',notice='模型暂不可用或引用校验未通过，当前展示知识库原文。',error_type=type(exc).__name__)
 

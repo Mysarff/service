@@ -1,8 +1,889 @@
 {
   "status": "passed",
-  "knowledge_units": 208,
-  "faq_variants": 1664,
-  "simulated_tickets": 6000,
-  "checked_files": 19,
-  "note": "Checks lineage and exact duplicates only; not semantic correctness or independence."
+  "knowledge_units": 592,
+  "faq_variants": 4736,
+  "simulated_tickets": 24000,
+  "source_documents": 112,
+  "checked_files": 115,
+  "content_characters": 70258,
+  "exact_duplicate_texts": 0,
+  "near_duplicate_metric": "character-trigram Jaccard >= 0.8; lexical only, not semantic independence",
+  "near_duplicate_pair_count": 168,
+  "near_duplicate_pairs": [
+    {
+      "a": "ACC-07",
+      "b": "ORG-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ACC-07",
+      "b": "TKT-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-07",
+      "b": "TKT-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ACC-07",
+      "b": "CHAT-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-07",
+      "b": "CHAT-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "TKT-07",
+      "b": "CHAT-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-11",
+      "b": "CHAT-11",
+      "jaccard": 0.811
+    },
+    {
+      "a": "ACC-07",
+      "b": "KB-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORG-07",
+      "b": "KB-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "TKT-07",
+      "b": "KB-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "CHAT-07",
+      "b": "KB-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "CHAT-10",
+      "b": "KB-10",
+      "jaccard": 0.812
+    },
+    {
+      "a": "ACC-07",
+      "b": "ORD-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-07",
+      "b": "ORD-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "TKT-07",
+      "b": "ORD-07",
+      "jaccard": 0.859
+    },
+    {
+      "a": "CHAT-07",
+      "b": "ORD-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "KB-07",
+      "b": "ORD-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "TKT-10",
+      "b": "ORD-10",
+      "jaccard": 0.81
+    },
+    {
+      "a": "ACC-07",
+      "b": "SUB-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-07",
+      "b": "SUB-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "TKT-07",
+      "b": "SUB-07",
+      "jaccard": 0.878
+    },
+    {
+      "a": "CHAT-07",
+      "b": "SUB-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "KB-07",
+      "b": "SUB-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORD-07",
+      "b": "SUB-07",
+      "jaccard": 0.859
+    },
+    {
+      "a": "TKT-10",
+      "b": "SUB-10",
+      "jaccard": 0.8
+    },
+    {
+      "a": "ORD-10",
+      "b": "SUB-10",
+      "jaccard": 0.827
+    },
+    {
+      "a": "ORD-11",
+      "b": "SUB-11",
+      "jaccard": 0.814
+    },
+    {
+      "a": "SUB-06",
+      "b": "INV-06",
+      "jaccard": 0.802
+    },
+    {
+      "a": "ACC-07",
+      "b": "INV-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORG-07",
+      "b": "INV-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "TKT-07",
+      "b": "INV-07",
+      "jaccard": 0.86
+    },
+    {
+      "a": "CHAT-07",
+      "b": "INV-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "KB-07",
+      "b": "INV-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "ORD-07",
+      "b": "INV-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "SUB-07",
+      "b": "INV-07",
+      "jaccard": 0.86
+    },
+    {
+      "a": "ORD-11",
+      "b": "INV-11",
+      "jaccard": 0.814
+    },
+    {
+      "a": "SUB-11",
+      "b": "INV-11",
+      "jaccard": 0.872
+    },
+    {
+      "a": "SUB-12",
+      "b": "INV-12",
+      "jaccard": 0.809
+    },
+    {
+      "a": "ORD-04",
+      "b": "SHIP-04",
+      "jaccard": 0.821
+    },
+    {
+      "a": "ORD-06",
+      "b": "SHIP-06",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ACC-07",
+      "b": "SHIP-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "ORG-07",
+      "b": "SHIP-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "TKT-07",
+      "b": "SHIP-07",
+      "jaccard": 0.85
+    },
+    {
+      "a": "CHAT-07",
+      "b": "SHIP-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "KB-07",
+      "b": "SHIP-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ORD-07",
+      "b": "SHIP-07",
+      "jaccard": 0.888
+    },
+    {
+      "a": "SUB-07",
+      "b": "SHIP-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "INV-07",
+      "b": "SHIP-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "TKT-10",
+      "b": "SHIP-10",
+      "jaccard": 0.802
+    },
+    {
+      "a": "ORD-10",
+      "b": "SHIP-10",
+      "jaccard": 0.885
+    },
+    {
+      "a": "SUB-10",
+      "b": "SHIP-10",
+      "jaccard": 0.8
+    },
+    {
+      "a": "KB-11",
+      "b": "SHIP-11",
+      "jaccard": 0.806
+    },
+    {
+      "a": "ORD-12",
+      "b": "SHIP-12",
+      "jaccard": 0.83
+    },
+    {
+      "a": "ACC-07",
+      "b": "RET-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "ORG-07",
+      "b": "RET-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "TKT-07",
+      "b": "RET-07",
+      "jaccard": 0.85
+    },
+    {
+      "a": "CHAT-07",
+      "b": "RET-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "KB-07",
+      "b": "RET-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ORD-07",
+      "b": "RET-07",
+      "jaccard": 0.888
+    },
+    {
+      "a": "SUB-07",
+      "b": "RET-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "INV-07",
+      "b": "RET-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "SHIP-07",
+      "b": "RET-07",
+      "jaccard": 0.879
+    },
+    {
+      "a": "TKT-11",
+      "b": "RET-11",
+      "jaccard": 0.833
+    },
+    {
+      "a": "SHIP-11",
+      "b": "RET-11",
+      "jaccard": 0.833
+    },
+    {
+      "a": "ORG-04",
+      "b": "ASSET-04",
+      "jaccard": 0.808
+    },
+    {
+      "a": "SUB-04",
+      "b": "ASSET-04",
+      "jaccard": 0.827
+    },
+    {
+      "a": "INV-04",
+      "b": "ASSET-04",
+      "jaccard": 0.811
+    },
+    {
+      "a": "SUB-06",
+      "b": "ASSET-06",
+      "jaccard": 0.832
+    },
+    {
+      "a": "INV-06",
+      "b": "ASSET-06",
+      "jaccard": 0.817
+    },
+    {
+      "a": "ACC-07",
+      "b": "ASSET-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-07",
+      "b": "ASSET-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "TKT-07",
+      "b": "ASSET-07",
+      "jaccard": 0.878
+    },
+    {
+      "a": "CHAT-07",
+      "b": "ASSET-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "KB-07",
+      "b": "ASSET-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORD-07",
+      "b": "ASSET-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "SUB-07",
+      "b": "ASSET-07",
+      "jaccard": 0.878
+    },
+    {
+      "a": "INV-07",
+      "b": "ASSET-07",
+      "jaccard": 0.86
+    },
+    {
+      "a": "SHIP-07",
+      "b": "ASSET-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "RET-07",
+      "b": "ASSET-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "TKT-10",
+      "b": "ASSET-10",
+      "jaccard": 0.82
+    },
+    {
+      "a": "SUB-10",
+      "b": "ASSET-10",
+      "jaccard": 0.8
+    },
+    {
+      "a": "INV-10",
+      "b": "ASSET-10",
+      "jaccard": 0.804
+    },
+    {
+      "a": "ORD-11",
+      "b": "ASSET-11",
+      "jaccard": 0.832
+    },
+    {
+      "a": "SUB-11",
+      "b": "ASSET-11",
+      "jaccard": 0.891
+    },
+    {
+      "a": "INV-11",
+      "b": "ASSET-11",
+      "jaccard": 0.891
+    },
+    {
+      "a": "ORG-12",
+      "b": "ASSET-12",
+      "jaccard": 0.805
+    },
+    {
+      "a": "SUB-12",
+      "b": "ASSET-12",
+      "jaccard": 0.838
+    },
+    {
+      "a": "INV-12",
+      "b": "ASSET-12",
+      "jaccard": 0.823
+    },
+    {
+      "a": "ACC-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "ORG-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "TKT-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "CHAT-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "KB-07",
+      "b": "PRJ-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORD-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "SUB-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "INV-07",
+      "b": "PRJ-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "SHIP-07",
+      "b": "PRJ-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "RET-07",
+      "b": "PRJ-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "ASSET-07",
+      "b": "PRJ-07",
+      "jaccard": 0.84
+    },
+    {
+      "a": "KB-11",
+      "b": "PRJ-11",
+      "jaccard": 0.825
+    },
+    {
+      "a": "SHIP-11",
+      "b": "PRJ-11",
+      "jaccard": 0.814
+    },
+    {
+      "a": "ASSET-12",
+      "b": "PRJ-12",
+      "jaccard": 0.805
+    },
+    {
+      "a": "ORG-04",
+      "b": "APR-04",
+      "jaccard": 0.8
+    },
+    {
+      "a": "ASSET-04",
+      "b": "APR-04",
+      "jaccard": 0.8
+    },
+    {
+      "a": "ACC-07",
+      "b": "APR-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "ORG-07",
+      "b": "APR-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "TKT-07",
+      "b": "APR-07",
+      "jaccard": 0.85
+    },
+    {
+      "a": "CHAT-07",
+      "b": "APR-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "KB-07",
+      "b": "APR-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ORD-07",
+      "b": "APR-07",
+      "jaccard": 0.85
+    },
+    {
+      "a": "SUB-07",
+      "b": "APR-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "INV-07",
+      "b": "APR-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "SHIP-07",
+      "b": "APR-07",
+      "jaccard": 0.842
+    },
+    {
+      "a": "RET-07",
+      "b": "APR-07",
+      "jaccard": 0.842
+    },
+    {
+      "a": "ASSET-07",
+      "b": "APR-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "PRJ-07",
+      "b": "APR-07",
+      "jaccard": 0.832
+    },
+    {
+      "a": "INV-10",
+      "b": "APR-10",
+      "jaccard": 0.814
+    },
+    {
+      "a": "KB-11",
+      "b": "APR-11",
+      "jaccard": 0.825
+    },
+    {
+      "a": "SHIP-11",
+      "b": "APR-11",
+      "jaccard": 0.814
+    },
+    {
+      "a": "PRJ-11",
+      "b": "APR-11",
+      "jaccard": 0.833
+    },
+    {
+      "a": "ACC-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORG-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "TKT-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "CHAT-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "KB-07",
+      "b": "REPORT-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "ORD-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "SUB-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "INV-07",
+      "b": "REPORT-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "SHIP-07",
+      "b": "REPORT-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "RET-07",
+      "b": "REPORT-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ASSET-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "PRJ-07",
+      "b": "REPORT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "APR-07",
+      "b": "REPORT-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ACC-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ORG-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "TKT-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "CHAT-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "KB-07",
+      "b": "API-07",
+      "jaccard": 0.8
+    },
+    {
+      "a": "ORD-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "SUB-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "INV-07",
+      "b": "API-07",
+      "jaccard": 0.8
+    },
+    {
+      "a": "SHIP-07",
+      "b": "API-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "RET-07",
+      "b": "API-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "ASSET-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "PRJ-07",
+      "b": "API-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "APR-07",
+      "b": "API-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "REPORT-07",
+      "b": "API-07",
+      "jaccard": 0.8
+    },
+    {
+      "a": "ORG-11",
+      "b": "API-11",
+      "jaccard": 0.849
+    },
+    {
+      "a": "ACC-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "ORG-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "TKT-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "CHAT-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "KB-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.843
+    },
+    {
+      "a": "ORD-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "SUB-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "INV-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "SHIP-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "RET-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.816
+    },
+    {
+      "a": "ASSET-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "PRJ-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.824
+    },
+    {
+      "a": "APR-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.833
+    },
+    {
+      "a": "REPORT-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.808
+    },
+    {
+      "a": "API-07",
+      "b": "AUDIT-07",
+      "jaccard": 0.8
+    },
+    {
+      "a": "ORG-10",
+      "b": "AUDIT-10",
+      "jaccard": 0.8
+    },
+    {
+      "a": "KB-11",
+      "b": "AUDIT-11",
+      "jaccard": 0.863
+    },
+    {
+      "a": "SHIP-11",
+      "b": "AUDIT-11",
+      "jaccard": 0.814
+    },
+    {
+      "a": "PRJ-11",
+      "b": "AUDIT-11",
+      "jaccard": 0.833
+    },
+    {
+      "a": "APR-11",
+      "b": "AUDIT-11",
+      "jaccard": 0.833
+    }
+  ],
+  "units_by_module": {
+    "账号安全": 38,
+    "组织成员": 37,
+    "工单管理": 37,
+    "在线会话": 37,
+    "知识中心": 37,
+    "订单服务": 37,
+    "订阅管理": 37,
+    "发票管理": 37,
+    "物流服务": 37,
+    "退换服务": 37,
+    "资产管理": 37,
+    "项目协作": 37,
+    "审批流程": 37,
+    "报表分析": 36,
+    "开放接口": 37,
+    "审计中心": 37
+  },
+  "units_by_topic": {
+    "access": 16,
+    "create": 16,
+    "status": 16,
+    "permission": 16,
+    "import": 16,
+    "export": 16,
+    "search": 16,
+    "automation": 16,
+    "incident": 16,
+    "quota": 16,
+    "retention": 16,
+    "handoff": 16,
+    "special": 16,
+    "runbook": 384
+  },
+  "note": "Four sections of each runbook share one scenario. FAQ and tickets add no independent facts. Checks do not certify business correctness."
 }

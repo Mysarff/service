@@ -5,9 +5,10 @@ import gzip
 import json
 import random
 from pathlib import Path
+from scenarios import records
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '2026-09-25'
+VERSION = '2026-09-27'
 # Explicit module-specific business rules; these are fictional product specifications.
 # code, name, route, object, role, required fields, states, quota, import cap, retention,
 # common error, recovery, automation trigger
@@ -68,7 +69,7 @@ def jsonl(path, rows):
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False, separators=(',', ':')) + '\n')
 
-def build(tickets=6000):
+def build(tickets=24000):
     docs, faqs = [], []
     docs_dir = ROOT / 'data' / 'manuals'
     docs_dir.mkdir(parents=True, exist_ok=True)
@@ -115,6 +116,32 @@ def build(tickets=6000):
         with (docs_dir/f'{code}.md').open('a',encoding='utf-8',newline='\n') as f: f.write(f'\n\n## {ident} {title}\n\n{text}\n')
         for i, prefix in enumerate(['请解释','如何处理','我想了解','咨询一下','客服您好，','请说明','帮我查一下','关于']):
             faqs.append(dict(id=f'FAQ-{ident}-{i+1}',question=f'{prefix}{name}{title}',answer=text,source_id=ident,synthetic=True))
+    runbooks = ROOT/'data/runbooks'
+    runbooks.mkdir(parents=True, exist_ok=True)
+    scenario_counts = {}
+    for code, title, symptom, diagnosis, recovery, acceptance, escalation in records():
+        scenario_counts[code] = scenario_counts.get(code, 0) + 1
+        scenario_id = f'{code}-RB{scenario_counts[code]:02d}'
+        module = next(m for m in MODULES if m[0] == code)
+        name, route, role = module[1], module[2], module[4]
+        source = f'data/runbooks/{scenario_id}.md'
+        sections = [
+            ('定位', f'场景：{title}。现象：{symptom}。由{role}在「{route}」核对受影响资源。定位检查：{diagnosis}。记录组织、资源ID、发生时间与脱敏证据；这些检查用于确认原因，不表示系统已经自动诊断。'),
+            ('处置', f'场景：{title}。处理前确认现象「{symptom}」与本场景一致，并完成对应定位检查。处置步骤：{recovery}。实施人：{role}。变更前记录原状态，先在获授权的单条样例上确认，再处理已核实的受影响范围。'),
+            ('验收', f'场景：{title}。完成处置后按以下条件逐项核验：{acceptance}。由{role}记录所用样例ID、变更前后结果及验收时间。未满足条件时保持待核验，回到本场景定位步骤；不得仅凭接口返回成功就关闭事件。'),
+            ('升级', f'场景：{title}。停止自动处置的条件与交接方式：{escalation}。交接给{role}协调相应责任人，并附资源ID、脱敏现象「{symptom}」、已经核实的检查和未完成事项。本知识库只说明流程，不能代替审批、执行真实业务变更或承诺处理时限。'),
+        ]
+        markdown = [f'# 云栈 CloudCare · {name} · {title}', f'版本：{VERSION}。合成演示处置手册；业务系统能力不等于本助手已实现的功能。']
+        for n, (phase, text) in enumerate(sections, 1):
+            ident = f'{scenario_id}-{n}'
+            docs.append(dict(id=ident, parent_id=scenario_id, title=f'{name}｜{title}｜{phase}',
+                             category=name, content=text, tags=[name,title,phase], source=source,
+                             version=VERSION, synthetic=True, topic='runbook', phase=phase))
+            markdown.append(f'## {ident} {phase}\n\n{text}\n')
+            for v, prefix in enumerate(['请说明','如何执行','我想了解','帮我查一下','咨询一下','客服您好，','有哪些要求：','具体步骤：'], 1):
+                faqs.append(dict(id=f'FAQ-{ident}-{v}', question=f'{prefix}{name}{title}的{phase}',
+                                 answer=text, source_id=ident, synthetic=True))
+        (ROOT/source).write_text('\n\n'.join(markdown), encoding='utf-8', newline='\n')
     jsonl(ROOT/'data/knowledge.jsonl', docs)
     jsonl(ROOT/'data/faq.jsonl', faqs)
     rng = random.Random(20260925)
@@ -129,7 +156,9 @@ def build(tickets=6000):
     for name in ('faq.jsonl','simulated_tickets.jsonl'):
         path=ROOT/'data'/name
         path.with_suffix(path.suffix+'.gz').write_bytes(gzip.compress(path.read_bytes(),mtime=0))
-    counts=dict(source_manuals=len(MODULES), knowledge_units=len(docs), faq_variants=len(faqs), simulated_tickets=tickets)
+    counts=dict(source_manuals=len(MODULES), source_runbooks=sum(scenario_counts.values()),
+                source_documents=len(MODULES)+sum(scenario_counts.values()),
+                knowledge_units=len(docs), faq_variants=len(faqs), simulated_tickets=tickets)
     files={str(p.relative_to(ROOT)).replace('\\','/'):{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
            for p in sorted((ROOT/'data').rglob('*')) if p.is_file() and p.name!='manifest.json' and p.suffix!='.gz' and 'uploads' not in p.parts}
     manifest=dict(version=VERSION, seed=20260925, synthetic=True, counts=counts, files=files,
@@ -138,6 +167,6 @@ def build(tickets=6000):
     print(json.dumps(counts,ensure_ascii=False))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(); parser.add_argument('--tickets',type=int,default=6000); args=parser.parse_args()
+    parser=argparse.ArgumentParser(); parser.add_argument('--tickets',type=int,default=24000); args=parser.parse_args()
     if not 0<=args.tickets<=800000: parser.error('tickets must be between 0 and 800000')
     build(args.tickets)

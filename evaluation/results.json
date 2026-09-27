@@ -1,28 +1,14 @@
 {
-  "corpus_units": 208,
+  "corpus_units": 592,
   "scope": "synthetic development regression, not blind benchmark or LLM accuracy",
   "methods": {
     "tfidf": {
       "n": 32,
-      "top1": 28,
-      "hit5": 32,
-      "mrr5": 0.9323,
-      "mean_retrieval_ms": 2.142,
+      "top1": 25,
+      "hit5": 31,
+      "mrr5": 0.8375,
+      "mean_retrieval_ms": 0.677,
       "top1_failures": [
-        {
-          "query": "知识文章更新发布后为什么搜索不到？",
-          "expected": [
-            "KB-09",
-            "KB-07"
-          ],
-          "top5": [
-            "KB-13",
-            "KB-09",
-            "KB-03",
-            "KB-07",
-            "KB-04"
-          ]
-        },
         {
           "query": "订单重复创建了要重新扣钱吗？",
           "expected": [
@@ -31,9 +17,22 @@
           "top5": [
             "ORD-02",
             "ORD-09",
-            "ORD-01",
+            "RET-02",
             "ORG-02",
             "TKT-02"
+          ]
+        },
+        {
+          "query": "这次续费扣款失败该查哪里？",
+          "expected": [
+            "SUB-09"
+          ],
+          "top5": [
+            "SUB-RB01-1",
+            "SUB-RB01-2",
+            "SUB-RB01-3",
+            "SUB-RB01-4",
+            "SUB-09"
           ]
         },
         {
@@ -42,11 +41,38 @@
             "SHIP-09"
           ],
           "top5": [
-            "TKT-09",
-            "SHIP-09",
-            "SHIP-13",
-            "KB-09",
+            "SHIP-RB01-3",
+            "SHIP-RB01-2",
+            "SHIP-RB01-4",
+            "SHIP-RB01-1",
+            "SHIP-RB04-3"
+          ]
+        },
+        {
+          "query": "退回商品后退款还没有到账",
+          "expected": [
+            "RET-09",
             "RET-13"
+          ],
+          "top5": [
+            "RET-RB02-2",
+            "RET-RB02-3",
+            "RET-RB02-1",
+            "RET-RB02-4",
+            "RET-13"
+          ]
+        },
+        {
+          "query": "设备借出和归还如何保留交接记录？",
+          "expected": [
+            "ASSET-13"
+          ],
+          "top5": [
+            "ASSET-RB06-3",
+            "ASSET-RB06-2",
+            "ASSET-RB06-1",
+            "ASSET-RB06-4",
+            "ASSET-13"
           ]
         },
         {
@@ -55,21 +81,34 @@
             "REPORT-09"
           ],
           "top5": [
-            "REPORT-05",
-            "REPORT-02",
-            "REPORT-09",
-            "REPORT-03",
-            "REPORT-01"
+            "REPORT-RB01-1",
+            "REPORT-RB01-3",
+            "REPORT-RB01-2",
+            "REPORT-RB01-4",
+            "REPORT-09"
+          ]
+        },
+        {
+          "query": "审计日志能直接传给普通客服吗？",
+          "expected": [
+            "AUDIT-13"
+          ],
+          "top5": [
+            "AUDIT-11",
+            "AUDIT-13",
+            "AUDIT-RB01-2",
+            "AUDIT-04",
+            "AUDIT-09"
           ]
         }
       ]
     },
     "plain_bm25": {
       "n": 32,
-      "top1": 29,
-      "hit5": 32,
-      "mrr5": 0.9531,
-      "mean_retrieval_ms": 0.607,
+      "top1": 27,
+      "hit5": 31,
+      "mrr5": 0.8917,
+      "mean_retrieval_ms": 0.724,
       "top1_failures": [
         {
           "query": "订单重复创建了要重新扣钱吗？",
@@ -79,9 +118,22 @@
           "top5": [
             "ORD-02",
             "ORD-09",
-            "ORD-01",
+            "INV-RB03-4",
             "SHIP-02",
             "RET-02"
+          ]
+        },
+        {
+          "query": "这次续费扣款失败该查哪里？",
+          "expected": [
+            "SUB-09"
+          ],
+          "top5": [
+            "SUB-RB01-1",
+            "SUB-RB01-2",
+            "SUB-RB01-4",
+            "SUB-RB01-3",
+            "SUB-09"
           ]
         },
         {
@@ -90,11 +142,11 @@
             "SHIP-09"
           ],
           "top5": [
-            "SHIP-13",
+            "SHIP-RB01-3",
+            "SHIP-RB01-4",
             "SHIP-09",
-            "TKT-09",
-            "RET-13",
-            "KB-09"
+            "SHIP-RB04-3",
+            "SHIP-13"
           ]
         },
         {
@@ -103,21 +155,34 @@
             "REPORT-09"
           ],
           "top5": [
-            "REPORT-05",
-            "REPORT-09",
-            "REPORT-02",
-            "REPORT-03",
-            "REPORT-01"
+            "REPORT-RB01-1",
+            "REPORT-RB01-3",
+            "REPORT-RB01-2",
+            "REPORT-RB01-4",
+            "REPORT-RB05-3"
+          ]
+        },
+        {
+          "query": "报表导出的下载链接可以用多久？",
+          "expected": [
+            "REPORT-06"
+          ],
+          "top5": [
+            "INV-RB06-3",
+            "REPORT-06",
+            "TKT-06",
+            "ACC-06",
+            "CHAT-06"
           ]
         }
       ]
     },
     "bm25": {
       "n": 32,
-      "top1": 30,
+      "top1": 28,
       "hit5": 32,
-      "mrr5": 0.9688,
-      "mean_retrieval_ms": 0.579,
+      "mrr5": 0.9297,
+      "mean_retrieval_ms": 0.897,
       "top1_failures": [
         {
           "query": "订单重复创建了要重新扣钱吗？",
@@ -128,8 +193,34 @@
             "ORD-02",
             "ORD-09",
             "ORD-01",
-            "ORD-06",
-            "SHIP-02"
+            "ORD-RB04-2",
+            "ORD-RB01-2"
+          ]
+        },
+        {
+          "query": "这次续费扣款失败该查哪里？",
+          "expected": [
+            "SUB-09"
+          ],
+          "top5": [
+            "SUB-RB01-1",
+            "SUB-09",
+            "SUB-RB05-1",
+            "SUB-13",
+            "SUB-08"
+          ]
+        },
+        {
+          "query": "运单轨迹好久没有更新了",
+          "expected": [
+            "SHIP-09"
+          ],
+          "top5": [
+            "SHIP-RB01-2",
+            "SHIP-09",
+            "SHIP-RB04-2",
+            "SHIP-13",
+            "SHIP-RB06-2"
           ]
         },
         {
@@ -138,11 +229,11 @@
             "REPORT-09"
           ],
           "top5": [
+            "REPORT-RB01-2",
+            "REPORT-RB05-2",
             "REPORT-05",
             "REPORT-09",
-            "REPORT-02",
-            "REPORT-03",
-            "REPORT-01"
+            "REPORT-02"
           ]
         }
       ]
@@ -166,7 +257,7 @@
         "query": "Python如何实现快速排序？",
         "rejected": true,
         "top1": [
-          "TKT-13"
+          "ASSET-RB01-2"
         ]
       },
       {
@@ -187,7 +278,9 @@
       {
         "query": "火星到地球有多远？",
         "rejected": true,
-        "top1": []
+        "top1": [
+          "SHIP-RB02-2"
+        ]
       },
       {
         "query": "周末晚餐菜谱推荐",
@@ -205,7 +298,7 @@
         "query": "企业套餐当前价格是多少元？",
         "rejected": true,
         "top1": [
-          "SUB-05"
+          "SUB-RB02-2"
         ]
       },
       {
