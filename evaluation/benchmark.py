@@ -41,6 +41,8 @@ def wilson(k,n):
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--requests',type=int,default=2000); parser.add_argument('--rounds',type=int,default=10)
+    parser.add_argument('--output-prefix',default='evaluation/benchmark_current',
+                        help='Output prefix; defaults to new files so the 2026-09-27 baseline is preserved')
     args=parser.parse_args()
     if args.requests<8 or args.rounds<1: parser.error('requests >= 8 and rounds >= 1 required')
     groups={name:json.loads((ROOT/'evaluation'/name).read_text(encoding='utf-8')) for name in ('cases.json','extended_cases.json')}
@@ -110,14 +112,17 @@ def main():
                         'wall_seconds':round(wall,3),'successful_requests_per_second':round(sum(x['ok'] for x in rows)/wall,2),
                         'latency_all_requests':stats([x['ms'] for x in rows]),'modes':dict(Counter(x.get('mode','error') for x in rows)),'raw':rows})
             finally: server.shutdown(); server.server_close(); thread.join()
-    path=ROOT/'evaluation/benchmark_results.json'; path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8',newline='\n')
+    prefix=ROOT/args.output_prefix
+    prefix.parent.mkdir(parents=True,exist_ok=True)
+    path=prefix.with_name(prefix.name+'_results.json')
+    path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8',newline='\n')
     path.with_suffix('.json.gz').write_bytes(gzip.compress(path.read_bytes(),mtime=0))
     compact={k:v for k,v in report.items() if k not in ('retrieval','negative_evidence_gate','search_performance','http')}
     compact['retrieval']={g:{m:{k:v for k,v in r.items() if k!='observations'} for m,r in values.items()} for g,values in report['retrieval'].items()}
     compact['negative_evidence_gate']={g:{'n':r['n'],'rejected':r['rejected']} for g,r in report['negative_evidence_gate'].items()}
     compact['search_performance']={m:{k:v for k,v in r.items() if k!='raw'} for m,r in report['search_performance'].items()}
     compact['http']=[{k:v for k,v in r.items() if k!='raw'} for r in report['http']]
-    (ROOT/'evaluation/benchmark_summary.json').write_text(json.dumps(compact,ensure_ascii=False,indent=2),encoding='utf-8',newline='\n')
+    prefix.with_name(prefix.name+'_summary.json').write_text(json.dumps(compact,ensure_ascii=False,indent=2),encoding='utf-8',newline='\n')
     print(json.dumps(compact,ensure_ascii=False,indent=2))
 
 if __name__=='__main__': main()
