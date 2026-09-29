@@ -1,9 +1,12 @@
 """Generate the quantitative report from actual result files, not hand-entered metrics."""
+import hashlib
 import json
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def read(path): return json.loads((ROOT/path).read_text(encoding='utf-8'))
 r=read('evaluation/benchmark_summary.json'); data=read('evaluation/data_validation.json'); checks=read('evaluation/system_results.json')
+if hashlib.sha256((ROOT/'engine.py').read_bytes()).hexdigest()!=r['code_sha256']['engine.py']:
+    raise SystemExit('Historical performance result uses a different engine.py; refusing to overwrite the current report.')
 counts=read('data/manifest.json')['counts']
 methods={}
 for method in ('tfidf','plain_bm25','bm25'):

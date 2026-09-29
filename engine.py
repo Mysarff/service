@@ -74,15 +74,27 @@ class Engine:
         q=Counter(terms(query))
         if not q: return []
         inferred={cat for cat, aliases in ALIASES.items() if any(a.lower() in query.lower() for a in aliases)}
+        phase = '定位' if re.search(r'排查|定位|核查|检查|查什么|查哪里|怎么查|要查',query) else '处置'
+        if re.search(r'验收|怎么验证|如何验证|是否修好',query): phase='验收'
+        elif re.search(r'何时停止|什么时候停止|何时升级|交给谁|转交给',query): phase='升级'
         result=[]
         with self.lock:
             if strategy not in ('inverted', 'scan'):
                 raise ValueError('Unknown retrieval strategy')
             # Sorting preserves corpus-order tie breaking, identical to the scan control.
             candidates = range(len(self.docs)) if strategy=='scan' else sorted(set().union(*(self.postings.get(w,set()) for w in q)))
+            phase_evidence={}
             for i in candidates:
                 doc, bag, size = self.docs[i], self.index[i], self.lengths[i]
                 if category and doc['category']!=category: continue
+                if method=='bm25' and doc.get('topic')=='runbook' and doc.get('phase')!=phase:
+                    parent=doc['parent_id']
+                    if parent not in phase_evidence:
+                        child=next((j for j in self.by_parent[parent] if self.docs[j].get('phase')==phase),None)
+                        phase_evidence[parent]=len(q.keys() & self.index[child].keys()) if child is not None else 0
+                    # A sibling's matching text may retrieve a runbook, but it must not
+                    # lend its score to an unrelated phase with no grounded query match.
+                    if phase_evidence[parent]<2: continue
                 common=q.keys() & bag.keys()
                 if not common: continue
                 score=0.0
@@ -101,9 +113,6 @@ class Engine:
                 # Group related runbook sections so siblings do not crowd out other sources.
                 # The chosen phase is expanded from the same parent even when that child
                 # does not contain the original query wording. This is lexical, not neural.
-                phase = '定位' if re.search(r'排查|定位|核查|检查|查什么|查哪里|怎么查|要查',query) else '处置'
-                if re.search(r'验收|怎么验证|如何验证|是否修好',query): phase='验收'
-                elif re.search(r'何时停止|什么时候停止|何时升级|交给谁|转交给',query): phase='升级'
                 grouped={}
                 for hit in sorted(result,key=lambda d:d['score'],reverse=True):
                     key=hit['parent_id'] if hit.get('topic')=='runbook' else hit['id']
