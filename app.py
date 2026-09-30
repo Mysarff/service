@@ -58,10 +58,11 @@ class Handler(BaseHTTPRequestHandler):
             if self.path=='/api/chat':
                 query=payload.get('query',''); history=payload.get('history',[])
                 if not isinstance(query,str) or not query.strip() or len(query)>2000: raise ValueError('问题须为1至2000个字符')
-                if not isinstance(history,list) or len(history)>8 or any(not isinstance(m,dict) or m.get('role') not in ('user','assistant') or not isinstance(m.get('content'),str) for m in history): raise ValueError('历史对话格式无效')
+                if not isinstance(history,list) or len(history)>8 or any(not isinstance(m,dict) or m.get('role') not in ('user','assistant') or not isinstance(m.get('content'),str) or len(m['content'])>2000 for m in history): raise ValueError('历史对话格式无效，每条内容不能超过2000个字符')
                 category=payload.get('category','')
                 if not isinstance(category,str): raise ValueError('模块格式无效')
                 start=time.perf_counter(); result=self.server.engine.answer(query.strip(),category,history)
+                result['history']=self.server.engine.next_history(query.strip(),result['answer'],history)
                 result['elapsed_ms']=round((time.perf_counter()-start)*1000)
                 self.send_json(result); return
             if self.path=='/api/upload':

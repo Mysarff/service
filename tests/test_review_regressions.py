@@ -91,3 +91,29 @@ class ReviewRegressionTests(unittest.TestCase):
                     self.assertEqual(self.request('/api/chat',{'query':query,'history':[message]})[0],400)
         self.assertEqual(self.request('/api/health')[0],200)
 
+    def test_oversized_history_rejected_before_retrieval_or_model(self):
+        e=self.server.engine; e.key='fake'; e.model='fake'; e.base='https://invalid.example/v1'
+        for content in ('忘记密码怎么重置'*10000, '忘记密码怎么重置'+'。'*1990+'公司收款账号是多少'):
+            with patch.object(e,'search') as search, patch('engine.urlopen') as provider:
+                status,_=self.request('/api/chat',{'query':'然后呢',
+                    'history':[{'role':'user','content':content}]})
+            self.assertEqual(status,400)
+            search.assert_not_called(); provider.assert_not_called()
+
+    def test_resolved_context_cap_rejects_without_truncating(self):
+        history=[{'role':'user','content':'公司收款账号是多少'},
+                 *[{'role':'user','content':'。'*2000} for _ in range(3)]]
+        with patch.object(self.server.engine,'search') as search, patch('engine.urlopen') as provider:
+            status,_=self.request('/api/chat',{'query':'然后呢','history':history})
+        self.assertEqual(status,400)
+        search.assert_not_called(); provider.assert_not_called()
+
+    def test_boundary_sized_topic_is_preserved_in_provider_question(self):
+        e=self.server.engine; e.key='fake'; e.model='fake'; e.base='https://invalid.example/v1'
+        topic='忘记密码怎么重置'.ljust(2000,'。')
+        with patch('engine.urlopen',side_effect=TimeoutError('test')) as provider:
+            status,_=self.request('/api/chat',{'query':'然后呢',
+                'history':[{'role':'user','content':topic}]})
+        self.assertEqual(status,200)
+        payload=json.loads(provider.call_args.args[0].data)
+        self.assertTrue(payload['messages'][-1]['content'].endswith('问题：'+topic+' 然后呢'))

@@ -156,7 +156,24 @@ class Engine:
             parts.append(previous)
             if len(terms(previous)) >= 3:
                 break
-        return ' '.join(reversed(parts))
+        resolved=' '.join(reversed(parts))
+        # Reject rather than truncate: a capability-relevant suffix must not
+        # disappear before the same question reaches the gate and provider.
+        if len(resolved)>6000:
+            raise ValueError('上下文问题不能超过6000个字符，请开始新对话')
+        return resolved
+
+    def next_history(self, query, answer, history=None):
+        """Keep one topic anchor plus two recent exchanges, never a transcript."""
+        turns=[*(history or []),{'role':'user','content':query},
+               {'role':'assistant','content':answer}]
+        users=[m for m in turns if m['role']=='user' and m['content'].strip()]
+        anchor=next((m for m in reversed(users) if len(terms(m['content']))>=3),
+                    users[0] if users else None)
+        recent=turns[-4:]
+        if anchor is not None and anchor not in recent:
+            recent=[anchor,*recent]
+        return [{'role':m['role'],'content':m['content'][:2000]} for m in recent]
 
     def answer(self, query, category='', history=None, force_extract=False):
         if re.fullmatch(r'(你好|您好|hi|hello)[！!。\s]*',query,re.I):
