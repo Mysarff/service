@@ -10,6 +10,21 @@ from engine import Engine, ROOT, DATA
 
 class Handler(BaseHTTPRequestHandler):
     server_version='CloudCare/1.0'
+    def parse_request(self):
+        if not super().parse_request():
+            return False
+        # Validate every route before dispatch. Origin alone cannot stop reads
+        # through an attacker-controlled hostname that resolves to loopback.
+        hosts=self.headers.get_all('Host',[])
+        allowed={f'127.0.0.1:{self.server.server_port}',f'localhost:{self.server.server_port}'}
+        if self.server.server_port == 80:
+            allowed.update(('127.0.0.1','localhost'))
+        if len(hosts) != 1 or hosts[0].lower() not in allowed:
+            self.close_connection=True
+            self.send_json({'error':'主机不受支持'},403)
+            return False
+        return True
+
     def send_json(self, value, code=200):
         raw=json.dumps(value,ensure_ascii=False).encode()
         self.send_response(code); self.send_header('Content-Type','application/json; charset=utf-8')
@@ -43,7 +58,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.path=='/api/chat':
                 query=payload.get('query',''); history=payload.get('history',[])
                 if not isinstance(query,str) or not query.strip() or len(query)>2000: raise ValueError('问题须为1至2000个字符')
-                if not isinstance(history,list) or len(history)>8 or any(not isinstance(m,dict) or not isinstance(m.get('content',''),str) for m in history): raise ValueError('历史对话格式无效')
+                if not isinstance(history,list) or len(history)>8 or any(not isinstance(m,dict) or m.get('role') not in ('user','assistant') or not isinstance(m.get('content'),str) for m in history): raise ValueError('历史对话格式无效')
                 category=payload.get('category','')
                 if not isinstance(category,str): raise ValueError('模块格式无效')
                 start=time.perf_counter(); result=self.server.engine.answer(query.strip(),category,history)

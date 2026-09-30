@@ -142,16 +142,29 @@ class Engine:
         # Heuristic, not a calibrated probability; regression records its limits.
         return not self.capability_gap(query) and bool(hits and hits[0]['matches']>=2 and hits[0]['coverage']>=0.16)
 
+    def contextual_query(self, query, history=None):
+        """Resolve short follow-ups from user turns back to the latest topic."""
+        if len(terms(query)) >= 3 or not history:
+            return query
+        parts=[query]
+        for message in reversed(history):
+            if message.get('role') != 'user':
+                continue
+            previous=message['content'].strip()
+            if not previous:
+                continue
+            parts.append(previous)
+            if len(terms(previous)) >= 3:
+                break
+        return ' '.join(reversed(parts))
+
     def answer(self, query, category='', history=None, force_extract=False):
         if re.fullmatch(r'(你好|您好|hi|hello)[！!。\s]*',query,re.I):
             return dict(answer='您好，我是云栈客服助手。请描述账号、订单、订阅或产品操作问题，我会查询当前知识库并给出出处。',sources=[],mode='greeting')
-        retrieval_query=query
-        if len(terms(query))<3 and history:
-            previous=next((m['content'] for m in reversed(history) if m.get('role')=='user'),'')
-            retrieval_query=previous+' '+query
+        retrieval_query=self.contextual_query(query,history)
         hits=self.search(retrieval_query,category)
-        if not self.supported(hits,query):
-            return dict(answer=self.capability_gap(query) or '当前资料不足以回答这个问题。请补充模块名称、操作步骤或脱敏错误信息；需要订单核验或政策确认时，请提交人工工单。',sources=[],mode='insufficient_evidence')
+        if not self.supported(hits,retrieval_query):
+            return dict(answer=self.capability_gap(retrieval_query) or '当前资料不足以回答这个问题。请补充模块名称、操作步骤或脱敏错误信息；需要订单核验或政策确认时，请提交人工工单。',sources=[],mode='insufficient_evidence')
         hits=hits[:3]
         fallback=hits[0]['content']+f"\n\n[{hits[0]['id']}]"
         if not self.model_ready or force_extract:
@@ -163,7 +176,7 @@ class Engine:
                 '只能引用提供的ID。这里所有产品规则均为虚构演示，不承诺真实退款、SLA或合规认证。')
         recent=[{'role':m['role'],'content':str(m['content'])[:2000]} for m in (history or [])[-4:] if m.get('role') in ('user','assistant')]
         payload={'model':self.model,'temperature':0.1,'max_tokens':900,'messages':[{'role':'system','content':system},*recent,
-                 {'role':'user','content':f'<evidence>\n{context}\n</evidence>\n问题：{query}'}]}
+                 {'role':'user','content':f'<evidence>\n{context}\n</evidence>\n问题：{retrieval_query}'}]}
         request=Request(self.base+'/chat/completions',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+self.key})
         try:
             with urlopen(request,timeout=50) as response: obj=json.load(response)
