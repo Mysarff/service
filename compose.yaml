@@ -1,0 +1,127 @@
+name: cloudcare-v2
+
+services:
+  mysql:
+    image: mysql:8.0.43
+    container_name: cloudcare-v2-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${CLOUDCARE_MYSQL_ROOT_PASSWORD:?Set CLOUDCARE_MYSQL_ROOT_PASSWORD in .env}
+      MYSQL_DATABASE: ${CLOUDCARE_MYSQL_DATABASE:-cloudcare_support}
+      MYSQL_USER: ${CLOUDCARE_MYSQL_USER:-cloudcare}
+      MYSQL_PASSWORD: ${CLOUDCARE_MYSQL_PASSWORD:?Set CLOUDCARE_MYSQL_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${CLOUDCARE_MYSQL_PORT:-3308}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2.12
+    container_name: cloudcare-v2-redis
+    ports:
+      - "127.0.0.1:${CLOUDCARE_REDIS_PORT:-6381}:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.25
+    container_name: cloudcare-v2-etcd
+    environment:
+      ETCD_AUTO_COMPACTION_MODE: revision
+      ETCD_AUTO_COMPACTION_RETENTION: "1000"
+      ETCD_QUOTA_BACKEND_BYTES: "4294967296"
+      ETCD_SNAPSHOT_COUNT: "50000"
+    volumes:
+      - etcd-data:/etcd
+    command: ["etcd", "--advertise-client-urls=http://etcd:2379", "--listen-client-urls=http://0.0.0.0:2379", "--data-dir=/etcd"]
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  minio:
+    # Upstream now distributes the community server as source. The old image
+    # was unavailable during this deployment; compile a pinned official commit.
+    image: cloudcare/minio:RELEASE.2024-05-28T17-19-04Z-source
+    build:
+      context: ./docker/minio
+    pull_policy: build
+    container_name: cloudcare-v2-minio
+    environment:
+      MINIO_ROOT_USER: ${CLOUDCARE_MINIO_ACCESS_KEY:?Set CLOUDCARE_MINIO_ACCESS_KEY in .env}
+      MINIO_ROOT_PASSWORD: ${CLOUDCARE_MINIO_SECRET_KEY:?Set CLOUDCARE_MINIO_SECRET_KEY in .env}
+    volumes:
+      - minio-data:/minio_data
+    command: ["server", "/minio_data", "--console-address", ":9001"]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  milvus:
+    # Rebuild only its official Ubuntu runtime layer; retain upstream Milvus.
+    # This avoids the corrupted cached base layer observed on this machine.
+    image: cloudcare/milvus:v2.6.24-jammy-rebuilt
+    build:
+      context: ./docker/milvus
+    pull_policy: build
+    container_name: cloudcare-v2-milvus
+    command: ["milvus", "run", "standalone"]
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      MINIO_REGION: us-east-1
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+      MINIO_ACCESS_KEY_ID: ${CLOUDCARE_MINIO_ACCESS_KEY:?Set CLOUDCARE_MINIO_ACCESS_KEY in .env}
+      MINIO_SECRET_ACCESS_KEY: ${CLOUDCARE_MINIO_SECRET_KEY:?Set CLOUDCARE_MINIO_SECRET_KEY in .env}
+    ports:
+      - "127.0.0.1:${CLOUDCARE_MILVUS_PORT:-19531}:19530"
+      - "127.0.0.1:${CLOUDCARE_MILVUS_HEALTH_PORT:-9092}:9091"
+    volumes:
+      - milvus-data:/var/lib/milvus
+    depends_on:
+      etcd:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 10s
+      start_period: 90s
+      timeout: 5s
+      retries: 18
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+    name: cloudcare-v2-mysql-data
+  redis-data:
+    name: cloudcare-v2-redis-data
+  etcd-data:
+    name: cloudcare-v2-etcd-data
+  minio-data:
+    name: cloudcare-v2-minio-data
+  milvus-data:
+    name: cloudcare-v2-milvus-data
+
+networks:
+  default:
+    name: cloudcare-v2-network

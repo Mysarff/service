@@ -1,5 +1,6 @@
-"""Fixed-corpus, fixed-question checks for the seven reviewed failures."""
+"""Frozen historical corpus checks, separate from the upgraded active corpus."""
 import gzip
+import hashlib
 import json
 import sys
 import unittest
@@ -7,8 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from evaluation.retrieval_audit import audit
-from engine import Engine
+from evaluation.retrieval_audit import audit, historical_engine
 
 
 class RetrievalAuditTests(unittest.TestCase):
@@ -35,6 +35,10 @@ class RetrievalAuditTests(unittest.TestCase):
         self.assertIn('撤回失效文档后重新构建检索索引', docs['KB-13']['content'])
         self.assertIn('撤回失效版本的可检索状态并重建相关索引', docs['KB-RB01-2']['content'])
         self.assertFalse(self.report['corpus_changed'])
+        self.assertTrue(self.report['active_corpus_differs'])
+        self.assertEqual(self.report['active_corpus_sha256'], hashlib.sha256(
+            (ROOT / 'data/knowledge.jsonl').read_bytes()).hexdigest())
+        self.assertIn('frozen', self.report['historical_scope'])
 
     def test_original_seven_and_current_five_are_accounted_for(self):
         self.assertEqual({row['query']: row['ids'][0] for row in self.report['original_bm25_failures']}, {
@@ -47,7 +51,7 @@ class RetrievalAuditTests(unittest.TestCase):
             '项目任务A等B、B又等A，负责人应怎么处理？': 'PRJ-RB04-2',
         })
         self.assertEqual(len(self.report['current_bm25_failures']), 5)
-        self.assertEqual([x['id'] for x in Engine().search('运单轨迹好久没有更新了')][:2],
+        self.assertEqual([x['id'] for x in historical_engine().search('运单轨迹好久没有更新了')][:2],
                          ['SHIP-09', 'SHIP-RB01-2'])
 
     def test_deterministic_metrics_and_scan_parity(self):
@@ -56,7 +60,7 @@ class RetrievalAuditTests(unittest.TestCase):
             'labels_only': {'top1': 58, 'hit5': 64, 'mrr5': 0.9492, 'n': 64},
             'current': {'top1': 59, 'hit5': 64, 'mrr5': 0.957, 'n': 64},
         })
-        search = Engine()
+        search = historical_engine()
         for group in ('cases.json', 'extended_cases.json'):
             cases = json.loads((ROOT / 'evaluation' / group).read_text(encoding='utf-8'))
             for query, _ in cases['positive']:

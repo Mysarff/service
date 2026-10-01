@@ -1,0 +1,77 @@
+{
+  "task": "customer_support_routing",
+  "labels": [
+    "support_knowledge",
+    "handoff",
+    "out_of_scope"
+  ],
+  "created_at": "2026-09-30T09:07:57.537197+00:00",
+  "seed": 20260930,
+  "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+  "knowledge_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "base_model": "E:\\codex\\Itcast_qa_system\\rag_qa\\core\\bert_query_classifier",
+  "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data",
+  "evaluation_scope": "synthetic held-out parent/template/topic groups; not real customer or retrieval benchmark",
+  "train_count": 1872,
+  "test_count": 432,
+  "train_labels": {
+    "handoff": 625,
+    "out_of_scope": 608,
+    "support_knowledge": 639
+  },
+  "test_labels": {
+    "support_knowledge": 129,
+    "out_of_scope": 160,
+    "handoff": 143
+  },
+  "train_groups": 122,
+  "test_groups": 30,
+  "group_overlap": 0,
+  "retrieval_evaluation_used_for_training": false,
+  "accuracy": 0.9259259259259259,
+  "macro_f1": 0.9264755917950689,
+  "per_label": {
+    "support_knowledge": {
+      "precision": 0.8896551724137931,
+      "recall": 1.0,
+      "f1": 0.9416058394160584,
+      "support": 129
+    },
+    "handoff": {
+      "precision": 0.9841269841269841,
+      "recall": 0.8671328671328671,
+      "f1": 0.9219330855018586,
+      "support": 143
+    },
+    "out_of_scope": {
+      "precision": 0.9130434782608695,
+      "recall": 0.91875,
+      "f1": 0.9158878504672897,
+      "support": 160
+    }
+  },
+  "confusion_matrix": [
+    [
+      129,
+      0,
+      0
+    ],
+    [
+      5,
+      124,
+      14
+    ],
+    [
+      11,
+      2,
+      147
+    ]
+  ],
+  "device": "cuda",
+  "epochs": 60,
+  "backbone_frozen": true,
+  "trainable_parameters": 2307,
+  "seconds": 5.899644100001751,
+  "checkpoint_sha256": "87e378cb3c8c7dc584e5cad02af84820561878da3f497639c4b648236ed094f7",
+  "predictions_sha256": "c1a27c8acdbcd1d5692a75a5a130d2190fd6ee1104f15b018bf5e032734e1bb6"
+}

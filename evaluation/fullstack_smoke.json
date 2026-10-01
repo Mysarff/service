@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-09-30T10:00:18.062835+00:00",
+  "seed": 20260930,
+  "scope": "synthetic development regression, actual Milvus/BGE cross-encoder, no external LLM",
+  "labels_used_for_tuning": true,
+  "blind_test": false,
+  "metrics_meaning": "source-ID retrieval hits; neither answer factual accuracy nor production effectiveness",
+  "host": {
+    "os": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.15"
+  },
+  "corpus_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "evaluation_sha256": {
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "5b5012f35d5750c345d06f8c0ea4f70e10eb0025ea45540e3b4a6776b8c58482"
+  },
+  "code_sha256": {
+    "cloudcare/neural.py": "71623d9a4bccea3f4b7a3a29e25f08fee2c6bf5a4b77769618f358af0be36b91",
+    "cloudcare/retrieval.py": "e3aba67975a5085e6010765ac186250ec3433c73aa9c7d05fde27be6a45408c6",
+    "cloudcare/pipeline.py": "e0a09d37bdff52329fc9e32ee84c6b724a62edda3527a90db93eb258059debb8",
+    "cloudcare/storage.py": "d73b130df7c415dfbfc348d1efd11a593abf4b3504aa165de8a1d29e0a6fd499",
+    "cloudcare/llm.py": "de158e71efa6d29cb46870ce8d469cb5b5813bd15f884c11eccec30e28fd6248",
+    "engine.py": "0dee924431626cbf0d71187c21eaab7052fa77f9d897d4d0817d119054ff72ce",
+    "scripts/evaluate_fullstack.py": "56c2c2ccbe147b48fd3eb6227811471e283e89ca30a9f80c9dc11bf42b3642f5"
+  },
+  "sample_counts": {
+    "positive": 1,
+    "negative": 1,
+    "full_frozen_positive": 64,
+    "full_frozen_negative": 24
+  },
+  "retrieval": {},
+  "negative": {
+    "observations": []
+  },
+  "complete": false,
+  "cold_start": {
+    "construction_and_service_start_ms": 992.8502000002482
+  },
+  "error_type": "OSError",
+  "wall_seconds": 9.04463979999855
+}

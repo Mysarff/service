@@ -6,6 +6,7 @@ import gzip
 import hashlib
 import json
 import sys
+import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
@@ -15,6 +16,7 @@ import engine
 
 GROUPS = ('cases.json', 'extended_cases.json')
 METHODS = ('tfidf', 'plain_bm25', 'bm25')
+FROZEN_CORPUS = ROOT / 'evaluation/fixtures/knowledge_20260927.jsonl.gz'
 
 
 def sha256(path):
@@ -33,28 +35,47 @@ def observation(query, expected, ids):
     return {'query': query, 'expected': expected, 'ids': ids, 'rank': rank}
 
 
+def historical_engine(expected_sha256=None):
+    """Replay the lexical algorithm on frozen source bytes, excluding uploads."""
+    frozen = gzip.decompress(FROZEN_CORPUS.read_bytes())
+    if expected_sha256 is not None and hashlib.sha256(frozen).hexdigest() != expected_sha256:
+        raise ValueError('Frozen corpus differs from the historical benchmark')
+    with tempfile.TemporaryDirectory(prefix='cloudcare-historical-corpus-') as folder:
+        data = Path(folder)
+        (data / 'knowledge.jsonl').write_bytes(frozen)
+        with patch.object(engine, 'DATA', data), patch.object(engine, 'UPLOADS', data / 'uploads'):
+            return engine.Engine()
+
+
 def audit():
     baseline_path = ROOT / 'evaluation/benchmark_results.json.gz'
     with gzip.open(baseline_path, 'rt', encoding='utf-8') as file:
         baseline = json.load(file)
     groups = {name: json.loads((ROOT / 'evaluation' / name).read_text(encoding='utf-8')) for name in GROUPS}
-    if sha256(ROOT / 'data/knowledge.jsonl') != baseline['corpus_sha256']:
-        raise ValueError('Corpus differs from the historical benchmark')
+    frozen = gzip.decompress(FROZEN_CORPUS.read_bytes())
+    if hashlib.sha256(frozen).hexdigest() != baseline['corpus_sha256']:
+        raise ValueError('Frozen corpus differs from the historical benchmark')
+    active_sha = sha256(ROOT / 'data/knowledge.jsonl')
     for name, cases in groups.items():
         for method in METHODS:
             old_queries = [row['query'] for row in baseline['retrieval'][name][method]['observations']]
             if old_queries != [query for query, _ in cases['positive']]:
                 raise ValueError(f'Question text/order changed: {name}/{method}')
 
-    # Exclude personal uploads even when the local service has imported files.
-    with patch.object(engine, 'UPLOADS', ROOT / 'evaluation/__no_audit_uploads__'):
-        search = engine.Engine()
+    # Updating the active OCR runbook must not silently change the historical
+    # comparison corpus or overwrite the recorded baseline fingerprint.
+    search = historical_engine(baseline['corpus_sha256'])
     if len(search.docs) != baseline['corpus_units']:
         raise ValueError('Corpus unit count differs from the historical benchmark')
 
     report = {'baseline_commit': '307b9e0a7d46bf9337251f01ffa52b79f607bf51',
               'baseline_file_sha256': sha256(baseline_path),
               'corpus_sha256': baseline['corpus_sha256'], 'corpus_changed': False,
+              'historical_scope': 'Current lexical algorithm replayed on frozen 2026-09-27 corpus; not full-stack model quality',
+              'frozen_path': FROZEN_CORPUS.relative_to(ROOT).as_posix(),
+              'frozen_file_sha256': sha256(FROZEN_CORPUS),
+              'active_corpus_sha256': active_sha,
+              'active_corpus_differs': active_sha != baseline['corpus_sha256'],
               'question_text_or_order_changed': False, 'positive_questions': 64,
               'original_case_sha256': baseline['cases_sha256'],
               'current_case_sha256': {name: sha256(ROOT / 'evaluation' / name) for name in GROUPS},

@@ -1,0 +1,22 @@
+{
+  "scope": "Real Qwen API rewrite + verbatim quote checked answer; no answer-accuracy or online-impact metric",
+  "rewrite": {
+    "query": "账号怎么开通？",
+    "keywords": [
+      "账号",
+      "开通"
+    ],
+    "method": "qwen_langchain"
+  },
+  "answer": "根据当前演示业务资料：\n1. 进入「个人设置/账号」。由账号本人先确认所属组织与模块授权，再为业务成员开通。首次访问请使用演示组织核对权限；找不到入口时检查当前组织和角色，不要重复注册账号。 [ACC-01]",
+  "success": true,
+  "qwen": {
+    "configured": true,
+    "model": "qwen3.7-flash",
+    "provider": "dashscope_compatible",
+    "calls": 2,
+    "successful_calls": 2,
+    "last_error_type": null,
+    "verified": true
+  }
+}

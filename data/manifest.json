@@ -12,12 +12,12 @@
   },
   "files": {
     "data/faq.jsonl": {
-      "bytes": 2350920,
-      "sha256": "8bc31665469e34b5503efaa0cdc6e75bdd82bc935254f9edafde431db83787ce"
+      "bytes": 2353160,
+      "sha256": "fb97fc0d76a6f52e55ff53859bb75b9671d096adeca8688478f19993b7a72b8c"
     },
     "data/knowledge.jsonl": {
-      "bytes": 389735,
-      "sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634"
+      "bytes": 390015,
+      "sha256": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7"
     },
     "data/manuals/ACC.md": {
       "bytes": 4569,
@@ -268,8 +268,8 @@
       "sha256": "1c9d16207daf776b5a37d35f14b5ec0b281531c6a8ca2c04490204af893b9342"
     },
     "data/runbooks/KB-RB05.md": {
-      "bytes": 1844,
-      "sha256": "f5e7219ef9938f7359b8676df49c25a49f61556209081bfb75b6efe0aa11e7d4"
+      "bytes": 2124,
+      "sha256": "030fbbffeaa66d746ae225376ded5d0af62c90f4a7fd13f23b63d324b9cf451c"
     },
     "data/runbooks/KB-RB06.md": {
       "bytes": 1905,
@@ -468,8 +468,8 @@
       "sha256": "cc33d62925777371251dd30840f60d5fabd0cea4c56d7b5614bf4841bec55290"
     },
     "data/simulated_tickets.jsonl": {
-      "bytes": 15376272,
-      "sha256": "bb18a412f80ef6072688852a1265365ff3d191f66c736a1b2d1197d5e9520770"
+      "bytes": 15387602,
+      "sha256": "ca40ef539e131c719c48f458545de4f9c977b2f8ecafbd74ce943c3edee93f5a"
     }
   },
   "note": "FAQ variants and tickets repeat source facts; they are NOT additional knowledge units. No measured 800k-scale claim."

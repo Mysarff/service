@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-01T01:46:43.418449+00:00",
+  "runner": "scripts/run_fullstack_checks.py",
+  "python_version": "3.11.15",
+  "node": {
+    "ready": true,
+    "path": "C:\\Users\\26621\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+    "version": "v24.19.0"
+  },
+  "integration_flags": {
+    "CLOUDCARE_INTEGRATION": "1",
+    "CLOUDCARE_MYSQL_INTEGRATION": "1"
+  },
+  "pattern": "test_review_regressions.py",
+  "complete_suite": false,
+  "testsRun": 10,
+  "passed": 10,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "elapsed_seconds": 7.35,
+  "status_counts": {
+    "passed": 10
+  },
+  "scope_counts": {
+    "historical_baseline_regressions": 10
+  },
+  "tests": [
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_boundary_sized_topic_is_preserved_in_provider_question",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.611443
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_contextual_capability_refusals",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.583668
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_explicit_topic_change_resets_context",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.584941
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_invalid_history_returns_400",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.656175
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_invalid_hosts_blocked_before_all_routes",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.836288
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_local_hosts_accepted",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.655551
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_model_receives_resolved_question",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.600684
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_oversized_history_rejected_before_retrieval_or_model",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.601852
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_repeated_followups_preserve_topic",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.608736
+    },
+    {
+      "name": "test_review_regressions.ReviewRegressionTests.test_resolved_context_cap_rejects_without_truncating",
+      "status": "passed",
+      "scope": "historical_baseline_regressions",
+      "elapsed_seconds": 0.699072
+    }
+  ],
+  "modules": [
+    {
+      "module": "test_review_regressions",
+      "process_exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 7.317,
+      "log": "runtime/validation/20261001T014636Z/test_review_regressions.log",
+      "worker_report_created": true,
+      "wasSuccessful": true
+    }
+  ],
+  "code_sha256": {
+    "app.py": "d1bb8112de291489175570aea7cd7e88c9f903ec421a0238421c0c5a6175bba2",
+    "baseline_app.py": "ff180a3be9ce514dfc3cca5657b1dea11bdbe644c263924b2003b0f79a25038c",
+    "cloudcare/__init__.py": "d766e7d6a95029dc3244fd8302b564790f56896f221fa747017e5b3df72a65e7",
+    "cloudcare/api.py": "7ed904a82ee11cd75c8f0b782c766e90653f1bb54ff2b2d50e743549a33ec79a",
+    "cloudcare/documents.py": "8eec004a52b8e33f66dd21939cd11017e641f65c97cf503dd20dea26f4201315",
+    "cloudcare/llm.py": "de158e71efa6d29cb46870ce8d469cb5b5813bd15f884c11eccec30e28fd6248",
+    "cloudcare/neural.py": "62a2224ec54bbe9fe0209166dc0e57499dca6fc850c30cf6962634b88f59f0d7",
+    "cloudcare/pipeline.py": "5b8b5d51828ad49117d188269050b9e316d7394e60f467cfc78e003bbb74c726",
+    "cloudcare/retrieval.py": "e3aba67975a5085e6010765ac186250ec3433c73aa9c7d05fde27be6a45408c6",
+    "cloudcare/settings.py": "6798ddf4c5869e357beb23035a79157064413d5ca4cb41763c302a1902d8b9d3",
+    "cloudcare/storage.py": "d73b130df7c415dfbfc348d1efd11a593abf4b3504aa165de8a1d29e0a6fd499",
+    "compose.yaml": "306866c626d586319a04ed4b0338389d75d1a6bb08476b501e4529ee0e73211e",
+    "engine.py": "0dee924431626cbf0d71187c21eaab7052fa77f9d897d4d0817d119054ff72ce",
+    "requirements-full.txt": "5c007d8fecb9fd2ab37f47a5d3bdb80af044029050846a74371f07ad1099693f",
+    "scripts/build_data.py": "5f8dcc376c2e8f08c7de55cf8af42ce133f3e6629fcb36f4225c44469118712c",
+    "scripts/check_data.py": "d2469dc063eb7fc42a9e7c9aedb40601fe838ed6c248619cdd2ee0dda62a92b0",
+    "scripts/doctor.py": "d772fae082d63702a76a0ef83c173829fc00cc14b159d66f09d9fdd14fd5f8dd",
+    "scripts/evaluate_fullstack.py": "af4912079317ac82c563a6f48e749eadd26e7a3d77dfd9790e54b20548018770",
+    "scripts/initialize.py": "5545b6fca8df323f82f0cf3f218c42dd061241cc33e2348c3d8b7383f374d732",
+    "scripts/probe_qwen.py": "2d0752c7dc6934bf3d9f1327db9582f310fac14ceda92cbf93e45725f246c1de",
+    "scripts/render_report.py": "f6c8577773b0c4fed5a9205d0920a46f0555ba5ac517c482dcac26cedff35811",
+    "scripts/run_fullstack_checks.py": "6060c9eb62f2c68e8dcaade23df3e8811592fdc4ebfc3a422bc4f97a522a5abd",
+    "scripts/scenarios.py": "ff65df862cb2fc16c6bbb9f67e79eff47f322ded64fead74764e1b9d92cf6881",
+    "scripts/train_support_router.py": "022aa6a587ea817fc617ee5aafc2d9f17d4c7ecd6c0cbccecf1ea666f5c38a54",
+    "static/baseline.html": "f9f70b9a8a37a23b3df290f79131ad6708ae753b6084a9609454749ff7a7b1ff",
+    "static/index.html": "0e7bb60bd469dd99e592f8adbad31dbcb7f8a1f232b7c26f06d4be01a637aa10"
+  },
+  "test_sha256": {
+    "tests/test_api_fullstack.py": "3dec6d680b2be8994fbdc211b49843828528f57b49c4126bd9be16b614a3dbb6",
+    "tests/test_documents_fullstack.py": "4b92dcf5d677176a9199bcf3f825c716ffec3d902fa1800affd6ceb98d3ef09e",
+    "tests/test_frontend_history.py": "aec9c442deeaf51b35339781e13dc7aa2e6c82ee3b5745a922fe41b0ad5ae516",
+    "tests/test_neural_contracts.py": "bb199fed960b6f7afc59bc34e437b66518c6d248cc272c0f05dc49160f43c614",
+    "tests/test_neural_initialize.py": "65e40ab3ab00f648c6879569ac4aa57b7bca3d68bbbe7d32cbbacbe142affad3",
+    "tests/test_pipeline_contracts.py": "391a1a14dbac8f31bb2c398e2024a7109482578320b7b5fae00e46521827380a",
+    "tests/test_qwen_contracts.py": "d1d3370b230a5960c052ccb22ee80dae5e7600e7131abaef72a6c7ae7588a00d",
+    "tests/test_retrieval_audit.py": "9340a8196efefa1fe776d162e64612071d7447fb9fa44eb80026a8f25bab87d9",
+    "tests/test_review_regressions.py": "11d30caa1e6914c260d6019521b815aad7186b83cffbfac846ca7fd3e0b2695f",
+    "tests/test_storage_fullstack.py": "70e9a8e0f3470f008a32656f9e0e58ab9a5eb23d51786f58228287e43aee586c",
+    "tests/test_system.py": "9a2e9c0de16226317211a7ce3e3c83a545315ced428cf093c6eb16246efa9aec"
+  },
+  "changed_files_during_run": [],
+  "historical_system_results_preserved": true,
+  "logs_directory": "runtime/validation/20261001T014636Z",
+  "scope_note": "All checked-in tests, including historical baseline. SQL/Redis tests use real isolated CloudCare services; document checks use real LangChain/PDF/Office/RapidOCR. API, pipeline, Qwen and most neural tests use injected collaborators; the small reranker adapter tensor runs on CPU. This suite is not a large-model quality evaluation, a real Milvus acceptance test, an external Qwen test, or a production business KPI.",
+  "passed_all_mandatory_checks": true,
+  "passed_complete_suite": false
+}

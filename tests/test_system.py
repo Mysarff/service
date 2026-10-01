@@ -10,7 +10,7 @@ from urllib.error import HTTPError
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import engine
-from app import make_server
+from baseline_app import make_server
 
 class SystemTests(unittest.TestCase):
     def setUp(self):

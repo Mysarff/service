@@ -1,0 +1,31 @@
+{
+  "task": "customer_support_routing",
+  "labels": [
+    "support_knowledge",
+    "handoff",
+    "out_of_scope"
+  ],
+  "created_at": "2026-09-30T09:00:28.641393+00:00",
+  "seed": 20260930,
+  "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+  "knowledge_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "base_model": "E:\\codex\\Itcast_qa_system\\rag_qa\\core\\bert_query_classifier",
+  "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data",
+  "evaluation_scope": "synthetic held-out parent/template/topic groups; not real customer or retrieval benchmark",
+  "train_count": 1872,
+  "test_count": 432,
+  "train_labels": {
+    "handoff": 625,
+    "out_of_scope": 608,
+    "support_knowledge": 639
+  },
+  "test_labels": {
+    "support_knowledge": 129,
+    "out_of_scope": 160,
+    "handoff": 143
+  },
+  "train_groups": 122,
+  "test_groups": 30,
+  "group_overlap": 0,
+  "retrieval_evaluation_used_for_training": false
+}

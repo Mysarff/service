@@ -1,0 +1,731 @@
+{
+  "corpus_units": 592,
+  "scope": "synthetic development regression, not blind benchmark or LLM accuracy",
+  "methods": {
+    "tfidf": {
+      "n": 64,
+      "top1": 45,
+      "hit5": 61,
+      "mrr5": 0.7969,
+      "mean_retrieval_ms": 0.781,
+      "top1_failures": [
+        {
+          "query": "订单重复创建了要重新扣钱吗？",
+          "expected": [
+            "ORD-09"
+          ],
+          "top5": [
+            "ORD-02",
+            "ORD-09",
+            "RET-02",
+            "ORG-02",
+            "TKT-02"
+          ]
+        },
+        {
+          "query": "这次续费扣款失败该查哪里？",
+          "expected": [
+            "SUB-09"
+          ],
+          "top5": [
+            "SUB-RB01-1",
+            "SUB-RB01-2",
+            "SUB-RB01-3",
+            "SUB-RB01-4",
+            "SUB-09"
+          ]
+        },
+        {
+          "query": "运单轨迹好久没有更新了",
+          "expected": [
+            "SHIP-09"
+          ],
+          "top5": [
+            "SHIP-RB01-3",
+            "SHIP-RB01-2",
+            "SHIP-RB01-4",
+            "SHIP-RB01-1",
+            "SHIP-RB04-3"
+          ]
+        },
+        {
+          "query": "退回商品后退款还没有到账",
+          "expected": [
+            "RET-09",
+            "RET-13"
+          ],
+          "top5": [
+            "RET-RB02-2",
+            "RET-RB02-3",
+            "RET-RB02-1",
+            "RET-RB02-4",
+            "RET-13"
+          ]
+        },
+        {
+          "query": "设备借出和归还如何保留交接记录？",
+          "expected": [
+            "ASSET-13"
+          ],
+          "top5": [
+            "ASSET-RB06-3",
+            "ASSET-RB06-2",
+            "ASSET-RB06-1",
+            "ASSET-RB06-4",
+            "ASSET-13"
+          ]
+        },
+        {
+          "query": "报表统计结果和之前对不上",
+          "expected": [
+            "REPORT-09"
+          ],
+          "top5": [
+            "REPORT-RB01-1",
+            "REPORT-RB01-3",
+            "REPORT-RB01-2",
+            "REPORT-RB01-4",
+            "REPORT-09"
+          ]
+        },
+        {
+          "query": "审计日志能直接传给普通客服吗？",
+          "expected": [
+            "AUDIT-13"
+          ],
+          "top5": [
+            "AUDIT-11",
+            "AUDIT-13",
+            "AUDIT-RB01-2",
+            "AUDIT-04",
+            "AUDIT-09"
+          ]
+        },
+        {
+          "query": "通过公司身份平台验证后又回到了登录画面，该排查什么？",
+          "expected": [
+            "ACC-RB01-1",
+            "ACC-RB01-2"
+          ],
+          "top5": [
+            "ACC-RB01-4",
+            "ACC-RB01-2",
+            "ACC-RB01-1",
+            "ACC-RB01-3",
+            "ACC-09"
+          ]
+        },
+        {
+          "query": "客服收到可疑附件，杀毒提示有问题时怎么处置？",
+          "expected": [
+            "TKT-RB04-2"
+          ],
+          "top5": [
+            "TKT-RB04-4",
+            "TKT-RB04-1",
+            "TKT-RB04-2",
+            "TKT-RB04-3",
+            "APR-RB05-3"
+          ]
+        },
+        {
+          "query": "聊天转给另一坐席以后历史消息不见了，怎么查？",
+          "expected": [
+            "CHAT-RB01-1"
+          ],
+          "top5": [
+            "CHAT-RB05-2",
+            "CHAT-RB05-1",
+            "CHAT-RB05-4",
+            "CHAT-RB06-3",
+            "CHAT-RB05-3"
+          ]
+        },
+        {
+          "query": "访客一刷新网页就多出一个排队位置，如何恢复？",
+          "expected": [
+            "CHAT-RB02-2"
+          ],
+          "top5": [
+            "CHAT-RB02-1",
+            "CHAT-09",
+            "CHAT-RB02-3",
+            "CHAT-RB02-4",
+            "CHAT-RB02-2"
+          ]
+        },
+        {
+          "query": "渠道已扣钱但订单仍待付款，应该核查什么？",
+          "expected": [
+            "ORD-RB02-1"
+          ],
+          "top5": [
+            "ORD-RB02-2",
+            "ORD-RB02-4",
+            "ORD-RB02-1",
+            "ORD-RB02-3",
+            "SUB-RB06-3"
+          ]
+        },
+        {
+          "query": "套餐要降级但现有资源比新额度多，应该怎么办？",
+          "expected": [
+            "SUB-RB02-2"
+          ],
+          "top5": [
+            "SUB-RB02-1",
+            "SUB-RB02-4",
+            "SUB-RB02-2",
+            "TKT-10",
+            "ORG-10"
+          ]
+        },
+        {
+          "query": "同一个订单提交两次开票申请，财务怎么处理重复的？",
+          "expected": [
+            "INV-RB01-2"
+          ],
+          "top5": [
+            "INV-RB01-4",
+            "INV-RB01-2",
+            "INV-RB01-1",
+            "INV-RB01-3",
+            "INV-RB05-1"
+          ]
+        },
+        {
+          "query": "订单拆成几个包裹只收到其中一个，履约如何跟进？",
+          "expected": [
+            "SHIP-RB02-2"
+          ],
+          "top5": [
+            "SHIP-RB02-1",
+            "SHIP-RB02-2",
+            "SHIP-RB02-4",
+            "SHIP-RB02-3",
+            "ORD-RB03-1"
+          ]
+        },
+        {
+          "query": "退回设备的序列号不是出库那台，如何处理？",
+          "expected": [
+            "RET-RB02-2"
+          ],
+          "top5": [
+            "RET-RB02-1",
+            "RET-RB02-2",
+            "RET-RB02-4",
+            "RET-RB02-3",
+            "ASSET-RB05-3"
+          ]
+        },
+        {
+          "query": "电脑准备报废，硬盘上的业务数据如何清除？",
+          "expected": [
+            "ASSET-RB04-2"
+          ],
+          "top5": [
+            "ASSET-RB04-4",
+            "ASSET-RB04-2",
+            "ASSET-RB04-1",
+            "ASSET-RB04-3",
+            "API-RB03-1"
+          ]
+        },
+        {
+          "query": "项目任务A等B、B又等A，负责人应怎么处理？",
+          "expected": [
+            "PRJ-RB03-2"
+          ],
+          "top5": [
+            "PRJ-RB04-2",
+            "PRJ-RB04-1",
+            "PRJ-RB04-4",
+            "PRJ-RB04-3",
+            "PRJ-RB01-1"
+          ]
+        },
+        {
+          "query": "从老项目模板创建后带进了旧成员，要怎么修复？",
+          "expected": [
+            "PRJ-RB06-2"
+          ],
+          "top5": [
+            "PRJ-RB06-1",
+            "PRJ-RB06-2",
+            "PRJ-RB06-4",
+            "PRJ-RB06-3",
+            "PRJ-02"
+          ]
+        }
+      ]
+    },
+    "plain_bm25": {
+      "n": 64,
+      "top1": 47,
+      "hit5": 62,
+      "mrr5": 0.8365,
+      "mean_retrieval_ms": 0.823,
+      "top1_failures": [
+        {
+          "query": "订单重复创建了要重新扣钱吗？",
+          "expected": [
+            "ORD-09"
+          ],
+          "top5": [
+            "ORD-02",
+            "ORD-09",
+            "INV-RB03-4",
+            "SHIP-02",
+            "RET-02"
+          ]
+        },
+        {
+          "query": "这次续费扣款失败该查哪里？",
+          "expected": [
+            "SUB-09"
+          ],
+          "top5": [
+            "SUB-RB01-1",
+            "SUB-RB01-2",
+            "SUB-RB01-4",
+            "SUB-RB01-3",
+            "SUB-09"
+          ]
+        },
+        {
+          "query": "运单轨迹好久没有更新了",
+          "expected": [
+            "SHIP-09"
+          ],
+          "top5": [
+            "SHIP-RB01-3",
+            "SHIP-RB01-4",
+            "SHIP-09",
+            "SHIP-RB04-3",
+            "SHIP-13"
+          ]
+        },
+        {
+          "query": "报表统计结果和之前对不上",
+          "expected": [
+            "REPORT-09"
+          ],
+          "top5": [
+            "REPORT-RB01-1",
+            "REPORT-RB01-3",
+            "REPORT-RB01-2",
+            "REPORT-RB01-4",
+            "REPORT-RB05-3"
+          ]
+        },
+        {
+          "query": "报表导出的下载链接可以用多久？",
+          "expected": [
+            "REPORT-06"
+          ],
+          "top5": [
+            "INV-RB06-3",
+            "REPORT-06",
+            "TKT-06",
+            "ACC-06",
+            "CHAT-06"
+          ]
+        },
+        {
+          "query": "通过公司身份平台验证后又回到了登录画面，该排查什么？",
+          "expected": [
+            "ACC-RB01-1",
+            "ACC-RB01-2"
+          ],
+          "top5": [
+            "ACC-13",
+            "ACC-RB01-4",
+            "ACC-RB01-1",
+            "ACC-09",
+            "ACC-14"
+          ]
+        },
+        {
+          "query": "准备停用最后一个组织管理员，应该先做什么？",
+          "expected": [
+            "ORG-RB04-2"
+          ],
+          "top5": [
+            "ORG-RB04-1",
+            "ORG-RB04-2",
+            "ORG-RB04-4",
+            "ORG-RB04-3",
+            "ORG-13"
+          ]
+        },
+        {
+          "query": "客服收到可疑附件，杀毒提示有问题时怎么处置？",
+          "expected": [
+            "TKT-RB04-2"
+          ],
+          "top5": [
+            "TKT-RB04-4",
+            "TKT-RB04-1",
+            "TKT-RB04-2",
+            "APR-RB05-2",
+            "TKT-RB04-3"
+          ]
+        },
+        {
+          "query": "聊天转给另一坐席以后历史消息不见了，怎么查？",
+          "expected": [
+            "CHAT-RB01-1"
+          ],
+          "top5": [
+            "CHAT-RB01-3",
+            "CHAT-RB05-1",
+            "CHAT-RB05-2",
+            "CHAT-RB05-4",
+            "CHAT-RB06-3"
+          ]
+        },
+        {
+          "query": "访客一刷新网页就多出一个排队位置，如何恢复？",
+          "expected": [
+            "CHAT-RB02-2"
+          ],
+          "top5": [
+            "CHAT-RB02-1",
+            "CHAT-RB02-2",
+            "CHAT-RB02-3",
+            "CHAT-RB02-4",
+            "CHAT-09"
+          ]
+        },
+        {
+          "query": "渠道已扣钱但订单仍待付款，应该核查什么？",
+          "expected": [
+            "ORD-RB02-1"
+          ],
+          "top5": [
+            "ORD-RB02-2",
+            "ORD-RB02-1",
+            "ORD-RB02-4",
+            "ORD-RB02-3",
+            "ORD-RB04-4"
+          ]
+        },
+        {
+          "query": "套餐要降级但现有资源比新额度多，应该怎么办？",
+          "expected": [
+            "SUB-RB02-2"
+          ],
+          "top5": [
+            "SUB-RB02-1",
+            "SUB-RB02-2",
+            "SUB-RB02-4",
+            "ACC-10",
+            "ORG-10"
+          ]
+        },
+        {
+          "query": "同一个订单提交两次开票申请，财务怎么处理重复的？",
+          "expected": [
+            "INV-RB01-2"
+          ],
+          "top5": [
+            "INV-RB01-1",
+            "INV-RB01-4",
+            "INV-RB01-2",
+            "INV-RB01-3",
+            "INV-RB05-2"
+          ]
+        },
+        {
+          "query": "订单拆成几个包裹只收到其中一个，履约如何跟进？",
+          "expected": [
+            "SHIP-RB02-2"
+          ],
+          "top5": [
+            "SHIP-RB02-1",
+            "SHIP-RB02-2",
+            "SHIP-RB02-4",
+            "SHIP-13",
+            "SHIP-RB02-3"
+          ]
+        },
+        {
+          "query": "退回设备的序列号不是出库那台，如何处理？",
+          "expected": [
+            "RET-RB02-2"
+          ],
+          "top5": [
+            "RET-RB02-1",
+            "RET-RB02-2",
+            "RET-RB02-4",
+            "RET-RB02-3",
+            "ASSET-RB05-1"
+          ]
+        },
+        {
+          "query": "电脑准备报废，硬盘上的业务数据如何清除？",
+          "expected": [
+            "ASSET-RB04-2"
+          ],
+          "top5": [
+            "ASSET-RB04-1",
+            "ASSET-RB04-2",
+            "ASSET-RB04-4",
+            "ASSET-RB04-3",
+            "ORG-RB04-4"
+          ]
+        },
+        {
+          "query": "项目任务A等B、B又等A，负责人应怎么处理？",
+          "expected": [
+            "PRJ-RB03-2"
+          ],
+          "top5": [
+            "PRJ-RB04-2",
+            "PRJ-RB03-2",
+            "PRJ-RB03-4",
+            "PRJ-RB04-1",
+            "PRJ-RB04-3"
+          ]
+        }
+      ]
+    },
+    "bm25": {
+      "n": 64,
+      "top1": 59,
+      "hit5": 64,
+      "mrr5": 0.957,
+      "mean_retrieval_ms": 0.838,
+      "top1_failures": [
+        {
+          "query": "订单重复创建了要重新扣钱吗？",
+          "expected": [
+            "ORD-09"
+          ],
+          "top5": [
+            "ORD-02",
+            "ORD-09",
+            "ORD-01",
+            "ORD-RB01-2",
+            "ORD-06"
+          ]
+        },
+        {
+          "query": "这次续费扣款失败该查哪里？",
+          "expected": [
+            "SUB-09"
+          ],
+          "top5": [
+            "SUB-RB01-1",
+            "SUB-09",
+            "SUB-13",
+            "SUB-RB05-1",
+            "SUB-08"
+          ]
+        },
+        {
+          "query": "报表统计结果和之前对不上",
+          "expected": [
+            "REPORT-09"
+          ],
+          "top5": [
+            "REPORT-RB01-2",
+            "REPORT-RB05-2",
+            "REPORT-05",
+            "REPORT-09",
+            "REPORT-02"
+          ]
+        },
+        {
+          "query": "聊天转给另一坐席以后历史消息不见了，怎么查？",
+          "expected": [
+            "CHAT-RB01-1"
+          ],
+          "top5": [
+            "CHAT-RB05-1",
+            "CHAT-RB01-1",
+            "CHAT-RB06-1",
+            "RET-09",
+            "CHAT-09"
+          ]
+        },
+        {
+          "query": "项目任务A等B、B又等A，负责人应怎么处理？",
+          "expected": [
+            "PRJ-RB03-2"
+          ],
+          "top5": [
+            "PRJ-RB04-2",
+            "PRJ-RB03-2",
+            "PRJ-05",
+            "PRJ-07",
+            "PRJ-02"
+          ]
+        }
+      ]
+    }
+  },
+  "evidence_gate": {
+    "n": 24,
+    "rejected": 24,
+    "details": [
+      {
+        "query": "明天上海会下雨吗？",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "写一首关于秋天的诗",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "Python如何实现快速排序？",
+        "rejected": true,
+        "top1": [
+          "TKT-13"
+        ]
+      },
+      {
+        "query": "推荐一只明天会涨的股票",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "感冒应该吃哪种药？",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "帮我解一元二次方程",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "火星到地球有多远？",
+        "rejected": true,
+        "top1": [
+          "SHIP-RB02-2"
+        ]
+      },
+      {
+        "query": "周末晚餐菜谱推荐",
+        "rejected": true,
+        "top1": []
+      },
+      {
+        "query": "你们的SOC2证书编号是什么？",
+        "rejected": true,
+        "top1": [
+          "ASSET-09"
+        ]
+      },
+      {
+        "query": "企业套餐当前价格是多少元？",
+        "rejected": true,
+        "top1": [
+          "SUB-05"
+        ]
+      },
+      {
+        "query": "今天美元兑人民币汇率是多少？",
+        "rejected": true,
+        "top1": [
+          "TKT-13"
+        ]
+      },
+      {
+        "query": "帮我查询订单ZX987654现在到哪了",
+        "rejected": true,
+        "top1": [
+          "ORD-07"
+        ]
+      },
+      {
+        "query": "你们公司的创始人是谁？",
+        "rejected": true,
+        "top1": [
+          "SUB-RB06-2"
+        ]
+      },
+      {
+        "query": "云栈公司的注册资本是多少？",
+        "rejected": true,
+        "top1": [
+          "ACC-13"
+        ]
+      },
+      {
+        "query": "目前有多少家真实付费客户？",
+        "rejected": true,
+        "top1": [
+          "SUB-RB04-2"
+        ]
+      },
+      {
+        "query": "请直接替我批准这张采购申请",
+        "rejected": true,
+        "top1": [
+          "APR-RB03-2"
+        ]
+      },
+      {
+        "query": "帮我执行一笔退款到银行卡",
+        "rejected": true,
+        "top1": [
+          "RET-13"
+        ]
+      },
+      {
+        "query": "请马上删除我公司的所有审计记录",
+        "rejected": true,
+        "top1": [
+          "AUDIT-09"
+        ]
+      },
+      {
+        "query": "开票适用的税率具体是多少？",
+        "rejected": true,
+        "top1": [
+          "INV-RB04-2"
+        ]
+      },
+      {
+        "query": "购买套餐可以保证99.99%的在线率吗？",
+        "rejected": true,
+        "top1": [
+          "SUB-13"
+        ]
+      },
+      {
+        "query": "你们支持哪一家银行的付款账户？",
+        "rejected": true,
+        "top1": [
+          "INV-13"
+        ]
+      },
+      {
+        "query": "客户退货后是否必定七天内收到退款？",
+        "rejected": true,
+        "top1": [
+          "RET-09"
+        ]
+      },
+      {
+        "query": "你的模型训练了多少亿参数？",
+        "rejected": true,
+        "top1": [
+          "TKT-13"
+        ]
+      },
+      {
+        "query": "给我查询员工张三这个月的工资",
+        "rejected": true,
+        "top1": [
+          "ORG-13"
+        ]
+      }
+    ]
+  }
+}

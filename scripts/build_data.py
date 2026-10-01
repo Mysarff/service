@@ -122,6 +122,7 @@ def build(tickets=24000):
     for code, title, symptom, diagnosis, recovery, acceptance, escalation in records():
         scenario_counts[code] = scenario_counts.get(code, 0) + 1
         scenario_id = f'{code}-RB{scenario_counts[code]:02d}'
+        scenario_version = '2026-10-01' if scenario_id == 'KB-RB05' else VERSION
         module = next(m for m in MODULES if m[0] == code)
         name, route, role = module[1], module[2], module[4]
         source = f'data/runbooks/{scenario_id}.md'
@@ -131,12 +132,12 @@ def build(tickets=24000):
             ('验收', f'场景：{title}。完成处置后按以下条件逐项核验：{acceptance}。由{role}记录所用样例ID、变更前后结果及验收时间。未满足条件时保持待核验，回到本场景定位步骤；不得仅凭接口返回成功就关闭事件。'),
             ('升级', f'场景：{title}。停止自动处置的条件与交接方式：{escalation}。交接给{role}协调相应责任人，并附资源ID、脱敏现象「{symptom}」、已经核实的检查和未完成事项。本知识库只说明流程，不能代替审批、执行真实业务变更或承诺处理时限。'),
         ]
-        markdown = [f'# 云栈 CloudCare · {name} · {title}', f'版本：{VERSION}。合成演示处置手册；业务系统能力不等于本助手已实现的功能。']
+        markdown = [f'# 云栈 CloudCare · {name} · {title}', f'版本：{scenario_version}。合成演示处置手册；业务系统能力不等于本助手已实现的功能。']
         for n, (phase, text) in enumerate(sections, 1):
             ident = f'{scenario_id}-{n}'
             docs.append(dict(id=ident, parent_id=scenario_id, title=f'{name}｜{title}｜{phase}',
                              category=name, content=text, tags=[name,title,phase], source=source,
-                             version=VERSION, synthetic=True, topic='runbook', phase=phase))
+                             version=scenario_version, synthetic=True, topic='runbook', phase=phase))
             markdown.append(f'## {ident} {phase}\n\n{text}\n')
             for v, prefix in enumerate(['请说明','如何执行','我想了解','帮我查一下','咨询一下','客服您好，','有哪些要求：','具体步骤：'], 1):
                 faqs.append(dict(id=f'FAQ-{ident}-{v}', question=f'{prefix}{name}{title}的{phase}',

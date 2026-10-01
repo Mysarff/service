@@ -1,0 +1,288 @@
+{
+  "baseline_commit": "307b9e0a7d46bf9337251f01ffa52b79f607bf51",
+  "baseline_file_sha256": "a9991591c09c86d025bbef1caa174eee9ae498b5d543fe9777fc4799c0c4a439",
+  "corpus_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "corpus_changed": false,
+  "question_text_or_order_changed": false,
+  "positive_questions": 64,
+  "original_case_sha256": {
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "91c79957598b8c4a78471392985239da93ce4a55b145f067a2599ddac3a7c3a2"
+  },
+  "current_case_sha256": {
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "5b5012f35d5750c345d06f8c0ea4f70e10eb0025ea45540e3b4a6776b8c58482"
+  },
+  "methods": {
+    "tfidf": {
+      "historical": {
+        "top1": 44,
+        "hit5": 60,
+        "mrr5": 0.7812,
+        "n": 64
+      },
+      "labels_only": {
+        "top1": 45,
+        "hit5": 61,
+        "mrr5": 0.7969,
+        "n": 64
+      },
+      "current": {
+        "top1": 45,
+        "hit5": 61,
+        "mrr5": 0.7969,
+        "n": 64
+      }
+    },
+    "plain_bm25": {
+      "historical": {
+        "top1": 46,
+        "hit5": 61,
+        "mrr5": 0.8208,
+        "n": 64
+      },
+      "labels_only": {
+        "top1": 47,
+        "hit5": 62,
+        "mrr5": 0.8365,
+        "n": 64
+      },
+      "current": {
+        "top1": 47,
+        "hit5": 62,
+        "mrr5": 0.8365,
+        "n": 64
+      }
+    },
+    "bm25": {
+      "historical": {
+        "top1": 57,
+        "hit5": 64,
+        "mrr5": 0.9414,
+        "n": 64
+      },
+      "labels_only": {
+        "top1": 58,
+        "hit5": 64,
+        "mrr5": 0.9492,
+        "n": 64
+      },
+      "current": {
+        "top1": 59,
+        "hit5": 64,
+        "mrr5": 0.957,
+        "n": 64
+      }
+    }
+  },
+  "original_bm25_failures": [
+    {
+      "query": "订单重复创建了要重新扣钱吗？",
+      "expected": [
+        "ORD-09"
+      ],
+      "ids": [
+        "ORD-02",
+        "ORD-09",
+        "ORD-01",
+        "ORD-RB04-2",
+        "ORD-RB01-2"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "这次续费扣款失败该查哪里？",
+      "expected": [
+        "SUB-09"
+      ],
+      "ids": [
+        "SUB-RB01-1",
+        "SUB-09",
+        "SUB-RB05-1",
+        "SUB-13",
+        "SUB-08"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "运单轨迹好久没有更新了",
+      "expected": [
+        "SHIP-09"
+      ],
+      "ids": [
+        "SHIP-RB01-2",
+        "SHIP-09",
+        "SHIP-RB04-2",
+        "SHIP-13",
+        "SHIP-RB06-2"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "报表统计结果和之前对不上",
+      "expected": [
+        "REPORT-09"
+      ],
+      "ids": [
+        "REPORT-RB01-2",
+        "REPORT-RB05-2",
+        "REPORT-05",
+        "REPORT-09",
+        "REPORT-02"
+      ],
+      "rank": 4
+    },
+    {
+      "query": "聊天转给另一坐席以后历史消息不见了，怎么查？",
+      "expected": [
+        "CHAT-RB01-1"
+      ],
+      "ids": [
+        "CHAT-RB05-1",
+        "CHAT-RB01-1",
+        "CHAT-RB06-1",
+        "RET-09",
+        "CHAT-09"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "知识库搜索还在引用已经过期的政策，要怎么修正？",
+      "expected": [
+        "KB-RB01-2"
+      ],
+      "ids": [
+        "KB-13",
+        "KB-RB01-2",
+        "KB-RB04-2",
+        "KB-RB02-2",
+        "KB-07"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "项目任务A等B、B又等A，负责人应怎么处理？",
+      "expected": [
+        "PRJ-RB03-2"
+      ],
+      "ids": [
+        "PRJ-RB04-2",
+        "PRJ-RB03-2",
+        "PRJ-RB01-2",
+        "PRJ-05",
+        "PRJ-07"
+      ],
+      "rank": 2
+    }
+  ],
+  "current_bm25_failures": [
+    {
+      "query": "订单重复创建了要重新扣钱吗？",
+      "expected": [
+        "ORD-09"
+      ],
+      "ids": [
+        "ORD-02",
+        "ORD-09",
+        "ORD-01",
+        "ORD-RB01-2",
+        "ORD-06"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "这次续费扣款失败该查哪里？",
+      "expected": [
+        "SUB-09"
+      ],
+      "ids": [
+        "SUB-RB01-1",
+        "SUB-09",
+        "SUB-13",
+        "SUB-RB05-1",
+        "SUB-08"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "报表统计结果和之前对不上",
+      "expected": [
+        "REPORT-09"
+      ],
+      "ids": [
+        "REPORT-RB01-2",
+        "REPORT-RB05-2",
+        "REPORT-05",
+        "REPORT-09",
+        "REPORT-02"
+      ],
+      "rank": 4
+    },
+    {
+      "query": "聊天转给另一坐席以后历史消息不见了，怎么查？",
+      "expected": [
+        "CHAT-RB01-1"
+      ],
+      "ids": [
+        "CHAT-RB05-1",
+        "CHAT-RB01-1",
+        "CHAT-RB06-1",
+        "RET-09",
+        "CHAT-09"
+      ],
+      "rank": 2
+    },
+    {
+      "query": "项目任务A等B、B又等A，负责人应怎么处理？",
+      "expected": [
+        "PRJ-RB03-2"
+      ],
+      "ids": [
+        "PRJ-RB04-2",
+        "PRJ-RB03-2",
+        "PRJ-05",
+        "PRJ-07",
+        "PRJ-02"
+      ],
+      "rank": 2
+    }
+  ],
+  "top1_changes": [
+    {
+      "method": "tfidf",
+      "query": "知识库搜索还在引用已经过期的政策，要怎么修正？",
+      "historical_rank": 0,
+      "labels_only_rank": 1,
+      "current_rank": 1,
+      "historical_top1": "KB-13",
+      "current_top1": "KB-13"
+    },
+    {
+      "method": "plain_bm25",
+      "query": "知识库搜索还在引用已经过期的政策，要怎么修正？",
+      "historical_rank": 0,
+      "labels_only_rank": 1,
+      "current_rank": 1,
+      "historical_top1": "KB-13",
+      "current_top1": "KB-13"
+    },
+    {
+      "method": "bm25",
+      "query": "运单轨迹好久没有更新了",
+      "historical_rank": 2,
+      "labels_only_rank": 2,
+      "current_rank": 1,
+      "historical_top1": "SHIP-RB01-2",
+      "current_top1": "SHIP-09"
+    },
+    {
+      "method": "bm25",
+      "query": "知识库搜索还在引用已经过期的政策，要怎么修正？",
+      "historical_rank": 2,
+      "labels_only_rank": 1,
+      "current_rank": 1,
+      "historical_top1": "KB-13",
+      "current_top1": "KB-13"
+    }
+  ]
+}

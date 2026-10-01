@@ -5,7 +5,7 @@
   "simulated_tickets": 24000,
   "source_documents": 112,
   "checked_files": 115,
-  "content_characters": 70258,
+  "content_characters": 70362,
   "exact_duplicate_texts": 0,
   "near_duplicate_metric": "character-trigram Jaccard >= 0.8; lexical only, not semantic independence",
   "near_duplicate_pair_count": 168,

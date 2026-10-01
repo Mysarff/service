@@ -1,0 +1,324 @@
+{
+  "started_at": "2026-10-01T01:50:58.876733+00:00",
+  "corpus_sha256": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7",
+  "faq_sha256": "fb97fc0d76a6f52e55ff53859bb75b9671d096adeca8688478f19993b7a72b8c",
+  "input_counts": {
+    "source_documents": 112,
+    "parents": 112,
+    "knowledge_units": 592,
+    "faq_variants": 4736
+  },
+  "synthetic": true,
+  "vectors_requested": true,
+  "vector_index_verified": true,
+  "mysql": {
+    "health": {
+      "ok": true,
+      "backend": "mysql",
+      "database": "cloudcare_support",
+      "pool": "Pool size: 5  Connections in pool: 1 Current Overflow: -4 Current Checked out connections: 0"
+    },
+    "counts": {
+      "documents": 112,
+      "parents": 112,
+      "chunks": 592,
+      "faq": 4736,
+      "sessions": 0,
+      "messages": 0,
+      "tickets": 0
+    },
+    "corpus_counts": {
+      "documents": 112,
+      "parents": 112,
+      "chunks": 592,
+      "faq": 4736
+    }
+  },
+  "redis": {
+    "health": {
+      "ok": true,
+      "backend": "redis",
+      "prefix": "cloudcare:v2:"
+    },
+    "faq_index": {
+      "count": 4736,
+      "terms": 1343,
+      "version": "9c598a18049848ee8315d9f8a4666291"
+    },
+    "counts": {
+      "faq": 4736
+    }
+  },
+  "database_counts_match": true,
+  "ingestion": {
+    "collection": "cloudcare_support_v2",
+    "submitted_rows": 592,
+    "total_rows": 592,
+    "dense_dimension": 1024,
+    "sparse_type": "BGE-M3 lexical_weights"
+  },
+  "milvus": {
+    "collection": "cloudcare_support_v2",
+    "row_count": 592,
+    "expected_count": 592,
+    "count_matches": true,
+    "dense_dimension": 1024,
+    "vectors_per_knowledge_unit": 2,
+    "sparse_type": "BGE-M3 learned lexical weights",
+    "sample_valid": true,
+    "samples": [
+      {
+        "id": "ORG-08",
+        "source": "data/manuals/ORG.md",
+        "parent_id": "ORG-GUIDE",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 40,
+        "content_hash_matches": true
+      },
+      {
+        "id": "INV-RB02-3",
+        "source": "data/runbooks/INV-RB02.md",
+        "parent_id": "INV-RB02",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 48,
+        "content_hash_matches": true
+      },
+      {
+        "id": "ACC-RB05-3",
+        "source": "data/runbooks/ACC-RB05.md",
+        "parent_id": "ACC-RB05",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 46,
+        "content_hash_matches": true
+      },
+      {
+        "id": "KB-RB06-3",
+        "source": "data/runbooks/KB-RB06.md",
+        "parent_id": "KB-RB06",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 55,
+        "content_hash_matches": true
+      },
+      {
+        "id": "APR-RB01-3",
+        "source": "data/runbooks/APR-RB01.md",
+        "parent_id": "APR-RB01",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 43,
+        "content_hash_matches": true
+      },
+      {
+        "id": "RET-RB01-4",
+        "source": "data/runbooks/RET-RB01.md",
+        "parent_id": "RET-RB01",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 66,
+        "content_hash_matches": true
+      },
+      {
+        "id": "ACC-05",
+        "source": "data/manuals/ACC.md",
+        "parent_id": "ACC-GUIDE",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 66,
+        "content_hash_matches": true
+      },
+      {
+        "id": "ORD-RB02-2",
+        "source": "data/runbooks/ORD-RB02.md",
+        "parent_id": "ORD-RB02",
+        "version": "2026-09-27",
+        "tenant_id": "demo",
+        "dense_dimension": 1024,
+        "sparse_nonzero": 50,
+        "content_hash_matches": true
+      }
+    ],
+    "schema": {
+      "collection_name": "cloudcare_support_v2",
+      "auto_id": false,
+      "num_shards": 1,
+      "description": "",
+      "fields": [
+        {
+          "field_id": 100,
+          "name": "pk",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 64
+          },
+          "is_primary": true
+        },
+        {
+          "field_id": 101,
+          "name": "id",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 256
+          }
+        },
+        {
+          "field_id": 102,
+          "name": "parent_id",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 256
+          }
+        },
+        {
+          "field_id": 103,
+          "name": "title",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 2048
+          }
+        },
+        {
+          "field_id": 104,
+          "name": "category",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 256
+          }
+        },
+        {
+          "field_id": 105,
+          "name": "source",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 4096
+          }
+        },
+        {
+          "field_id": 106,
+          "name": "version",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 128
+          }
+        },
+        {
+          "field_id": 107,
+          "name": "tenant_id",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 128
+          }
+        },
+        {
+          "field_id": 108,
+          "name": "visibility",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 32
+          }
+        },
+        {
+          "field_id": 109,
+          "name": "content_hash",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 64
+          }
+        },
+        {
+          "field_id": 110,
+          "name": "text",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 65535
+          }
+        },
+        {
+          "field_id": 111,
+          "name": "parent_content",
+          "description": "",
+          "type": 21,
+          "params": {
+            "max_length": 65535
+          }
+        },
+        {
+          "field_id": 112,
+          "name": "tags",
+          "description": "",
+          "type": 23,
+          "params": {}
+        },
+        {
+          "field_id": 113,
+          "name": "synthetic",
+          "description": "",
+          "type": 1,
+          "params": {}
+        },
+        {
+          "field_id": 114,
+          "name": "dense_vector",
+          "description": "",
+          "type": 101,
+          "params": {
+            "dim": 1024
+          }
+        },
+        {
+          "field_id": 115,
+          "name": "sparse_vector",
+          "description": "",
+          "type": 104,
+          "params": {}
+        }
+      ],
+      "functions": [],
+      "aliases": [],
+      "collection_id": 469437302615051770,
+      "consistency_level": 2,
+      "consistency_level_name": "Bounded",
+      "properties": {
+        "timezone": "UTC"
+      },
+      "num_partitions": 1,
+      "enable_dynamic_field": false,
+      "enable_namespace": false,
+      "created_timestamp": 469437434280542226,
+      "update_timestamp": 469437434280542226
+    }
+  },
+  "encoder": {
+    "component": "BGE-M3",
+    "loaded": true,
+    "model_path": "E:\\codex\\Itcast_qa_system\\rag_qa\\models\\bge-m3",
+    "dense_dimension": 1024,
+    "sparse_type": "BGE-M3 lexical_weights",
+    "query_cache_entries": 0,
+    "query_cache_hits": 0,
+    "model_calls": 148
+  },
+  "complete": true,
+  "seconds": 39.53720559999988
+}

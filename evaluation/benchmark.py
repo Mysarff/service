@@ -26,7 +26,7 @@ from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 import engine
-from app import Handler, make_server
+from baseline_app import Handler, make_server
 
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 def percentile(xs, p):
@@ -52,11 +52,11 @@ def main():
     with tempfile.TemporaryDirectory() as temp, patch.object(engine,'UPLOADS',Path(temp)/'uploads'):
         tracemalloc.start(); start=time.perf_counter(); e=engine.Engine(); e.key=''
         build_ms=(time.perf_counter()-start)*1000; current,peak=tracemalloc.get_traced_memory(); tracemalloc.stop()
-        report={'created_at_utc':datetime.now(timezone.utc).isoformat(),'scope':'synthetic development audit; local loopback extractive HTTP; no external LLM; no production or 800k claim',
+        report={'created_at_utc':datetime.now(timezone.utc).isoformat(),'scope':'historical BM25 baseline; synthetic development audit; local loopback extractive HTTP; no external LLM; no production or 800k claim',
                 'host':{'os':platform.platform(),'python':platform.python_version(),'processor':platform.processor(),'logical_cpus':os.cpu_count()},
                 'seed':20260927,'corpus_units':len(e.docs),'corpus_sha256':sha(ROOT/'data/knowledge.jsonl'),
                 'cases_sha256':{name:sha(ROOT/'evaluation'/name) for name in groups},
-                'code_sha256':{name:sha(ROOT/name) for name in ('engine.py','app.py','evaluation/benchmark.py')},
+                'code_sha256':{name:sha(ROOT/name) for name in ('engine.py','baseline_app.py','evaluation/benchmark.py')},
                 'index':{'build_ms_with_tracemalloc':round(build_ms,3),'traced_live_bytes':current,'traced_peak_bytes':peak,'vocabulary_terms':len(e.df),'scope':'Python allocations, not total process RSS; one build with tracing overhead'},
                 'retrieval':{},'negative_evidence_gate':{},'search_performance':{},'http':[]}
         for name,cases in groups.items():

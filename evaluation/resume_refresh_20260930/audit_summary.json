@@ -1,0 +1,180 @@
+{
+  "date_asia_shanghai": "2026-09-30",
+  "created_at_utc": "2026-09-30T08:03:19.035237+00:00",
+  "repository": "https://github.com/Mysarff/service",
+  "commit": "8a62596f88cfcf8a72c6400293dcbf197b4e453d",
+  "merged_prs": [
+    "https://github.com/Mysarff/service/pull/1",
+    "https://github.com/Mysarff/service/pull/2"
+  ],
+  "counts": {
+    "business_knowledge_categories": 16,
+    "module_manuals": 16,
+    "runbooks": 96,
+    "source_documents": 112,
+    "retrieval_chunks": 592,
+    "faq_variants": 4736,
+    "simulated_tickets": 24000,
+    "user_upload_files": 0,
+    "content_characters": 70258
+  },
+  "all_base_knowledge_synthetic": true,
+  "categories": {
+    "账号安全": 38,
+    "组织成员": 37,
+    "工单管理": 37,
+    "在线会话": 37,
+    "知识中心": 37,
+    "订单服务": 37,
+    "订阅管理": 37,
+    "发票管理": 37,
+    "物流服务": 37,
+    "退换服务": 37,
+    "资产管理": 37,
+    "项目协作": 37,
+    "审批流程": 37,
+    "报表分析": 36,
+    "开放接口": 37,
+    "审计中心": 37
+  },
+  "checked_files": 115,
+  "independent_fact_count": null,
+  "retrieval": {
+    "tfidf": {
+      "n": 64,
+      "top1": 45,
+      "hit5": 61,
+      "mrr5": 0.7969
+    },
+    "plain_bm25": {
+      "n": 64,
+      "top1": 47,
+      "hit5": 62,
+      "mrr5": 0.8365
+    },
+    "bm25": {
+      "n": 64,
+      "top1": 59,
+      "hit5": 64,
+      "mrr5": 0.957
+    }
+  },
+  "negative_evidence_gate": {
+    "cases.json": {
+      "n": 12,
+      "rejected": 12
+    },
+    "extended_cases.json": {
+      "n": 12,
+      "rejected": 12
+    }
+  },
+  "top1_gain_percentage_points": 18.75,
+  "search_performance": {
+    "scan": {
+      "n": 640,
+      "mean_ms": 1.44,
+      "p50_ms": 1.129,
+      "p95_ms": 2.948,
+      "max_ms": 16.518
+    },
+    "inverted": {
+      "n": 640,
+      "mean_ms": 1.042,
+      "p50_ms": 0.699,
+      "p95_ms": 2.887,
+      "max_ms": 11.59
+    }
+  },
+  "ranking_parity": {
+    "passed": 640,
+    "n": 640
+  },
+  "mean_latency_reduction_percent_from_displayed_values": 27.64,
+  "http": [
+    {
+      "concurrency": 1,
+      "requests": 2000,
+      "http_successful": 2000,
+      "evidence_answers": 2000,
+      "wall_seconds": 8.624,
+      "successful_requests_per_second": 231.92,
+      "latency_all_requests": {
+        "n": 2000,
+        "mean_ms": 4.271,
+        "p50_ms": 3.628,
+        "p95_ms": 7.242,
+        "max_ms": 29.421
+      },
+      "modes": {
+        "retrieval_only": 2000
+      }
+    },
+    {
+      "concurrency": 4,
+      "requests": 2000,
+      "http_successful": 2000,
+      "evidence_answers": 2000,
+      "wall_seconds": 4.747,
+      "successful_requests_per_second": 421.29,
+      "latency_all_requests": {
+        "n": 2000,
+        "mean_ms": 9.462,
+        "p50_ms": 9.271,
+        "p95_ms": 13.646,
+        "max_ms": 30.27
+      },
+      "modes": {
+        "retrieval_only": 2000
+      }
+    },
+    {
+      "concurrency": 8,
+      "requests": 2000,
+      "http_successful": 2000,
+      "evidence_answers": 2000,
+      "wall_seconds": 5.206,
+      "successful_requests_per_second": 384.19,
+      "latency_all_requests": {
+        "n": 2000,
+        "mean_ms": 19.045,
+        "p50_ms": 14.153,
+        "p95_ms": 20.969,
+        "max_ms": 1055.908
+      },
+      "modes": {
+        "retrieval_only": 2000
+      }
+    }
+  ],
+  "functional_checks": {
+    "created_at_utc": "2026-09-30T07:53:14.797004+00:00",
+    "tests": 29,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "scope": "isolated local HTTP and engine; mocked provider only"
+  },
+  "frontend_runtime": "Node.js 24.19.0; Node 16 initial failure preserved; process PATH only",
+  "code_sha256": {
+    "engine.py": "0dee924431626cbf0d71187c21eaab7052fa77f9d897d4d0817d119054ff72ce",
+    "app.py": "f90c2aea6896136f57e641a078b0d05f89015bdd9eb56e1b7e1688d6d502d241",
+    "evaluation/benchmark.py": "06937966d236922ec7a4643d153f30c96af2a3a1aa8b4d3ef10690d02f03c1d8"
+  },
+  "corpus_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
+  "cases_sha256": {
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "5b5012f35d5750c345d06f8c0ea4f70e10eb0025ea45540e3b4a6776b8c58482"
+  },
+  "scope": "synthetic development regression, not blind test; local short loopback HTTP; retrieval_only; no real LLM calls or production claims",
+  "evidence_sha256": {
+    "evaluation/benchmark_20260930_summary.json": "2d141383603a9f6f387c4db3b0cc9046cd4c6550032dde036508e81aef234849",
+    "evaluation/benchmark_20260930_results.json.gz": "f4a7fe6089fdbdb9134c635a13d0fb6cdb164bcd79c0febb7af66390c51f4eba",
+    "evaluation/system_results.json": "69b46379cf8ff397c5915f7da8ebad5fb23ca70ff53a9e115f701a59aa3ea2ff",
+    "evaluation/data_validation.json": "563b1621fd6e36417226154f8951fe1eae78318b59f18b5270ae233c09448847",
+    "evaluation/results.json": "90e64292e9ff738017e3e7d36d3100af59b120b7e0805c48c9aa57e795a7f740",
+    "evaluation/retrieval_audit.json": "693a83988c0910e2889a7d81969975dc86cacebecad0ae250f3c554efe490fd0",
+    "docs/CloudCare_项目经历_简历版.md": "186681819b2e89b6e4f047b867660912ef1157b8d65bd5e822c6c1d863446db4"
+  }
+}

@@ -3,6 +3,11 @@
   "baseline_file_sha256": "a9991591c09c86d025bbef1caa174eee9ae498b5d543fe9777fc4799c0c4a439",
   "corpus_sha256": "d65c383e2195f21f9156c6839c9e100268f4b78a76ca4383d6676bc2473c3634",
   "corpus_changed": false,
+  "historical_scope": "Current lexical algorithm replayed on frozen 2026-09-27 corpus; not full-stack model quality",
+  "frozen_path": "evaluation/fixtures/knowledge_20260927.jsonl.gz",
+  "frozen_file_sha256": "ac9b4f0db06d324e4d6bef42b533e7a3d6cbcb2c1c1dea1a018f3cf4fdd805de",
+  "active_corpus_sha256": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7",
+  "active_corpus_differs": true,
   "question_text_or_order_changed": false,
   "positive_questions": 64,
   "original_case_sha256": {

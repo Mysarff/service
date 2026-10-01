@@ -1,0 +1,512 @@
+{
+  "scope": "8 synthetic source-grounded Qwen API smoke questions; not RAGAS or answer-quality benchmark",
+  "configured": true,
+  "model": "qwen3.7-flash",
+  "model_memory_policy": "sequential",
+  "latency_scope": "end-to-end retrieval in one process, including any model loading/reloading, vector cache, live database, reranking and parent expansion; not model-only inference",
+  "observations": [
+    {
+      "query": "我把登录密码忘了，可以怎么找回？",
+      "expected": [
+        "ACC-13"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 登录页点击忘记密码，输入注册工作邮箱，通过重置邮件设置新密码。链接过期后重新申请；企业SSO账号的密码由公司身份提供方管理，请联系企业IT管理员。客服不会索取密码或验证码。 [ACC-13]",
+      "source_ids": [
+        "ACC-13",
+        "ACC-RB06-1",
+        "ACC-01",
+        "RET-01",
+        "ORG-01"
+      ],
+      "elapsed_ms": 17477.4,
+      "trace": {
+        "original_query": "我把登录密码忘了，可以怎么找回？",
+        "contextual_query": "我把登录密码忘了，可以怎么找回？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "support_knowledge",
+          "confidence": 0.5771429538726807,
+          "probabilities": {
+            "support_knowledge": 0.5771429538726807,
+            "handoff": 0.40482521057128906,
+            "out_of_scope": 0.018031872808933258
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "登录密码忘了怎么找回",
+          "keywords": [
+            "登录密码",
+            "忘记",
+            "找回"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "我把登录密码忘了，可以怎么找回？",
+            "登录密码忘了怎么找回"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            },
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "换了手机之后验证器怎么迁移？",
+      "expected": [
+        "ACC-14"
+      ],
+      "mode": "retrieval_fallback",
+      "answer": "根据当前演示资料：\n更换手机前在安全设置添加新验证器并验证成功，再移除旧设备。妥善离线保存恢复码。设备和恢复码同时丢失时，由组织管理员发起身份核验，不可通过普通客服直接关闭第二因素。 [ACC-14]",
+      "source_ids": [
+        "ACC-14",
+        "ACC-RB02-3",
+        "ACC-RB02-2",
+        "ACC-03",
+        "ACC-RB02-4"
+      ],
+      "elapsed_ms": 7783.73,
+      "trace": {
+        "original_query": "换了手机之后验证器怎么迁移？",
+        "contextual_query": "换了手机之后验证器怎么迁移？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "support_knowledge",
+          "confidence": 0.9973857998847961,
+          "probabilities": {
+            "support_knowledge": 0.9973857998847961,
+            "handoff": 0.0023964918218553066,
+            "out_of_scope": 0.00021770907915197313
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "换了手机之后验证器怎么迁移？",
+          "keywords": [
+            "换手机",
+            "验证器",
+            "迁移"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "换了手机之后验证器怎么迁移？"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        },
+        "generation_error_type": "ValueError"
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "给同事发的邀请链接过期了",
+      "expected": [
+        "ORG-09"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 处理步骤：邀请有效期7天；撤销旧邀请后重发，核对被邀请邮箱，不要新建重复账号。排查后记录资源ID、时间和脱敏错误信息；若仍失败由组织管理员提交工单。 [ORG-09]",
+      "source_ids": [
+        "ORG-09",
+        "ACC-13",
+        "ORG-RB03-2",
+        "ORG-RB05-1",
+        "ORG-RB03-3"
+      ],
+      "elapsed_ms": 7620.22,
+      "trace": {
+        "original_query": "给同事发的邀请链接过期了",
+        "contextual_query": "给同事发的邀请链接过期了",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.5575459599494934,
+          "probabilities": {
+            "support_knowledge": 0.4424475133419037,
+            "handoff": 0.5575459599494934,
+            "out_of_scope": 6.5174922383448575e-06
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "给同事发的邀请链接过期了",
+          "keywords": [
+            "邀请链接",
+            "过期",
+            "同事"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "给同事发的邀请链接过期了"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "同事离职，名下的工单和文章需要先交接吗？",
+      "expected": [
+        "ORG-13"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 组织管理员先将离职人员负责的工单、项目和知识文章交给接任人，确认无孤立资源后停用成员并撤销会话。 [ORG-13]",
+      "source_ids": [
+        "ORG-13",
+        "TKT-04",
+        "TKT-12",
+        "TKT-RB06-2",
+        "ACC-04"
+      ],
+      "elapsed_ms": 7550.07,
+      "trace": {
+        "original_query": "同事离职，名下的工单和文章需要先交接吗？",
+        "contextual_query": "同事离职，名下的工单和文章需要先交接吗？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.5666630268096924,
+          "probabilities": {
+            "support_knowledge": 0.18054154515266418,
+            "handoff": 0.5666630268096924,
+            "out_of_scope": 0.25279542803764343
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "同事离职，名下的工单和文章需要先交接吗？",
+          "keywords": [
+            "同事离职",
+            "工单交接",
+            "文章交接"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "同事离职，名下的工单和文章需要先交接吗？"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "工单一直没有分给任何坐席",
+      "expected": [
+        "TKT-09"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 工单管理常见问题：工单没有分配。处理步骤：确认客服组有在线坐席，并检查分配规则的类别条件与兜底组。排查后记录资源ID、时间和脱敏错误信息；若仍失败由客服主管提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [TKT-09]",
+      "source_ids": [
+        "TKT-09",
+        "CHAT-09",
+        "TKT-RB06-2",
+        "TKT-RB06-1",
+        "TKT-13"
+      ],
+      "elapsed_ms": 7389.4,
+      "trace": {
+        "original_query": "工单一直没有分给任何坐席",
+        "contextual_query": "工单一直没有分给任何坐席",
+        "cache_hit": false,
+        "bert": {
+          "intent": "out_of_scope",
+          "confidence": 0.6108778119087219,
+          "probabilities": {
+            "support_knowledge": 0.303290992975235,
+            "handoff": 0.0858311727643013,
+            "out_of_scope": 0.6108778119087219
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "工单一直没有分给任何坐席",
+          "keywords": [
+            "工单",
+            "未分配",
+            "坐席"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "工单一直没有分给任何坐席"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "提交工单后能保证多少分钟解决？",
+      "expected": [
+        "TKT-13",
+        "TKT-12"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 没有合同依据时不得回答多少分钟必定解决；全组织故障先关联故障公告，再由值班负责人协调。 [TKT-13]\n\n2. 响应时间以实际支持合同为准，本示例不虚构SLA。 [TKT-12]",
+      "source_ids": [
+        "TKT-13",
+        "TKT-06",
+        "TKT-12",
+        "KB-12",
+        "TKT-07"
+      ],
+      "elapsed_ms": 8077.29,
+      "trace": {
+        "original_query": "提交工单后能保证多少分钟解决？",
+        "contextual_query": "提交工单后能保证多少分钟解决？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.908203125,
+          "probabilities": {
+            "support_knowledge": 0.09164219349622726,
+            "handoff": 0.908203125,
+            "out_of_scope": 0.00015474000247195363
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "提交工单后能保证多少分钟解决？",
+          "keywords": [
+            "工单",
+            "解决时间",
+            "分钟",
+            "保证"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "提交工单后能保证多少分钟解决？"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "在线咨询的访客一直在排队",
+      "expected": [
+        "CHAT-09"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 在线会话常见问题：访客一直排队。处理步骤：检查渠道营业时段、坐席在线状态和并发配额，必要时提示访客提交工单。排查后记录资源ID、时间和脱敏错误信息；若仍失败由坐席主管提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [CHAT-09]",
+      "source_ids": [
+        "CHAT-09",
+        "CHAT-RB02-1",
+        "CHAT-RB02-3",
+        "CHAT-RB02-2",
+        "CHAT-RB02-4"
+      ],
+      "elapsed_ms": 7761.79,
+      "trace": {
+        "original_query": "在线咨询的访客一直在排队",
+        "contextual_query": "在线咨询的访客一直在排队",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.6790105700492859,
+          "probabilities": {
+            "support_knowledge": 0.0020494440104812384,
+            "handoff": 0.6790105700492859,
+            "out_of_scope": 0.3189399838447571
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "在线咨询的访客一直在排队",
+          "keywords": [
+            "在线咨询",
+            "访客",
+            "排队"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "在线咨询的访客一直在排队"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    },
+    {
+      "query": "晚上没有客服时可以留言吗？",
+      "expected": [
+        "CHAT-13"
+      ],
+      "mode": "grounded_llm",
+      "answer": "根据当前演示业务资料：\n1. 渠道关闭时显示离线留言入口；留言保存为新工单并显示工单编号。不要展示虚构坐席在线状态，也不要承诺立即回复。营业时段由坐席主管在渠道设置维护。 [CHAT-13]",
+      "source_ids": [
+        "CHAT-13",
+        "CHAT-RB03-4",
+        "RET-13",
+        "REPORT-RB06-1",
+        "TKT-RB06-1"
+      ],
+      "elapsed_ms": 7361.79,
+      "trace": {
+        "original_query": "晚上没有客服时可以留言吗？",
+        "contextual_query": "晚上没有客服时可以留言吗？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.91001957654953,
+          "probabilities": {
+            "support_knowledge": 0.0013829981908202171,
+            "handoff": 0.91001957654953,
+            "out_of_scope": 0.0885973796248436
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "rewrite": {
+          "query": "晚上没有客服时可以留言吗？",
+          "keywords": [
+            "晚上",
+            "客服",
+            "留言"
+          ],
+          "method": "qwen_langchain"
+        },
+        "retrieval": {
+          "queries": [
+            "晚上没有客服时可以留言吗？"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "provider_calls": 2,
+      "successful_provider_calls": 2
+    }
+  ],
+  "complete": true,
+  "sample_count": 8,
+  "cache_scope": "new evaluation run namespace; existing answer cache cannot mask provider calls",
+  "grounded_llm_count": 7,
+  "actual_provider_calls": 16,
+  "successful_provider_calls": 16,
+  "provider": {
+    "configured": true,
+    "model": "qwen3.7-flash",
+    "provider": "dashscope_compatible",
+    "calls": 16,
+    "successful_calls": 16,
+    "last_error_type": null,
+    "verified": true
+  }
+}
