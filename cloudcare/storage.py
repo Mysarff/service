@@ -7,10 +7,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
+import threading
 import unicodedata
 import uuid
-from collections import Counter
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
@@ -20,25 +21,20 @@ from sqlalchemy import (JSON, BigInteger, Column, DateTime, ForeignKey, Integer,
 from sqlalchemy.dialects.mysql import LONGTEXT, insert as mysql_insert
 from sqlalchemy.engine import URL
 
+from .faq import FAQBM25Index, FAQ_BM25_ALGORITHM, FAQ_BM25_B, FAQ_BM25_K1
+
 
 def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 def _canonical_query(query: str) -> str:
+    """Stable SQL question identity; this is not the FAQ answer-routing gate."""
     return re.sub(r"[\s\W_]+", "", unicodedata.normalize("NFKC", str(query)).lower())
 
 
 def _digest(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
-
-
-def _faq_terms(query: str) -> list[str]:
-    text_value = unicodedata.normalize("NFKC", str(query)).lower()
-    terms = re.findall(r"[a-z0-9]+", text_value)
-    for segment in re.findall(r"[\u3400-\u9fff]+", text_value):
-        terms.extend(segment[index:index + 2] for index in range(max(1, len(segment) - 1)))
-    return sorted(set(term for term in terms if term))
 
 
 class MySQLStore:
@@ -376,7 +372,7 @@ class MySQLStore:
 
 
 class RedisStore:
-    """Real Redis answer/session cache and versioned FAQ inverted index."""
+    """Redis answer/session cache and FAQ records with versioned BM25 snapshots."""
 
     def __init__(self, settings: Any):
         import redis
@@ -390,6 +386,9 @@ class RedisStore:
         )
         self.cache_ttl = int(getattr(settings, "cache_ttl_seconds", 300))
         self.session_ttl = int(getattr(settings, "session_ttl_seconds", 86400))
+        self._faq_lock = threading.Lock()
+        self._faq_version: str | None = None
+        self._faq_index: FAQBM25Index | None = None
 
     def health(self) -> dict[str, Any]:
         return {"ok": bool(self.client.ping()), "backend": "redis", "prefix": self.prefix}
@@ -419,17 +418,16 @@ class RedisStore:
     def replace_faq_index(self, records: Iterable[dict[str, Any]]) -> dict[str, Any]:
         """Build a version beside the current one, then atomically publish it.
 
-        Each FAQ stores its actual question and source ID.  Exact matching uses
-        canonical question hashes; approximate matching uses Chinese bigrams
-        and alphanumeric terms.  Approximate scores are lexical similarities,
-        not calibrated neural probabilities.
+        Redis retains actual questions, answers and source IDs. Each worker
+        builds a BM25 question index once per version; it is not a fallback
+        store and cannot serve FAQ data when Redis is unavailable. Legacy
+        versions containing a records hash remain readable without reingestion.
         """
         rows = [dict(row) for row in records]
         version = uuid.uuid4().hex
         namespace = f"{self.prefix}faq:{version}:"
         record_map: dict[str, str] = {}
-        exact: dict[str, str] = {}
-        postings: dict[str, list[str]] = {}
+        indexed_rows = []
         for row in rows:
             question = str(row.get("question", row.get("query", "")))
             if not question.strip():
@@ -438,67 +436,61 @@ class RedisStore:
             row["id"] = identifier
             row["question"] = question
             row["source_id"] = str(row.get("source_id", row.get("knowledge_id", "")))
+            if identifier in record_map:
+                raise ValueError("FAQ ID 必须唯一")
             record_map[identifier] = json.dumps(row, ensure_ascii=False, default=str)
-            exact.setdefault(_digest(_canonical_query(question)), identifier)
-            for term in _faq_terms(question):
-                postings.setdefault(_digest(term), []).append(identifier)
-        # Only three keys per version: records hash, exact hash, postings hash.
-        # Publish after all have been built, so readers never see half an index.
+            indexed_rows.append(row)
+        snapshot = FAQBM25Index(sorted(indexed_rows, key=lambda row: row["id"]))
+        metadata = {"algorithm": FAQ_BM25_ALGORITHM, "count": len(record_map),
+                    "terms": len(snapshot.postings), "avg_length": snapshot.avg_length,
+                    "k1": FAQ_BM25_K1, "b": FAQ_BM25_B}
+        # Publish the pointer only after all records and metadata are written.
         with self.client.pipeline(transaction=False) as pipeline:
-            for key, values in (("records", record_map), ("exact", exact),
-                                ("postings", {term: json.dumps(ids) for term, ids in postings.items()})):
-                items = list(values.items())
-                for offset in range(0, len(items), 500):
-                    pipeline.hset(namespace + key, mapping=dict(items[offset:offset + 500]))
+            items = list(record_map.items())
+            for offset in range(0, len(items), 500):
+                pipeline.hset(namespace + "records", mapping=dict(items[offset:offset + 500]))
+            pipeline.hset(namespace + "metadata", mapping=metadata)
             pipeline.execute()
         old_version = self.client.get(self.prefix + "faq:active")
         with self.client.pipeline(transaction=True) as pipeline:
             pipeline.set(self.prefix + "faq:active", version)
             pipeline.set(self.prefix + "faq:count", len(record_map))
             if old_version and old_version != version:
-                for suffix in ("records", "exact", "postings"):
+                for suffix in ("records", "metadata", "exact", "postings"):
                     pipeline.expire(f"{self.prefix}faq:{old_version}:{suffix}", 3600)
             pipeline.execute()
-        return {"count": len(record_map), "terms": len(postings), "version": version}
+        with self._faq_lock:
+            self._faq_version, self._faq_index = version, snapshot
+        return {**metadata, "version": version}
 
-    def find_faq(self, query: str, category: str = "", min_confidence: float = 0.85) -> dict[str, Any] | None:
-        version = self.client.get(self.prefix + "faq:active")
+    def faq_index_version(self) -> str:
+        return self.client.get(self.prefix + "faq:active") or ""
+
+    def find_faq(self, query: str, category: str = "", min_score: float = 0.0,
+                 index_version: str | None = None) -> dict[str, Any] | None:
+        """Return the highest scoring FAQ question, using raw BM25 only.
+
+        The answer pipeline requests the unfiltered top candidate so its trace
+        records the score even when it fails the configured direct-answer gate.
+        """
+        if not math.isfinite(min_score) or min_score < 0:
+            raise ValueError("FAQ BM25 minimum score must be finite and non-negative")
+        version = self.faq_index_version() if index_version is None else index_version
         if not version:
             return None
         namespace = f"{self.prefix}faq:{version}:"
-        exact_id = self.client.hget(namespace + "exact", _digest(_canonical_query(query)))
-        if exact_id:
-            raw = self.client.hget(namespace + "records", exact_id)
-            row = json.loads(raw) if raw else None
-            if row and (not category or row.get("category") == category):
-                return {**row, "confidence": 1.0, "method": "normalized_exact"}
-        query_terms = _faq_terms(query)
-        if not query_terms:
+        with self._faq_lock:
+            if self._faq_index is None or self._faq_version != version:
+                record_map = self.client.hgetall(namespace + "records")
+                rows = [json.loads(raw) for _, raw in sorted(record_map.items())]
+                self._faq_index = FAQBM25Index(rows)
+                self._faq_version = version
+            snapshot = self._faq_index
+        best = snapshot.search(query, category)
+        if not best or best["score"] < min_score:
             return None
-        posting_values = self.client.hmget(namespace + "postings", [_digest(term) for term in query_terms])
-        overlap: Counter[str] = Counter()
-        for raw in posting_values:
-            if raw:
-                overlap.update(set(json.loads(raw)))
-        candidate_ids = [identifier for identifier, _ in overlap.most_common(100)]
-        if not candidate_ids:
-            return None
-        raw_rows = self.client.hmget(namespace + "records", candidate_ids)
-        matches = []
-        for raw in raw_rows:
-            if not raw:
-                continue
-            row = json.loads(raw)
-            if category and row.get("category") != category:
-                continue
-            candidate_terms = set(_faq_terms(row["question"]))
-            denominator = len(set(query_terms)) + len(candidate_terms)
-            confidence = 2 * len(set(query_terms) & candidate_terms) / denominator if denominator else 0
-            matches.append({**row, "confidence": confidence, "method": "bigram_dice"})
-        if not matches:
-            return None
-        best = max(matches, key=lambda row: (row["confidence"], row["id"]))
-        return best if best["confidence"] >= min_confidence else None
+        return {**best, "index_version": version, "algorithm": FAQ_BM25_ALGORITHM,
+                "k1": FAQ_BM25_K1, "b": FAQ_BM25_B}
 
     def counts(self) -> dict[str, int]:
         return {"faq": int(self.client.get(self.prefix + "faq:count") or 0)}

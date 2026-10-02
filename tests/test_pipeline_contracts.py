@@ -84,6 +84,7 @@ class Redis:
     def set_cached_answer(self, key, payload, ttl=None): self.answers[key] = json.loads(json.dumps(payload, default=str))
     def get_session(self, key): return deepcopy(self.sessions.get(key))
     def set_session(self, key, history, ttl=None): self.sessions[key] = deepcopy(history)
+    def faq_index_version(self): return "fixture_faq_v1"
     def find_faq(self, query, **kwargs): return deepcopy(self.faq)
 
 
@@ -257,8 +258,8 @@ class PipelineContractTests(unittest.TestCase):
         self.assertEqual(len(self.router.calls), 1)
         self.assertEqual(self.vector.search_calls, [])
 
-    def test_exact_faq_uses_existing_source_and_still_runs_bert(self):
-        self.redis.faq = {"id": "FAQ-A", "source_id": "A", "answer": "通过工作邮箱重置密码", "method": "normalized_exact"}
+    def test_bm25_faq_uses_existing_source_and_still_runs_bert(self):
+        self.redis.faq = {"id": "FAQ-A", "source_id": "A", "answer": "通过工作邮箱重置密码", "method": "bm25", "score": 9.0}
         answer = self.pipeline.answer("账号登录密码怎么重置", force_extract=True)
         self.assertEqual(answer["mode"], "faq")
         self.assertEqual(answer["sources"][0]["id"], "A")

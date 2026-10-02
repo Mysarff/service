@@ -67,10 +67,11 @@ class SupportPipeline:
         self._cache_config = hashlib.sha256(json.dumps({
             'model': self.settings.llm_model, 'endpoint': self.settings.llm_base_url,
             'rewrite': self.settings.query_rewrite_enabled,
+            'faq_bm25_threshold': self.settings.faq_bm25_threshold,
             'embedding': str(self.settings.embedding_model_path),
             'reranker': str(self.settings.reranker_model_path),
             'code': {name: hashlib.sha256((Path(__file__).parent/name).read_bytes()).hexdigest()
-                     for name in ('pipeline.py','llm.py','neural.py','retrieval.py')},
+                     for name in ('pipeline.py','llm.py','neural.py','retrieval.py','faq.py','storage.py')},
             'bert_artifact': self.router.status().get('dataset_sha256'),
             'bert_checkpoint': self.router.status().get('checkpoint_sha256'),
         }, sort_keys=True).encode()).hexdigest()
@@ -243,8 +244,10 @@ class SupportPipeline:
             if not lexical_hint or lexical_hint[0]['matches'] < 2:
                 result = {'answer':'当前企业客服资料不覆盖这个问题，请咨询对应专业人员。',
                           'sources': [], 'mode':'insufficient_evidence'}
+        faq_version = self.redis.faq_index_version()
         cache_key = hashlib.sha256(json.dumps({'q':contextual,'category':category,'history':history,
             'revision':self._revision,'config':self._cache_config,
+             'faq_version':faq_version,'faq_bm25_threshold':self.settings.faq_bm25_threshold,
             'model':self.settings.llm_model,'generation':self.settings.llm_configured and not force_extract},
             sort_keys=True,ensure_ascii=False).encode()).hexdigest()
         if result is None:
@@ -253,13 +256,26 @@ class SupportPipeline:
                 result = cached
                 trace['cache_hit'] = True
         if result is None:
-            faq = self.redis.find_faq(contextual,category=category,min_confidence=.98)
-            # Keep fuzzy FAQ matches in retrieval; only exact match bypasses neural retrieval.
-            if faq and faq['method'] == 'normalized_exact':
-                source = self.sql.get_chunk(faq['source_id'])
+            faq = self.redis.find_faq(contextual, category=category, min_score=0.0,
+                                      index_version=faq_version)
+            threshold = self.settings.faq_bm25_threshold
+            trace['faq'] = {'method':'bm25', 'score':faq['score'] if faq else None,
+                            'threshold':threshold, 'accepted':False,
+                            'reason':'below_threshold' if faq else 'no_candidate',
+                            'index_version':faq_version,
+                            'candidate_count':faq.get('candidate_count',0) if faq else 0}
+            if faq:
+                trace['faq'].update({key:faq.get(key) for key in ('id','question','source_id','matches')})
+            if faq and faq['score'] >= threshold:
+                source = self.sql.get_chunk(faq.get('source_id',''))
                 if source and source['tenant_id']=='demo' and source['visibility']=='public' and (not category or source['category']==category):
-                    result = {'answer': f"{faq['answer']} [{source['id']}]", 'sources':[source], 'mode':'faq'}
-                    trace['faq'] = {'id':faq['id'], 'method':faq['method']}
+                    if isinstance(faq.get('answer'),str) and faq['answer'].strip():
+                        result = {'answer': f"{faq['answer']} [{source['id']}]", 'sources':[source], 'mode':'faq'}
+                        trace['faq'].update(accepted=True, reason='accepted')
+                    else:
+                        trace['faq']['reason'] = 'empty_answer'
+                else:
+                    trace['faq']['reason'] = 'invalid_source'
         if result is None:
             rewritten = contextual
             trace['rewrite'] = {'method':'context_rules','query':contextual}

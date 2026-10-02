@@ -16,7 +16,7 @@
 | BM25、RRF | 补充精确词项召回，融合神经与词项候选 |
 | BGE-Reranker | 对候选进行真实 CrossEncoder 二次排序 |
 | MySQL、SQLAlchemy、PyMySQL | 连接池和短事务，保存文档、父子知识、FAQ、会话和工单 |
-| Redis | 答案及会话缓存、FAQ 精确哈希与词项倒排索引 |
+| Redis | 答案及会话缓存、FAQ记录与发布版本；各工作进程按版本构建本地FAQ BM25快照 |
 | RapidOCR、ONNX Runtime | 识别图片、扫描 PDF 及 Office 嵌入图片中的文字 |
 | Qwen API | 兼容接口调用：Query 改写、选择证据步骤并校验逐字引用 |
 | HTML、CSS、JavaScript | 客服对话、多格式上传、出处浏览与实际服务状态展示 |
@@ -82,13 +82,16 @@ powershell -ExecutionPolicy Bypass -File scripts/bootstrap.ps1 -CreateEnv -Creat
              → BGE-M3 编码 → Milvus 写入 → MySQL 单事务发布来源与父子记录
 样例初始化：种子文件 → MySQL／Redis → BGE-M3／Milvus → 实际数量与哈希核验
 
-问题＋服务端会话 → 上下文补全＋BERT 路由 → 能力边界与 Redis 缓存／精确 FAQ
+问题＋服务端会话 → 上下文补全＋BERT 路由 → 能力边界与 Redis 答案缓存
+                → FAQ BM25：Top-1达阈值且出处有效则直答，否则继续RAG
                 → 可选 Qwen Query 改写
                 → LangChain 并行：Milvus 稠密／稀疏混合召回＋BM25
                 → RRF 候选融合 → BGE-Reranker → MySQL 来源与父块核验
                 → 证据门槛 → Qwen 选择并引用原文步骤／原文回退
                 → MySQL 消息与工单持久化＋Redis 会话与答案缓存
 ```
+
+FAQ问题使用BM25（k1=1.2、b=0.75），默认原始分数阈值为8.0，可通过`CLOUDCARE_FAQ_BM25_THRESHOLD`或INI的`[faq] bm25_threshold`调整。该启动值尚未标定，不是0–1置信度；FAQ完全匹配也必须达到阈值。Redis保存记录和版本，各工作进程维护本地BM25快照；答案缓存键包含FAQ版本与阈值，回答的`trace.faq`记录分数和分流原因。
 
 当前网页使用固定演示租户 `demo` 的公开资料。向量分支携带租户、可见性和分类过滤，取回 MySQL 来源后再次核对范围与内容哈希；固定演示租户不等于企业账号认证或完整多租户权限系统。工单没有连接真人客服，没有查询真实订单或执行退款。详细流程见 [ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
@@ -101,7 +104,9 @@ powershell -ExecutionPolicy Bypass -File scripts/bootstrap.ps1 -CreateEnv -Creat
 - [fullstack_metrics.json](evaluation/fullstack_metrics.json)：全栈检索及生成指标，以报告中的语料、模型、题目和运行配置为准。
 - [BERT 分类报告](evaluation/support_router/training_report.json)：客服合成分组样本上的分类结果，不等于问答准确率。
 
-### 2026-10-01 最终代码实测
+### 2026-10-01 历史代码实测（FAQ BM25调整前）
+
+下列指标保留原验收记录。本轮FAQ阈值分流没有新增或运行测试，也未重测检索、Qwen和延迟，尚不能报告FAQ拦截率、误答率或性能收益。
 
 | 项目 | 结果与范围 |
 |---|---|

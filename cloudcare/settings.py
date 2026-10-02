@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import configparser
 from dataclasses import dataclass, field
+import math
 import os
 from pathlib import Path
 
@@ -62,6 +63,7 @@ class Settings:
     parent_chunk_size: int = 1200
     child_chunk_size: int = 300
     chunk_overlap: int = 50
+    faq_bm25_threshold: float = 8.0
     max_upload_bytes: int = 10_000_000
     llm_model: str = "qwen-plus"
     llm_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
@@ -129,6 +131,7 @@ class Settings:
             parent_chunk_size=value("CLOUDCARE_PARENT_CHUNK_SIZE", 1200, "retrieval", "parent_chunk_size"),
             child_chunk_size=value("CLOUDCARE_CHILD_CHUNK_SIZE", 300, "retrieval", "child_chunk_size"),
             chunk_overlap=value("CLOUDCARE_CHUNK_OVERLAP", 50, "retrieval", "chunk_overlap"),
+            faq_bm25_threshold=value("CLOUDCARE_FAQ_BM25_THRESHOLD", 8.0, "faq", "bm25_threshold"),
             max_upload_bytes=value("CLOUDCARE_MAX_UPLOAD_BYTES", 10_000_000),
             llm_model=model, llm_base_url=base.rstrip("/"), llm_api_key=secret,
             llm_proxy=value("CLOUDCARE_QWEN_PROXY", "", "llm", "proxy"),
@@ -139,6 +142,8 @@ class Settings:
             raise ValueError("Use independent cloudcare database, collection and Redis prefix")
         if settings.child_chunk_size <= settings.chunk_overlap or settings.parent_chunk_size < settings.child_chunk_size:
             raise ValueError("Invalid parent/child chunk sizes")
+        if not math.isfinite(settings.faq_bm25_threshold) or settings.faq_bm25_threshold < 0:
+            raise ValueError("FAQ BM25 threshold must be finite and non-negative")
         if settings.model_memory_policy not in {'sequential', 'resident'}:
             raise ValueError('Model memory policy must be sequential or resident')
         return settings
