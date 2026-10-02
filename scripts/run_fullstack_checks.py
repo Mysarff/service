@@ -28,6 +28,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 SCOPES = {
+    "test_query_strategies": "query_plans_budget_and_hyde_scope_with_injected_backends",
+    "test_ragas_contracts": "ragas_metric_bookkeeping_with_injected_judge",
     "test_system": "historical_baseline_http",
     "test_review_regressions": "historical_baseline_regressions",
     "test_retrieval_audit": "historical_baseline_corpus_and_metrics",

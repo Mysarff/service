@@ -441,7 +441,7 @@ class RedisStore:
             record_map[identifier] = json.dumps(row, ensure_ascii=False, default=str)
             indexed_rows.append(row)
         snapshot = FAQBM25Index(sorted(indexed_rows, key=lambda row: row["id"]))
-        metadata = {"algorithm": FAQ_BM25_ALGORITHM, "normalization": "softmax_all_faq", "count": len(record_map),
+        metadata = {"algorithm": FAQ_BM25_ALGORITHM, "normalization": "bm25_query_reference", "count": len(record_map),
                     "terms": len(snapshot.postings), "avg_length": snapshot.avg_length,
                     "k1": FAQ_BM25_K1, "b": FAQ_BM25_B}
         # Publish the pointer only after all records and metadata are written.

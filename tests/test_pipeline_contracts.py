@@ -152,7 +152,7 @@ class PipelineContractTests(unittest.TestCase):
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder.cleanup)
-        self.settings = Settings(root=ROOT, runtime_dir=Path(self.folder.name))
+        self.settings = Settings(root=ROOT, runtime_dir=Path(self.folder.name), query_expansion_enabled=False)
         self.sql, self.redis, self.vector = SQL(), Redis(), Vector()
         self.router, self.gateway, self.reranker = Router(), Gateway(), Reranker()
         backends = {"MySQLStore": self.sql, "RedisStore": self.redis, "MilvusStore": self.vector,

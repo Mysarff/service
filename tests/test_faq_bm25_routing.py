@@ -9,7 +9,10 @@ import math
 import unittest
 from unittest.mock import Mock
 
-from cloudcare.faq import FAQBM25Index
+from cloudcare.faq import FAQBM25Index as CurrentFAQBM25Index
+# Preserve regression coverage of the historical normalization, explicitly.
+def FAQBM25Index(rows, **kwargs):
+    return CurrentFAQBM25Index(rows, normalization='softmax', **kwargs)
 from cloudcare.settings import Settings
 import test_pipeline_contracts as fixtures
 
@@ -65,7 +68,7 @@ class FAQBM25AlgorithmTests(unittest.TestCase):
         rows.extend(dict(id=f"B{index:03d}", question="beta", answer="other", source_id="T")
                     for index in range(99))
         matched = FAQBM25Index(rows).search("alpha")
-        expected = math.exp(matched["raw_score"]) / (math.exp(matched["raw_score"]) + 99)
+        expected = math.exp(matched["raw_score"]) / (math.exp(matched["raw_score"]) + matched['eligible_group_count'] - 1)
         self.assertAlmostEqual(matched["score"], expected)
         self.assertLess(matched["score"], 1)
         self.assertEqual(matched["candidate_count"], 1)
@@ -81,8 +84,9 @@ class FAQBM25AlgorithmTests(unittest.TestCase):
         matched = FAQBM25Index(rows).search("alpha")
         self.assertEqual(matched["id"], "A")
         self.assertEqual(matched["candidate_count"], 4)
-        self.assertAlmostEqual(matched["score"], .25)
-        self.assertAlmostEqual(matched["score"] * len(rows), 1)
+        self.assertAlmostEqual(matched["score"], 1)
+        self.assertEqual(matched['eligible_group_count'], 1)
+        self.assertAlmostEqual(FAQBM25Index(rows, group_answers=False).search('alpha')['score'], .25)
 
     def test_stable_softmax_accepts_large_raw_scores(self):
         query = " ".join(f"word{index}" for index in range(2200))
@@ -109,8 +113,18 @@ class FAQThresholdRoutingTests(unittest.TestCase):
                           "score": score, "raw_score": 12.0, "normalization": "softmax_all_faq",
                           "matches": 5, "candidate_count": 1, **changes}
 
-    def test_conservative_trial_default_is_055(self):
-        self.assertEqual(Settings().faq_bm25_threshold, .55)
+    def test_conservative_trial_default_is_060(self):
+        self.assertEqual(Settings().faq_bm25_threshold, .60)
+
+    def test_current_060_boundary_uses_faq_or_rag(self):
+        self.pipeline.settings=replace(self.settings,faq_bm25_threshold=.60)
+        self.faq(score=.60)
+        self.assertEqual(self.pipeline.answer(QUERY,force_extract=True)['mode'],'faq')
+        self.redis.answers.clear()
+        self.faq(score=math.nextafter(.60,0))
+        result=self.pipeline.answer(QUERY,force_extract=True)
+        self.assertFalse(result['trace']['faq']['accepted'])
+        self.assertIn('retrieval',result['trace'])
 
     def test_055_trial_threshold_inclusive_boundary_and_fallback(self):
         self.pipeline.settings = replace(self.settings, faq_bm25_threshold=.55)

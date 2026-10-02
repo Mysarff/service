@@ -4,6 +4,21 @@
 
 仓库：[Mysarff/service](https://github.com/Mysarff/service)。企业、产品政策、手册、FAQ 和模拟工单均为**合成演示资料**；没有真实企业上线或客服成本下降的证明。
 
+## 2026-10-02 查询与评测升级
+
+- 实际RAG路径新增历史融合、字符去噪、子查询分解、关键词扩展和HyDE；最多3个子查询、7条查询文本，保留原问题用于重排，假设文档不作为回答证据。
+- FAQ改用查询参考BM25归一化，默认阈值 **0.60**；原始分、参考分及分流原因可追踪。它与旧Softmax的0.55／0.85不可直接比较。此工作点优先减少误直答，现有自然问句上的FAQ覆盖率较低。
+- 1,182条FAQ模板问法替换为基于原文生成的自然问法；仍为112份文档、592条知识单元、4,736条FAQ。
+- 接入真实RAGAS 0.4.3四项指标。安装额外依赖后运行：
+
+```powershell
+.venv\Scripts\python.exe -m pip install -r requirements-eval.txt
+.venv\Scripts\python.exe scripts/evaluate_query_strategies.py --output evaluation/query_upgrade_20261002/query_results_final.json
+.venv\Scripts\python.exe scripts/evaluate_ragas.py --input evaluation/query_upgrade_20261002/query_results_final.json --output evaluation/query_upgrade_20261002/ragas_results.json
+```
+
+上述评测使用本地模型和已配置Qwen API，会产生模型调用费用。报告支持逐条保存；变更问题、模型或代码时使用新输出路径。结果与限制见[本轮报告](docs/QUERY_RAGAS_UPGRADE_20261002.md)，简历文本见[项目经历](docs/CloudCare_项目经历_简历版.md)。下文及旧评测目录保留历史配置记录，当前查询策略与FAQ说明以本节为准。
+
 ## 技术栈与功能
 
 | 技术 | 当前代码中的实际作用 |
@@ -91,7 +106,7 @@ powershell -ExecutionPolicy Bypass -File scripts/bootstrap.ps1 -CreateEnv -Creat
                 → MySQL 消息与工单持久化＋Redis 会话与答案缓存
 ```
 
-FAQ问题使用BM25（k1=1.2、b=0.75）排名，再对全部符合分类条件的FAQ执行Softmax，默认以归一化分数 **0.55** 作为保守试用门槛，沿用教育系统的评分流程。原教育默认0.85并不是新客服语料的最优值；本轮比较后采用0.55，选择依据与失败见[阈值评测](evaluation/faq_softmax_calibration_20261002/README.md)。可通过`CLOUDCARE_FAQ_BM25_THRESHOLD`或INI的`[faq] bm25_threshold`调整，取值须在0–1之间。所有无词项匹配的FAQ以原始0分参与分母；不是只对Top-1归一化，也没有完全匹配绕过。Softmax反映候选分数的相对集中程度，不是回答正确率；旧8.0／32.0原始分数诊断与本口径不能直接比较。Redis保存记录和版本，各工作进程维护本地BM25快照；缓存键包含FAQ版本与阈值，`trace.faq`同时保存`score`（归一化分）、`raw_score`、阈值及分流原因。
+FAQ问题使用BM25（k1=1.2、b=0.75）排名，当前采用查询参考分归一化，默认门槛 **0.60**。计算方式为原始分除以同一语料IDF和长度公式下的问题自匹配参考分，并截断至[0,1]；未出现的查询词也进入参考分。高于或等于门槛且出处有效才直答，否则进入RAG。该值是已知挑战题检查后的保守工作点，不是正确率或全局最优值。Redis维护FAQ记录与版本，缓存键包含版本、算法代码及门槛；trace.faq保存score、raw_score、reference_score和分流原因。详情见[本轮评测](docs/QUERY_RAGAS_UPGRADE_20261002.md)。
 
 当前网页使用固定演示租户 `demo` 的公开资料。向量分支携带租户、可见性和分类过滤，取回 MySQL 来源后再次核对范围与内容哈希；固定演示租户不等于企业账号认证或完整多租户权限系统。工单没有连接真人客服，没有查询真实订单或执行退款。详细流程见 [ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
@@ -106,7 +121,7 @@ FAQ问题使用BM25（k1=1.2、b=0.75）排名，再对全部符合分类条件�
 - [fullstack_metrics.json](evaluation/fullstack_metrics.json)：全栈检索及生成指标，以报告中的语料、模型、题目和运行配置为准。
 - [BERT 分类报告](evaluation/support_router/training_report.json)：客服合成分组样本上的分类结果，不等于问答准确率。
 
-### 2026-10-02 复测与当前0.55试用
+### 历史记录：2026-10-02早期0.55试用（已被本轮升级替代）
 
 模型/全栈数字先在0.85门槛下实测。后续只调整FAQ默认门槛为0.55，新增FAQ扫描及20项专项边界检查；没有重做整套神经检索、Qwen或113项全套运行。
 
@@ -115,7 +130,7 @@ FAQ问题使用BM25（k1=1.2、b=0.75）排名，再对全部符合分类条件�
 | 实际库存 | 112份合成文档、592条带出处知识单元、4,736条FAQ；双向量仍是592条知识 |
 | BERT重新推理 | 原432条分组留出样本，Accuracy 92.59%、Macro-F1 0.9265；未重新训练 |
 | 神经混合检索＋重排 | 64道开发题：Top-1 60/64（93.75%）、Hit@5 64/64、MRR@5 0.9661；基础／增强BM25为46/64、59/64 |
-| 当前FAQ评分分流 | 0.55下64自然正例达到门槛4题，标注出处3题正确、1题错；60题交给RAG；20新挑战均未达到门槛；不是最优或盲测准确率 |
+| 历史FAQ评分分流 | 0.55下64自然正例达到门槛4题，标注出处3题正确、1题错；60题交给RAG；20新挑战均未达到门槛；不是最优或盲测准确率 |
 | Qwen实际调用 | 8题、16次成功API调用；6题证据回答校验通过，2题原文回退；缓存0命中 |
 | 功能检查 | 0.85版全套113/113；随后0.55专项20/20，验证等于门槛直答、低于门槛进入RAG；不是模型准确率 |
 | 本机耗时 | 检索P95 14.717秒；8题Qwen端到端P95 16.246秒；包含顺序加载／释放模型 |
@@ -136,7 +151,7 @@ FAQ问题使用BM25（k1=1.2、b=0.75）排名，再对全部符合分类条件�
 | 功能检查 | 95/95通过，涵盖契约、真实OCR、实际SQL／Redis及历史回归；不是95道模型质量题 |
 | 本机耗时 | 顺序加载释放模型，检索P95 10.76秒；8题Qwen端到端P95 17.48秒，包含加载／重载与服务访问 |
 
-这些是合成资料上的开发回归及功能验证，题目参与过调试，没有独立盲测、RAGAS评分或真实业务上线收益。完整边界、失败记录和复测方式见 [FULLSTACK_VALIDATION.md](docs/FULLSTACK_VALIDATION.md)，项目简历见 [CloudCare_项目经历_简历版.md](docs/CloudCare_项目经历_简历版.md)。
+以上是早期配置的历史开发回归与功能记录，当时尚未开展RAGAS。当前已完成RAGAS分项评分和130项检查，见[本轮报告](docs/QUERY_RAGAS_UPGRADE_20261002.md)；仍无独立盲测或真实业务上线收益。完整边界、失败记录和复测方式见 [FULLSTACK_VALIDATION.md](docs/FULLSTACK_VALIDATION.md)，项目简历见 [CloudCare_项目经历_简历版.md](docs/CloudCare_项目经历_简历版.md)。
 
 ```powershell
 .venv\Scripts\python.exe -m unittest discover -s tests -v

@@ -20,6 +20,7 @@ from .neural import BGEReranker, SupportBertRouter
 from .retrieval import MilvusStore
 from .settings import Settings
 from .storage import MySQLStore, RedisStore
+from .query import denoise_query, search_routes
 
 
 class BM25Index:
@@ -67,11 +68,14 @@ class SupportPipeline:
         self._cache_config = hashlib.sha256(json.dumps({
             'model': self.settings.llm_model, 'endpoint': self.settings.llm_base_url,
             'rewrite': self.settings.query_rewrite_enabled,
+            'query_expansion': self.settings.query_expansion_enabled,
+            'hyde': self.settings.hyde_enabled,
+            'query_budget': [self.settings.max_subqueries, self.settings.max_retrieval_queries],
             'faq_bm25_threshold': self.settings.faq_bm25_threshold,
             'embedding': str(self.settings.embedding_model_path),
             'reranker': str(self.settings.reranker_model_path),
             'code': {name: hashlib.sha256((Path(__file__).parent/name).read_bytes()).hexdigest()
-                     for name in ('pipeline.py','llm.py','neural.py','retrieval.py','faq.py','storage.py')},
+                     for name in ('pipeline.py','llm.py','query.py','neural.py','retrieval.py','faq.py','storage.py')},
             'bert_artifact': self.router.status().get('dataset_sha256'),
             'bert_checkpoint': self.router.status().get('checkpoint_sha256'),
         }, sort_keys=True).encode()).hexdigest()
@@ -139,10 +143,10 @@ class SupportPipeline:
     def knowledge(self):
         return {'items': self.sql.list_chunks(tenant_id='demo', visibility='public')}
 
-    def retrieve(self, query, category='', additional_queries=None):
+    def retrieve(self, query, category='', additional_queries=None, query_plan=None):
         with self._inference_lock:
             try:
-                return self._retrieve_serial(query, category, additional_queries)
+                return self._retrieve_serial(query, category, additional_queries, query_plan)
             except Exception:
                 if self.settings.model_memory_policy == 'sequential':
                     for component in (self.router, self.vector.encoder, self.reranker):
@@ -165,15 +169,30 @@ class SupportPipeline:
                 if self.settings.model_memory_policy == 'sequential':
                     self._release(self.router)
 
-    def _retrieve_serial(self, query, category='', additional_queries=None):
+    def _retrieve_serial(self, query, category='', additional_queries=None, query_plan=None):
         """Filter all branches before RRF union and true cross-encoder reranking."""
         if self.settings.model_memory_policy == 'sequential':
             self._release(self.router); self._release(self.reranker)
-        queries = list(dict.fromkeys([query, *(additional_queries or [])]))[:2]
+        if query_plan is not None:
+            routes = search_routes(query, query_plan,
+                max_queries=self.settings.max_retrieval_queries,
+                max_subqueries=self.settings.max_subqueries, hyde_enabled=self.settings.hyde_enabled)
+        else:
+            routes = [{'kind': 'original' if i == 0 else 'rewrite', 'query': value, 'weight': 1.0}
+                      for i, value in enumerate(list(dict.fromkeys([query, *(additional_queries or [])]))[:2])]
+        queries = [route['query'] for route in routes]
         merged = {}; route_counts = []; unpublished_skipped = 0
-        for value in queries:
-            branches = self.retrieval_chain.invoke({'query': value, 'category': category})
-            route_counts.append({name: len(rows) for name, rows in branches.items()})
+        for route in routes:
+            value = route['query']
+            if route['kind'] == 'hyde':
+                branches = {'hyde_dense': self.vector.dense_search(value, category=category,
+                    tenant_id='demo', visibility='public', limit=self.settings.retrieval_k)}
+            elif route['kind'] == 'keywords':
+                branches = {'keywords_bm25': self.bm25.search(value, category, self.settings.retrieval_k)}
+            else:
+                branches = self.retrieval_chain.invoke({'query': value, 'category': category})
+            route_counts.append({'kind': route['kind'], 'weight': route['weight'],
+                                 **{name: len(rows) for name, rows in branches.items()}})
             for branch, rows in branches.items():
                 for rank, row in enumerate(rows,1):
                     identifier = row['id']
@@ -190,7 +209,7 @@ class SupportPipeline:
                             raise ValueError('Milvus content is stale relative to MySQL')
                         merged[identifier] = {**canonical, 'fusion_score': 0., 'branches': []}
                     hit = merged[identifier]
-                    hit['fusion_score'] += 1 / (60 + rank)
+                    hit['fusion_score'] += route['weight'] / (60 + rank)
                     hit['branches'].append(branch)
         candidates = sorted(merged.values(),key=lambda row: (-row['fusion_score'],row['id']))[:self.settings.retrieval_k]
         if self.settings.model_memory_policy == 'sequential':
@@ -202,7 +221,7 @@ class SupportPipeline:
                 if parent.get('document_id') != hit.get('document_id'):
                     raise ValueError('Parent context belongs to another source document')
                 hit['parent_content'] = parent['content']
-        return ranked, {'queries': queries, 'branch_candidates': route_counts,
+        return ranked, {'queries': queries, 'query_routes': routes, 'branch_candidates': route_counts,
                         'merged_candidates': len(candidates), 'reranked': len(ranked),
                         'unpublished_skipped': unpublished_skipped,
                         'fusion': 'Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)',
@@ -225,8 +244,10 @@ class SupportPipeline:
             raise ValueError('Invalid session identifier')
         history = self._history(session_id, history)
         session_id = session_id or uuid.uuid4().hex
-        contextual = self._legacy.contextual_query(query, history)
-        trace = {'original_query': query, 'contextual_query': contextual, 'cache_hit': False}
+        cleaned = denoise_query(query)
+        contextual = self._legacy.contextual_query(cleaned, history)
+        trace = {'original_query': query, 'cleaned_query': cleaned,
+                 'contextual_query': contextual, 'cache_hit': False}
         # Run actual BERT even when a capability rule or FAQ will select the final route.
         route = self._predict_route(contextual)
         trace['bert'] = route
@@ -261,7 +282,8 @@ class SupportPipeline:
             threshold = self.settings.faq_bm25_threshold
             trace['faq'] = {'method':'bm25', 'score':faq['score'] if faq else None,
                             'raw_score':faq.get('raw_score') if faq else None,
-                            'normalization':'softmax_all_faq',
+                            'normalization':faq.get('normalization', 'bm25_query_reference') if faq else 'bm25_query_reference',
+                            'reference_score':faq.get('reference_score') if faq else None,
                             'threshold':threshold, 'accepted':False,
                             'reason':'below_threshold' if faq else 'no_candidate',
                             'index_version':faq_version,
@@ -281,15 +303,20 @@ class SupportPipeline:
                     trace['faq']['reason'] = 'invalid_source'
         if result is None:
             rewritten = contextual
+            query_plan = None
             trace['rewrite'] = {'method':'context_rules','query':contextual}
             if self.settings.llm_configured and self.settings.query_rewrite_enabled and not force_extract:
                 try:
-                    trace['rewrite'] = self.llm.rewrite(contextual,history)
+                    if self.settings.query_expansion_enabled:
+                        query_plan = self.llm.plan(contextual, history)
+                        trace['rewrite'] = query_plan
+                    else:
+                        trace['rewrite'] = self.llm.rewrite(contextual,history)
                     rewritten = trace['rewrite']['query']
                 except Exception as exc:
                     trace['rewrite']['error_type'] = type(exc).__name__
             extra = [rewritten] if rewritten != contextual else []
-            hits, retrieval_trace = self.retrieve(contextual,category,extra)
+            hits, retrieval_trace = self.retrieve(contextual,category,extra,query_plan=query_plan)
             trace['retrieval'] = retrieval_trace
             lexical = self.bm25.search(contextual,category,5)
             # Reranker score is a heuristic, never a calibrated correctness probability.

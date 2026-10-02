@@ -1,0 +1,54 @@
+[
+  {
+    "id": "multi-account:multi_strategy",
+    "stage": "generation",
+    "raw_response": "{\n\"steps\": [\n{\n\"source_id\": \"ACC-13\",\n\"quote\": \"登录页点击忘记密码，输入注册工作邮箱，通过重置邮件设置新密码。链接过期后重新申请；企业SSO账号的密码由公司身份提供方管理，请联系企业IT管理员。客服不会索取密码或验证码。\"\n},\n{\n\"source_id\": \"ACC-14\",\n\"quote\": \"更换手机前在安全设置添加新验证器并验证成功，再移除旧设备。妥善离线保存恢复码。设备和恢复码同时丢失时，由组织管理员发起身份核验，不可通过普通客服直接关闭第二因素。\"\n}\n]\n}",
+    "status": "failed",
+    "error_type": "ValueError",
+    "reason": "Model quote is not a verbatim substring of its cited evidence"
+  },
+  {
+    "id": "multi-billing:multi_strategy",
+    "stage": "generation",
+    "raw_response": "{\n\"steps\": [\n{\n\"source_id\": \"[SUB-13]\",\n\"quote\": \"退款申请需提交订单编号由账单团队审核，不能保证全额或即时到账。\"\n},\n{\n\"source_id\": \"[INV-09]\",\n\"quote\": \"已开具时发起更正申请，由财务核实处理，不承诺自动作废。排查后记录资源ID、时间和脱敏错误信息；若仍失败由财务管理员提交工单。\"\n}\n]\n}",
+    "status": "failed",
+    "error_type": "ValueError",
+    "reason": "Model quote is not a verbatim substring of its cited evidence"
+  },
+  {
+    "id": "history-offline:multi_strategy",
+    "stage": "plan",
+    "raw_response": "{\n  \"query\": \"在线会话渠道下班后是否有人接待\",\n  \"subqueries\": [],\n  \"keywords\": [\n    \"在线会话\",\n    \"下班后\",\n    \"人工接待\",\n    \"服务时间\"\n  ],\n  \"hyde_document\": \"在线会话渠道通常设有明确的服务时间段，涵盖工作日及节假日的白天时段。对于下班后的非工作时间，系统可能自动切换至智能客服机器人或留言模式，部分企业可能提供夜间值班或紧急联络通道。需核实该渠道在标准工作结束后的具体响应机制、是否有专人值守以及用户反馈的处理流程，确认是否存在全天候人工支持或仅保留基础自助功能。\"\n}",
+    "status": "passed_on_retry"
+  },
+  {
+    "id": "history-offline:multi_strategy",
+    "stage": "generation",
+    "raw_response": "{\"steps\":[{\"source_id\":\"CHAT-13\",\"quote\":\"渠道关闭时显示离线留言入口；留言保存为新工单并显示工单编号。不要展示虚构坐席在线状态，也不要承诺立即回复。营业时段由坐席主管在渠道设置维护。\"}]}",
+    "status": "passed_on_retry"
+  },
+  {
+    "id": "noise-api:multi_strategy",
+    "stage": "plan",
+    "raw_response": "{\n  \"query\": \"API返回429错误时，更换密钥能否绕过频率限制？\",\n  \"subqueries\": [],\n  \"keywords\": [\n    \"API 429\",\n    \"频率限制\",\n    \"更换密钥\",\n    \"限流策略\"\n  ],\n  \"hyde_document\": \"当API接口返回HTTP 429 Too Many Requests状态码时，通常表示客户端触发了服务端设定的速率限制或并发阈值。此类限制旨在保护服务稳定性，防止恶意刷量或资源滥用。系统层面的限流机制通常基于IP地址、用户ID、API Key或应用标识进行统计与管控。单纯更换API密钥若未改变底层身份标识（如IP或账号主体），往往无法规避针对该主体的全局限流规则。建议检查请求频率是否符合文档规范，或申请提升配额权限，而非试图通过轮换密钥绕过安全策略。\"\n}",
+    "status": "failed",
+    "error_type": "ValueError",
+    "reason": "Rewrite changed a query constraint"
+  },
+  {
+    "id": "noise-import:multi_strategy",
+    "stage": "plan",
+    "raw_response": "{\n  \"query\": \"项目协作功能中CSV文件导入的行数上限是多少，是否支持先导入少量数据如5行进行核对？\",\n  \"subqueries\": [],\n  \"keywords\": [\n    \"项目协作\",\n    \"CSV导入\",\n    \"行数限制\",\n    \"数据核对\"\n  ],\n  \"hyde_document\": \"在项目管理或协作系统中，批量导入数据通常通过CSV格式实现。系统对单次上传的CSV文件往往设有最大行数限制，以防止服务器过载或处理超时。常见的限制可能在几百到几千行不等。部分系统允许用户分批次导入或提供预览/核对机制，以便在正式提交前检查数据格式和内容的准确性。用户需确认具体平台关于导入规模的技术规范及是否支持小样本测试流程。\"\n}",
+    "status": "failed",
+    "error_type": "ValueError",
+    "reason": "Rewrite changed a query constraint"
+  },
+  {
+    "id": "single-export:multi_strategy",
+    "stage": "plan",
+    "raw_response": "{\n\"query\": \"报表导出文件的下载链接过期了如何获取?\",\n\"subqueries\": [],\n\"keywords\": [\n\"报表导出\",\n\"下载链接\",\n\"过期\",\n\"重新获取\"\n],\n\"hyde_document\": \"当用户反馈报表导出文件的下载链接已失效时，通常涉及系统安全机制或临时存储策略。核查方向包括确认当前登录账号是否具备该报表的查看权限，检查文件生成时间是否超过系统设定的有效周期（如24小时或7天）。若链接确实过期，标准处理流程通常是引导用户返回报表列表页，找到对应记录并点击‘重新导出’或‘再次下载’按钮以生成新的临时链接。需排除因网络波动导致的加载失败，重点在于验证操作路径的正确性及权限状态。\"\n}",
+    "status": "failed",
+    "error_type": "ValueError",
+    "reason": "Query expansion invented a numeric constraint"
+  }
+]

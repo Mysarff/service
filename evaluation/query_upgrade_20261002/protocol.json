@@ -1,0 +1,10 @@
+{
+  "frozen_before_faq_generation": true,
+  "faq_development": "Existing 44 development cases from faq_softmax_20261002; all prior cases are known regression data, never called blind tests",
+  "threshold_grid": "0.01 through 0.99 in steps of 0.01",
+  "selection": "Maximize correct positive direct answers subject to development precision >= 0.95 and zero unknown-fact negative accepts; ties prefer higher precision then higher threshold. If infeasible, report failure and conservative manual fallback, never claim optimality.",
+  "faq_answer_group": "max BM25 among variants of exactly the same source_id and answer; Softmax includes zero-score eligible groups",
+  "query_comparison": "same corpus, Qwen model, top20 fused candidates, top5 rerank; single rewrite versus bounded multi-strategy; report retrieval hit and all-source coverage separately",
+  "ragas": "four independent metrics on actual model responses and exact provided evidence; errors remain null; judge/generator same model bias explicitly disclosed",
+  "data_policy": "FAQ paraphrases generated solely from original source chunks; no evaluation question enters generation; knowledge documents remain unchanged"
+}

@@ -165,6 +165,32 @@ class MilvusStore:
             rows.append(row)
         return rows
 
+    def dense_search(self, passage: str, category: str = '', tenant_id: str = 'demo',
+                     limit: int = 20, *, visibility: str = 'public') -> list[dict[str, Any]]:
+        """HyDE passage embeds as a document; only published records are returned."""
+        if not self._ready:
+            self.ensure_collection()
+        if not passage.strip() or limit <= 0:
+            return []
+        vector = self.encoder.encode_documents([passage])[0].dense
+        results = self.client.search(collection_name=self.collection, data=[vector],
+            anns_field='dense_vector', filter=source_filter(tenant_id=tenant_id,
+                category=category, visibility=visibility), limit=limit,
+            search_params={'metric_type': 'IP', 'params': {'ef': max(64, limit)}},
+            output_fields=OUTPUT_FIELDS, consistency_level='Strong')[0]
+        rows = []
+        for hit in results:
+            row = dict(hit['entity'])
+            if row.get('tenant_id') != tenant_id or row.get('visibility') != visibility:
+                raise RuntimeError('HyDE retrieval returned an out-of-scope source')
+            if category and row.get('category') != category:
+                raise RuntimeError('HyDE retrieval returned a different category')
+            row['content'] = row.pop('text')
+            row['score'] = float(hit['distance'])
+            row['retrieval_method'] = 'bge_m3_hyde_dense'
+            rows.append(row)
+        return rows
+
     def delete_documents(self, identifiers: list[str], tenant_id: str = "demo") -> dict[str, Any]:
         """Compensate a failed new import by exact tenant/id primary keys.
 

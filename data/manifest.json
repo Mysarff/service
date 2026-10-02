@@ -12,8 +12,8 @@
   },
   "files": {
     "data/faq.jsonl": {
-      "bytes": 2353160,
-      "sha256": "fb97fc0d76a6f52e55ff53859bb75b9671d096adeca8688478f19993b7a72b8c"
+      "bytes": 2489197,
+      "sha256": "1670c3f7f5da70acd93b710668ed74f3894ea25b78514faeaf5a68301099d059"
     },
     "data/knowledge.jsonl": {
       "bytes": 390015,

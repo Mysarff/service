@@ -63,7 +63,7 @@ class Settings:
     parent_chunk_size: int = 1200
     child_chunk_size: int = 300
     chunk_overlap: int = 50
-    faq_bm25_threshold: float = 0.55
+    faq_bm25_threshold: float = 0.60
     max_upload_bytes: int = 10_000_000
     llm_model: str = "qwen-plus"
     llm_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
@@ -72,6 +72,10 @@ class Settings:
     llm_timeout_seconds: int = 50
     llm_max_tokens: int = 900
     query_rewrite_enabled: bool = True
+    query_expansion_enabled: bool = True
+    hyde_enabled: bool = True
+    max_subqueries: int = 3
+    max_retrieval_queries: int = 7
     host: str = "127.0.0.1"
     port: int = 8088
 
@@ -131,11 +135,15 @@ class Settings:
             parent_chunk_size=value("CLOUDCARE_PARENT_CHUNK_SIZE", 1200, "retrieval", "parent_chunk_size"),
             child_chunk_size=value("CLOUDCARE_CHILD_CHUNK_SIZE", 300, "retrieval", "child_chunk_size"),
             chunk_overlap=value("CLOUDCARE_CHUNK_OVERLAP", 50, "retrieval", "chunk_overlap"),
-            faq_bm25_threshold=value("CLOUDCARE_FAQ_BM25_THRESHOLD", 0.55, "faq", "bm25_threshold"),
+            faq_bm25_threshold=value("CLOUDCARE_FAQ_BM25_THRESHOLD", 0.60, "faq", "bm25_threshold"),
             max_upload_bytes=value("CLOUDCARE_MAX_UPLOAD_BYTES", 10_000_000),
             llm_model=model, llm_base_url=base.rstrip("/"), llm_api_key=secret,
             llm_proxy=value("CLOUDCARE_QWEN_PROXY", "", "llm", "proxy"),
             query_rewrite_enabled=value("CLOUDCARE_QUERY_REWRITE_ENABLED", True, "llm", "query_rewrite_enabled"),
+            query_expansion_enabled=value("CLOUDCARE_QUERY_EXPANSION_ENABLED", True, "query", "expansions_enabled"),
+            hyde_enabled=value("CLOUDCARE_HYDE_ENABLED", True, "query", "hyde_enabled"),
+            max_subqueries=value("CLOUDCARE_MAX_SUBQUERIES", 3, "query", "max_subqueries"),
+            max_retrieval_queries=value("CLOUDCARE_MAX_RETRIEVAL_QUERIES", 7, "query", "max_queries"),
             port=value("CLOUDCARE_PORT", 8088),
         )
         if not settings.mysql_database.startswith("cloudcare") or not settings.milvus_collection.startswith("cloudcare") or not settings.redis_prefix.startswith("cloudcare:"):
@@ -146,6 +154,8 @@ class Settings:
             raise ValueError("FAQ BM25 Softmax threshold must be finite and within [0, 1]")
         if settings.model_memory_policy not in {'sequential', 'resident'}:
             raise ValueError('Model memory policy must be sequential or resident')
+        if not 0 <= settings.max_subqueries <= 3 or not 1 <= settings.max_retrieval_queries <= 7:
+            raise ValueError('Query planning supports 0-3 subqueries and 1-7 total retrieval routes')
         return settings
 
     from_env = load

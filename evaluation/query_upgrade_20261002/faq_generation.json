@@ -1,0 +1,10 @@
+{
+  "documents": 112,
+  "successful_documents": 112,
+  "changed_questions": 1182,
+  "faq_rows": 4736,
+  "knowledge_units": 592,
+  "errors": [],
+  "generation_input": "source title and content only; no evaluation questions",
+  "corpus_sha256": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7"
+}

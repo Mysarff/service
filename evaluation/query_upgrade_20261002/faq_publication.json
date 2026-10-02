@@ -1,0 +1,32 @@
+{
+  "before": {
+    "documents": 112,
+    "parents": 112,
+    "chunks": 592,
+    "faq": 4736,
+    "sessions": 162,
+    "messages": 324,
+    "tickets": 0
+  },
+  "after": {
+    "documents": 112,
+    "parents": 112,
+    "chunks": 592,
+    "faq": 4736,
+    "sessions": 162,
+    "messages": 324,
+    "tickets": 0
+  },
+  "redis": {
+    "algorithm": "faq_bm25_query_reference_v4",
+    "normalization": "bm25_query_reference",
+    "count": 4736,
+    "terms": 7366,
+    "avg_length": 16.896114864864863,
+    "k1": 1.2,
+    "b": 0.75,
+    "version": "c6746c4aae72460ebc494f0d30ea73b3"
+  },
+  "normalization": "bm25_query_reference",
+  "threshold": 0.37
+}

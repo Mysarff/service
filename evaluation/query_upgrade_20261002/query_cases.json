@@ -1,0 +1,14 @@
+[
+ {"id":"single-password","kind":"single","query":"工作邮箱能用，但忘了登录密码，怎么重新设置？","expected_ids":["ACC-13"],"reference":"在登录页选择忘记密码，输入注册工作邮箱并通过重置邮件设置新密码。"},
+ {"id":"single-renewal","kind":"single","query":"我把自动续费关掉以后还需要申请退款吗？","expected_ids":["SUB-13"],"reference":"关闭自动续费不等于退款；退款需提交订单编号由账单团队审核，不能保证全额或即时到账。"},
+ {"id":"multi-account","kind":"multi","query":"忘记密码要怎么重置，换了手机后验证器又该怎么迁移？","expected_ids":["ACC-13","ACC-14"],"reference":"通过登录页忘记密码和注册邮箱重置密码；更换手机前添加并验证新验证器再移除旧设备，保管恢复码。"},
+ {"id":"multi-api","kind":"multi","query":"接口返回429应该怎么处理，密钥怀疑泄露又该怎么轮换？","expected_ids":["API-09","API-13"],"reference":"遇到429按Retry-After等待、指数退避并减少并发；密钥泄露需吊销旧密钥、创建最小权限新密钥并更新调用方，检查异常日志。"},
+ {"id":"multi-member","kind":"multi","query":"同事离职时工作怎么交接，AI生成的知识文章发布前还要做什么？","expected_ids":["ORG-13","KB-13"],"reference":"组织管理员先交接工单、项目和知识文章，再停用成员并撤销会话；AI文章需业务负责人审查政策和范围，再由知识库管理员发布并保留版本、生效日期和来源。"},
+ {"id":"multi-billing","kind":"multi","query":"自动续费取消后怎么申请退款，已经开出的发票抬头错了如何处理？","expected_ids":["SUB-13","INV-09"],"reference":"关闭续费不等于退款，提交订单编号由账单团队审核；已开发票抬头错误时发起更正申请，由财务核实，不承诺自动作废。"},
+ {"id":"history-password","kind":"history","query":"那链接过期了呢？","history":[{"role":"user","content":"我忘记了账号登录密码，刚申请了重置邮件。"},{"role":"assistant","content":"请通过注册工作邮箱里的重置邮件设置新密码。"}],"expected_ids":["ACC-13"],"reference":"密码重置邮件链接过期后重新申请。"},
+ {"id":"history-offline","kind":"history","query":"那下班后还有人接待吗？","history":[{"role":"user","content":"我正在咨询在线会话渠道的接待安排。"}],"expected_ids":["CHAT-13"],"reference":"渠道关闭时显示离线留言入口，留言保存为新工单并显示工单编号，不承诺立即回复。"},
+ {"id":"noise-api","kind":"noise","query":"您好，ＡＰＩ ４２９！！！不能通过换密钥绕开限制吧？","expected_ids":["API-09"],"reference":"不能通过轮换密钥规避限流，按Retry-After等待并使用指数退避、减少并发。"},
+ {"id":"noise-import","kind":"noise","query":"请问，项目协作导入ＣＳＶ，２００行是不是上限？先用５行核对？","expected_ids":["PRJ-05"],"reference":"项目协作CSV导入单批最多200行，先用5行确认字段映射；采用UTF-8 CSV。"},
+ {"id":"missing-password-minutes","kind":"unknown","query":"密码重置邮件的链接具体有效多少分钟？","expected_ids":[],"reference":"当前资料只说明密码重置链接过期后重新申请，没有提供有效分钟数，应明确说明资料不足并人工核验。"},
+ {"id":"single-export","kind":"single","query":"报表导出文件的下载链接过期了如何获取？","expected_ids":["REPORT-06"],"reference":"演示报表下载链接有效期24小时，到期后重新申请。"}
+]
