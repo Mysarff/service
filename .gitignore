@@ -11,3 +11,14 @@ data/simulated_tickets.jsonl
 evaluation/benchmark_results.json
 evaluation/expanded_before_fixes_raw.json
 evaluation/benchmark_20260930_results.json
+
+# Large Oct 2 raw assessment outputs are published as lossless .gz archives.
+evaluation/faq_bm25_20261002/results.jsonl
+evaluation/faq_softmax_20261002/exact_question_results.jsonl
+evaluation/faq_softmax_20261002/results.jsonl
+evaluation/faq_softmax_calibration_20261002/development_sweep.json
+evaluation/faq_tokenizer_experiment_20261002/jieba_lcut_for_search_development_sweep.json
+evaluation/faq_tokenizer_experiment_20261002/jieba_lcut_original_development_sweep.json
+evaluation/resume_eval_20261002/bert_heldout.json
+evaluation/resume_eval_20261002/fullstack_metrics_raw32_interrupted.json
+evaluation/resume_eval_20261002/fullstack_metrics_softmax.json

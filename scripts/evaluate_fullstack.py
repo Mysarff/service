@@ -66,6 +66,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=ROOT / "evaluation/fullstack_metrics.json")
     parser.add_argument("--llm-probe", action="store_true", help="Call configured Qwen on 8 fixed positive cases; separate report")
+    parser.add_argument("--route-probe", action="store_true", help="Audit actual FAQ/RAG answer routing on all selected positive cases without Qwen")
     parser.add_argument("--positive-limit", type=int, help="Smoke audit only; result explicitly records reduced sample count")
     parser.add_argument("--negative-limit", type=int, help="Smoke audit only; result explicitly records reduced sample count")
     parser.add_argument("--seed", type=int, default=20260930)
@@ -82,7 +83,7 @@ def main() -> None:
         positives = positives[:args.positive_limit]
     if args.negative_limit is not None:
         negatives = negatives[:args.negative_limit]
-    code_files = ["cloudcare/neural.py", "cloudcare/retrieval.py", "cloudcare/pipeline.py", "cloudcare/storage.py",
+    code_files = ["cloudcare/neural.py", "cloudcare/retrieval.py", "cloudcare/pipeline.py", "cloudcare/storage.py", "cloudcare/faq.py", "cloudcare/settings.py",
                   "cloudcare/llm.py", "engine.py", "scripts/evaluate_fullstack.py"]
     report = {"created_at": datetime.now(timezone.utc).isoformat(), "seed": args.seed,
               "scope": "synthetic development regression, actual Milvus/BGE cross-encoder, no external LLM",
@@ -97,7 +98,10 @@ def main() -> None:
               "code_sha256": {name: sha256(ROOT / name) for name in code_files},
               "sample_counts": {"positive": len(positives), "negative": len(negatives),
                                 "full_frozen_positive": 64, "full_frozen_negative": 24},
-              "retrieval": {}, "negative": {"observations": []}, "complete": False}
+              "faq_bm25_threshold": settings.faq_bm25_threshold,
+              "faq_score_kind": "BM25 raw ranking followed by Softmax over all eligible FAQ; not answer correctness probability",
+              "retrieval": {}, "positive_routing": {"enabled": args.route_probe, "observations": []},
+              "negative": {"observations": []}, "complete": False}
     pipeline = None
     stage = "construct"
     current_query = None
@@ -121,6 +125,8 @@ def main() -> None:
         constructed = time.perf_counter()
         pipeline = SupportPipeline(settings)
         pipeline.start()
+        # Existing production/demo caches must not hide current routing changes.
+        pipeline._cache_config = hashlib.sha256((pipeline._cache_config + uuid.uuid4().hex).encode()).hexdigest()
         report["cold_start"] = {"construction_and_service_start_ms": (time.perf_counter() - constructed) * 1000}
         stage = "warmup_retrieval"
         warm_query = "账号忘记密码以后如何重置登录密码？"
@@ -169,6 +175,28 @@ def main() -> None:
                 report["retrieval"][method] = {**metrics(observations), "latency": latency(observations),
                     "groups": {name: metrics([row for row in observations if row["group"] == name]) for name in groups},
                     "observations": observations}
+        if args.route_probe:
+            for index, (group, query, expected) in enumerate(positives, 1):
+                stage = "positive_answer_route"
+                current_query = query
+                answer = pipeline.answer(query, force_extract=True)
+                source_ids = [row["id"] for row in answer["sources"]]
+                report["positive_routing"]["observations"].append({"query": query, "group": group,
+                    "expected": expected, "mode": answer["mode"], "source_ids": source_ids,
+                    "source_id_hit": bool(set(expected) & set(source_ids)),
+                    "answer": answer["answer"], "elapsed_ms": answer["elapsed_ms"], "trace": answer["trace"]})
+                if index % 8 == 0:
+                    checkpoint()
+                    print(f"Actual FAQ/RAG routing: {index}/{len(positives)}", flush=True)
+            routed = report["positive_routing"]["observations"]
+            faq_rows = [row for row in routed if row["mode"] == "faq"]
+            report["positive_routing"].update({"n": len(routed),
+                "source_id_hits": sum(row["source_id_hit"] for row in routed),
+                "faq_direct_answers": len(faq_rows),
+                "faq_source_id_hits": sum(row["source_id_hit"] for row in faq_rows),
+                "cache_hits": sum(row["trace"]["cache_hit"] for row in routed),
+                "latency": latency(routed),
+                "meaning": "Source-ID coverage of actual answer routes; not answer factual accuracy or blind FAQ calibration"})
         for index, (group, query) in enumerate(negatives, 1):
             stage = "negative_answer"
             current_query = query
@@ -191,21 +219,25 @@ def main() -> None:
         report["components"] = {"encoder": pipeline.vector.encoder.status(), "reranker": pipeline.reranker.status(),
                                 "bert": pipeline.router.status(), "qwen": pipeline.llm.status()}
         report["milvus_audit"] = pipeline.vector.audit(expected_count=report["fullstack_corpus_units"])
-        report["complete"] = True
         report["last_stage"] = "retrieval_and_negatives_complete"
         if args.llm_probe:
             report["qwen_probe_output"] = args.output.stem + "_qwen_probe.json"
-            probe = {"scope": "8 synthetic source-grounded Qwen API smoke questions; not RAGAS or answer-quality benchmark",
+            routed = report["positive_routing"]["observations"]
+            rag_queries = {row["query"] for row in routed if row["mode"] == "retrieval_only"}
+            probe_cases = ([case for case in positives if case[1] in rag_queries][:8]
+                           if args.route_probe else positives[:8])
+            probe = {"scope": "Up to 8 synthetic source-grounded Qwen API smoke questions; not RAGAS or answer-quality benchmark",
                      "configured": settings.llm_configured, "model": settings.llm_model,
                      "model_memory_policy": settings.model_memory_policy,
                      "latency_scope": report["latency_scope"], "observations": [], "complete": False,
-                     "sample_count": min(8, len(positives)),
+                     "sample_count": len(probe_cases),
+                     "selection": "First available RAG-bound positive cases from the no-Qwen route audit" if args.route_probe else "First 8 frozen positives; FAQ may intercept",
                      "cache_scope": "new evaluation run namespace; existing answer cache cannot mask provider calls"}
             if settings.llm_configured:
                 original_cache_config = pipeline._cache_config
                 pipeline._cache_config = hashlib.sha256((original_cache_config + uuid.uuid4().hex).encode()).hexdigest()
                 try:
-                    for index, (_, query, expected) in enumerate(positives[:8], 1):
+                    for index, (_, query, expected) in enumerate(probe_cases, 1):
                         stage = "qwen_probe"
                         current_query = query
                         before = pipeline.llm.status()
@@ -213,6 +245,7 @@ def main() -> None:
                         after = pipeline.llm.status()
                         probe["observations"].append({"query": query, "expected": expected, "mode": result["mode"],
                             "answer": result["answer"], "source_ids": [row["id"] for row in result["sources"]],
+                            "source_id_hit": bool(set(expected) & {row["id"] for row in result["sources"]}),
                             "elapsed_ms": result["elapsed_ms"], "trace": result["trace"],
                             "provider_calls": after["calls"] - before["calls"],
                             "successful_provider_calls": after["successful_calls"] - before["successful_calls"]})
@@ -220,7 +253,7 @@ def main() -> None:
                         probe["actual_provider_calls"] = sum(row["provider_calls"] for row in probe["observations"])
                         probe["successful_provider_calls"] = sum(row["successful_provider_calls"] for row in probe["observations"])
                         save(args.output.with_name(args.output.stem + "_qwen_probe.json"), probe)
-                        print(f"Actual Qwen answer probe: {index}/{min(8, len(positives))}", flush=True)
+                        print(f"Actual Qwen answer probe: {index}/{len(probe_cases)}", flush=True)
                     probe["complete"] = True
                 finally:
                     pipeline._cache_config = original_cache_config
@@ -230,6 +263,7 @@ def main() -> None:
                 probe["status"] = "not_configured; no external request made"
             probe["provider"] = pipeline.llm.status()
             save(args.output.with_name(args.output.stem + "_qwen_probe.json"), probe)
+        report["complete"] = True
         stage = "complete"
         current_query = None
     except Exception as error:

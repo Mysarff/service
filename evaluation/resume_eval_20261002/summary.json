@@ -1,0 +1,259 @@
+{
+  "date": "2026-10-02",
+  "scope": "Synthetic development data; source retrieval, classification, functional and quote checks are distinct from answer correctness and production KPIs.",
+  "data": {
+    "source_documents": 112,
+    "seed_parents": 112,
+    "knowledge_units": 592,
+    "faq_templates": 4736,
+    "categories": 16,
+    "retained_multimodal_sources": 0,
+    "synthetic_ticket_file_rows_not_indexed": 24000
+  },
+  "faq_threshold": 0.55,
+  "model_report_faq_threshold": 0.85,
+  "version_note": "Models and 113-suite tested at .85. Later default only changed to .55; fixed-score calibration and 20 boundary checks reported separately.",
+  "faq_score_kind": "BM25 raw ranking followed by Softmax over all eligible FAQ; not answer correctness probability",
+  "corpus_sha256": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7",
+  "model_report_code_sha256": {
+    "cloudcare/neural.py": "62a2224ec54bbe9fe0209166dc0e57499dca6fc850c30cf6962634b88f59f0d7",
+    "cloudcare/retrieval.py": "e3aba67975a5085e6010765ac186250ec3433c73aa9c7d05fde27be6a45408c6",
+    "cloudcare/pipeline.py": "50e803d7431eae953b45482613748c065e55784f0208a9bc27cec38f5d8c7b55",
+    "cloudcare/storage.py": "72fc14d8e4b68564e1425e120bfa6599c4992a5dfe018f218048271ec28d72f2",
+    "cloudcare/faq.py": "6be3ff1663f408435e6561c53335c3ff5da7201f0e34e6a4170d8d1ce91b1cab",
+    "cloudcare/settings.py": "a6fbeacff8fdc33194b0973e50ff5a5276e47fd7b755fd7f2a46677368f1043d",
+    "cloudcare/llm.py": "7a80d21e8a185a1f8f54fcc10ea5187d3059ccc9a1109030176e64f28fdb99e8",
+    "engine.py": "0dee924431626cbf0d71187c21eaab7052fa77f9d897d4d0817d119054ff72ce",
+    "scripts/evaluate_fullstack.py": "440502b84e0feb7211e45b3f85fc24b73cba4c4689f0e4cc2d668c4e6329a2ff"
+  },
+  "current_faq_code_sha256": {
+    "cloudcare/faq.py": "6be3ff1663f408435e6561c53335c3ff5da7201f0e34e6a4170d8d1ce91b1cab",
+    "cloudcare/settings.py": "9a8765d884dc4f213558dc765a094652ea4ae59afd2e8493eb435424413e5fa3",
+    "cloudcare/pipeline.py": "50e803d7431eae953b45482613748c065e55784f0208a9bc27cec38f5d8c7b55",
+    "cloudcare/storage.py": "72fc14d8e4b68564e1425e120bfa6599c4992a5dfe018f218048271ec28d72f2"
+  },
+  "bert": {
+    "train_count": 1872,
+    "test_count": 432,
+    "group_overlap": 0,
+    "accuracy": 0.9259259259259259,
+    "macro_f1": 0.9264755917950689,
+    "complete": true,
+    "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+    "checkpoint_sha256": "87e378cb3c8c7dc584e5cad02af84820561878da3f497639c4b648236ed094f7",
+    "scope": "Current unchanged support BERT checkpoint inference on 432 frozen synthetic held-out examples; no retraining, not answer quality"
+  },
+  "retrieval": {
+    "plain_bm25": {
+      "n": 64,
+      "top1": 46,
+      "hit_at_1": 0.71875,
+      "hit5": 62,
+      "hit_at_5": 0.96875,
+      "mrr_at_5": 0.8286458333333334,
+      "latency": {
+        "n": 64,
+        "mean_ms": 2.8540984374814116,
+        "p50_ms": 2.5611000000935746,
+        "p95_ms": 4.770200000166369,
+        "max_ms": 6.771200000002864
+      },
+      "groups": {
+        "cases.json": {
+          "n": 32,
+          "top1": 27,
+          "hit_at_1": 0.84375,
+          "hit5": 31,
+          "hit_at_5": 0.96875,
+          "mrr_at_5": 0.8916666666666666
+        },
+        "extended_cases.json": {
+          "n": 32,
+          "top1": 19,
+          "hit_at_1": 0.59375,
+          "hit5": 31,
+          "hit_at_5": 0.96875,
+          "mrr_at_5": 0.7656249999999999
+        }
+      }
+    },
+    "enhanced_bm25": {
+      "n": 64,
+      "top1": 59,
+      "hit_at_1": 0.921875,
+      "hit5": 64,
+      "hit_at_5": 1.0,
+      "mrr_at_5": 0.95703125,
+      "latency": {
+        "n": 64,
+        "mean_ms": 1.0750640625332153,
+        "p50_ms": 0.7362999995166319,
+        "p95_ms": 2.8910999999425258,
+        "max_ms": 4.593600000589504
+      },
+      "groups": {
+        "cases.json": {
+          "n": 32,
+          "top1": 29,
+          "hit_at_1": 0.90625,
+          "hit5": 32,
+          "hit_at_5": 1.0,
+          "mrr_at_5": 0.9453125
+        },
+        "extended_cases.json": {
+          "n": 32,
+          "top1": 30,
+          "hit_at_1": 0.9375,
+          "hit5": 32,
+          "hit_at_5": 1.0,
+          "mrr_at_5": 0.96875
+        }
+      }
+    },
+    "bge_milvus_bm25_rerank": {
+      "n": 64,
+      "top1": 60,
+      "hit_at_1": 0.9375,
+      "hit5": 64,
+      "hit_at_5": 1.0,
+      "mrr_at_5": 0.9661458333333334,
+      "latency": {
+        "n": 64,
+        "mean_ms": 9705.09370781248,
+        "p50_ms": 8930.485699999736,
+        "p95_ms": 14717.366399999264,
+        "max_ms": 15415.289700000358
+      },
+      "groups": {
+        "cases.json": {
+          "n": 32,
+          "top1": 30,
+          "hit_at_1": 0.9375,
+          "hit5": 32,
+          "hit_at_5": 1.0,
+          "mrr_at_5": 0.9635416666666666
+        },
+        "extended_cases.json": {
+          "n": 32,
+          "top1": 30,
+          "hit_at_1": 0.9375,
+          "hit5": 32,
+          "hit_at_5": 1.0,
+          "mrr_at_5": 0.96875
+        }
+      }
+    }
+  },
+  "positive_routing": {
+    "enabled": true,
+    "n": 64,
+    "source_id_hits": 63,
+    "faq_direct_answers": 1,
+    "faq_source_id_hits": 0,
+    "cache_hits": 0,
+    "latency": {
+      "n": 64,
+      "mean_ms": 5561.51109375,
+      "p50_ms": 5559.08,
+      "p95_ms": 5946.85,
+      "max_ms": 6451.69
+    },
+    "meaning": "Source-ID coverage of actual answer routes; not answer factual accuracy or blind FAQ calibration"
+  },
+  "negative_routing": {
+    "n": 24,
+    "rejected": 23,
+    "scope": "actual answer route with BERT/rules; no external model; rejection is not retrieval emptiness",
+    "latency": {
+      "n": 24,
+      "mean_ms": 3948.9794499999484,
+      "p50_ms": 1605.2050999996936,
+      "p95_ms": 11389.740199999324,
+      "max_ms": 11944.31330000043
+    }
+  },
+  "qwen": {
+    "scope": "Up to 8 synthetic source-grounded Qwen API smoke questions; not RAGAS or answer-quality benchmark",
+    "configured": true,
+    "model": "qwen3.7-flash",
+    "model_memory_policy": "sequential",
+    "latency_scope": "end-to-end retrieval in one process, including any model loading/reloading, vector cache, live database, reranking and parent expansion; not model-only inference",
+    "complete": true,
+    "sample_count": 8,
+    "selection": "First available RAG-bound positive cases from the no-Qwen route audit",
+    "cache_scope": "new evaluation run namespace; existing answer cache cannot mask provider calls",
+    "grounded_llm_count": 6,
+    "actual_provider_calls": 16,
+    "successful_provider_calls": 16,
+    "provider": {
+      "configured": true,
+      "model": "qwen3.7-flash",
+      "provider": "dashscope_compatible",
+      "calls": 16,
+      "successful_calls": 16,
+      "last_error_type": null,
+      "verified": true
+    }
+  },
+  "functional": {
+    "testsRun": 113,
+    "passed": 113,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 185.979,
+    "scope_counts": {
+      "fastapi_transport_with_injected_pipeline": 7,
+      "doctor_model_resource_lifecycle_with_injected_adapters": 2,
+      "real_langchain_office_pdf_and_cpu_rapidocr": 6,
+      "faq_bm25_algorithm_and_pipeline_with_injected_backends": 18,
+      "current_frontend_javascript_against_baseline_http": 1,
+      "injected_neural_and_milvus_clients_with_small_cpu_tensor": 14,
+      "initialization_and_training_data_fixture_contracts": 4,
+      "pipeline_and_qwen_contracts_with_injected_backends": 20,
+      "qwen_prompt_and_response_contracts_with_injected_call": 8,
+      "historical_baseline_corpus_and_metrics": 3,
+      "historical_baseline_regressions": 10,
+      "real_dedicated_mysql": 2,
+      "real_dedicated_mysql_and_redis": 2,
+      "storage_namespace_unit_contract": 1,
+      "historical_baseline_http": 15
+    },
+    "scope_note": "Selected checked-in tests; complete_suite identifies whether all modules were selected. Historical baseline remains explicitly labeled. SQL/Redis tests use real isolated CloudCare services; document checks use real LangChain/PDF/Office/RapidOCR. API, pipeline, Qwen and most neural tests use injected collaborators; the small reranker adapter tensor runs on CPU. This suite is not a large-model quality evaluation, a real Milvus acceptance test, an external Qwen test, or a production business KPI.",
+    "knowledge_and_live_faq_counts_preserved": true
+  },
+  "faq_regression": {
+    "threshold": 0.85,
+    "sample_count": 88,
+    "positive_count": 64,
+    "negative_count": 24,
+    "accepted_total": 2,
+    "positive_accepted": 1,
+    "positive_correct": 0,
+    "positive_source_id_miss": 1,
+    "negative_accepted": 1,
+    "source_id_precision_proxy": 0.0,
+    "positive_correct_direct_coverage": 0.0,
+    "positive_sent_to_rag": 63,
+    "negative_sent_to_rag": 23
+  },
+  "faq_calibration_report": "evaluation/faq_softmax_calibration_20261002/summary.json",
+  "faq_boundary_report": "evaluation/faq_softmax_calibration_20261002/threshold_boundary_tests.json",
+  "faq_indexed_exact_diagnostic": {
+    "query_count": 4736,
+    "correct_top1_source_ids": 4736,
+    "accepted_at_085": 4732,
+    "correct_and_accepted": 4732,
+    "softmax_min": 0.709854933561421,
+    "softmax_median": 0.9183289387580966,
+    "softmax_max": 0.9999999999999956,
+    "note": "Known indexed questions; Top1 correctness is separate from passing the FAQ routing threshold."
+  },
+  "known_failure": "Natural question AI-written article publication matched search troubleshooting at score 0.9826; the 0.85 gate is not calibrated semantic correctness.",
+  "raw_reports": [
+    "fullstack_metrics_softmax.json.gz",
+    "bert_heldout.json.gz",
+    "fullstack_metrics_softmax_qwen_probe.json"
+  ],
+  "complete": true
+}

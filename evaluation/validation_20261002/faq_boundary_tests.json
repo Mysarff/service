@@ -1,0 +1,96 @@
+{
+  "testsRun": 14,
+  "tests": [
+    {
+      "name": "test_faq_bm25_routing.FAQBM25AlgorithmTests.test_answer_body_is_not_indexed",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.001126
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQBM25AlgorithmTests.test_category_filter_excludes_other_faq",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.000135
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQBM25AlgorithmTests.test_exact_question_can_have_score_below_configured_threshold",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 7.9e-05
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQBM25AlgorithmTests.test_raw_score_matches_bm25_formula",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 8.2e-05
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQBM25AlgorithmTests.test_ties_use_stable_faq_id",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 7.6e-05
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQBM25AlgorithmTests.test_unicode_nfkc_query_normalization",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.000102
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_faq_version_change_invalidates_cache",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.067227
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_missing_source_enters_rag_even_above_threshold",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.128715
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_no_candidate_enters_rag",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.066802
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_null_answer_enters_rag",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.295491
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_private_faq_source_enters_rag",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.071567
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_score_below_threshold_enters_rag_without_exact_bypass",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.077322
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_score_equal_threshold_returns_faq",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.068981
+    },
+    {
+      "name": "test_faq_bm25_routing.FAQThresholdRoutingTests.test_threshold_change_does_not_reuse_cached_faq",
+      "status": "passed",
+      "scope": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
+      "elapsed_seconds": 0.06905
+    }
+  ],
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "elapsed_seconds": 0.847,
+  "wasSuccessful": true
+}

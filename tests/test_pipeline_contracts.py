@@ -259,7 +259,7 @@ class PipelineContractTests(unittest.TestCase):
         self.assertEqual(self.vector.search_calls, [])
 
     def test_bm25_faq_uses_existing_source_and_still_runs_bert(self):
-        self.redis.faq = {"id": "FAQ-A", "source_id": "A", "answer": "通过工作邮箱重置密码", "method": "bm25", "score": 9.0}
+        self.redis.faq = {"id": "FAQ-A", "source_id": "A", "answer": "通过工作邮箱重置密码", "method": "bm25", "score": 0.9, "raw_score": 33.0}
         answer = self.pipeline.answer("账号登录密码怎么重置", force_extract=True)
         self.assertEqual(answer["mode"], "faq")
         self.assertEqual(answer["sources"][0]["id"], "A")

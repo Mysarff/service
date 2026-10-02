@@ -1,0 +1,25 @@
+{
+  "description": "Agent-authored supplemental audit after corpus inspection, frozen before scoring this file. Never used for threshold selection. Supported negation/condition queries are positives; absent facts and live values are negative direct-answer expectations.",
+  "cases": [
+    {"id":"condition-01","group":"supported_negation_condition","kind":"positive","query":"账号安全忘记密码与重置密码：企业SSO账号也能让客服直接重置公司密码吗？","expected_source_ids":["ACC-13"]},
+    {"id":"condition-02","group":"supported_negation_condition","kind":"positive","query":"账号安全更换手机与多因素认证：旧设备和恢复码都没了，可以由普通客服关闭第二因素吗？","expected_source_ids":["ACC-14"]},
+    {"id":"condition-03","group":"supported_negation_condition","kind":"positive","query":"组织成员离职人员工作交接：为了交接能直接把离职账号借给接任人吗？","expected_source_ids":["ORG-13"]},
+    {"id":"condition-04","group":"supported_negation_condition","kind":"positive","query":"订单服务订单取消条件：已出库订单能仅修改数据库状态来取消吗？","expected_source_ids":["ORD-13"]},
+    {"id":"condition-05","group":"supported_negation_condition","kind":"positive","query":"订阅管理取消自动续费与退款：关掉自动续费是不是马上全额退款？","expected_source_ids":["SUB-13"]},
+    {"id":"condition-06","group":"supported_negation_condition","kind":"positive","query":"退换服务退款资格与到账边界：退回商品后有没有统一到账天数？","expected_source_ids":["RET-13","RET-09"]},
+    {"id":"condition-07","group":"supported_negation_condition","kind":"positive","query":"知识中心知识发布前审查：AI生成文章可以跳过业务审核直接发布吗？","expected_source_ids":["KB-13"]},
+    {"id":"condition-08","group":"supported_negation_condition","kind":"positive","query":"审计中心审计导出与隐私范围：完整原始日志能不能发到普通客服工单？","expected_source_ids":["AUDIT-13"]},
+    {"id":"missing-01","group":"missing_fact_near_faq","kind":"negative","query":"账号安全忘记密码与重置密码：重置链接的有效期具体是多少分钟？","expected_source_ids":[],"label_basis":"ACC-13 requires reapplying for expired links but specifies no expiry duration."},
+    {"id":"missing-02","group":"missing_fact_near_faq","kind":"negative","query":"账号安全更换手机与多因素认证：身份核验的客服电话号码具体是什么？","expected_source_ids":[],"label_basis":"Administrator verification workflow specifies no phone number."},
+    {"id":"missing-03","group":"missing_fact_near_faq","kind":"negative","query":"组织成员离职人员工作交接：员工张三已经交接了多少个工单？","expected_source_ids":[],"label_basis":"No live employee or resource records exist in the corpus."},
+    {"id":"missing-04","group":"missing_fact_near_faq","kind":"negative","query":"订阅管理取消自动续费与退款：我的退款审批单当前审批人是谁？","expected_source_ids":[],"label_basis":"Static procedure cannot provide live request ownership."},
+    {"id":"missing-05","group":"missing_fact_near_faq","kind":"negative","query":"发票管理发票申请资料：发票寄送邮费具体是多少钱？","expected_source_ids":[],"label_basis":"Invoice required fields are known; shipping fees are absent."},
+    {"id":"missing-06","group":"missing_fact_near_faq","kind":"negative","query":"工单管理优先级与响应时间：当前值班负责人的个人手机号是多少？","expected_source_ids":[],"label_basis":"Workflow mentions a duty owner but retains no personal phone number."},
+    {"id":"missing-07","group":"missing_fact_near_faq","kind":"negative","query":"开放接口API密钥泄露与轮换：我们组织今天异常调用实际有多少次？","expected_source_ids":[],"label_basis":"Static rotation procedure contains no live API telemetry."},
+    {"id":"missing-08","group":"missing_fact_near_faq","kind":"negative","query":"物流服务签收争议处理：订单ZX987654的签收人真实姓名是谁？","expected_source_ids":[],"label_basis":"Corpus has no live shipment events or consignee identity."},
+    {"id":"oos-01","group":"out_of_scope","kind":"negative","query":"黑洞的事件视界半径怎么求？","expected_source_ids":[]},
+    {"id":"oos-02","group":"out_of_scope","kind":"negative","query":"请翻译一首法语爱情诗。","expected_source_ids":[]},
+    {"id":"oos-03","group":"out_of_scope","kind":"negative","query":"圆锥曲线的焦点坐标如何计算？","expected_source_ids":[]},
+    {"id":"oos-04","group":"out_of_scope","kind":"negative","query":"推荐一款适合种阳台的番茄种子。","expected_source_ids":[]}
+  ]
+}

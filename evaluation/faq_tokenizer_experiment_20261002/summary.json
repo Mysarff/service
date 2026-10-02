@@ -1,0 +1,1337 @@
+{
+  "created_at_utc": "2026-10-02T08:12:42.068197+00:00",
+  "scope": "FAQ tokenizer-only experiment; no core edits, data augmentation, neural models, databases or Qwen calls",
+  "jieba_version": "0.42.1",
+  "changed_bm25_parameters": false,
+  "k1": 1.2,
+  "b": 0.75,
+  "normalization": "softmax_all_faq",
+  "faq_records": 4736,
+  "protocol": {
+    "development": 44,
+    "retained": 44,
+    "challenge": 20,
+    "thresholds": "0.01..0.99 plus development score and nextafter(score,+inf)",
+    "primary_target": 0.9,
+    "require_no_development_negative_accepts": true,
+    "objective": "maximize development correct positives, tie precision then lowest threshold",
+    "tried_word_tokenizers": 2,
+    "segmentation_only": "default Jieba; no custom dictionaries, stopword lists or query expansions"
+  },
+  "variants": {
+    "jieba_lcut_original": {
+      "top1": {
+        "development": {
+          "positive_count": 32,
+          "source_id_hits": 14,
+          "source_id_hit_rate": 0.4375,
+          "no_candidate": 1
+        },
+        "retained": {
+          "positive_count": 32,
+          "source_id_hits": 10,
+          "source_id_hit_rate": 0.3125,
+          "no_candidate": 0
+        },
+        "all_regression": {
+          "positive_count": 64,
+          "source_id_hits": 24,
+          "source_id_hit_rate": 0.375,
+          "no_candidate": 1
+        },
+        "challenge": {
+          "positive_count": 8,
+          "source_id_hits": 8,
+          "source_id_hit_rate": 1.0,
+          "no_candidate": 0
+        }
+      },
+      "fixed_085": {
+        "development": {
+          "threshold": 0.85,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 2,
+          "strict_correct": 2,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.0625,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:8",
+            "cases.json:positive:28"
+          ]
+        },
+        "retained": {
+          "threshold": 0.85,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:20"
+          ]
+        },
+        "challenge": {
+          "threshold": 0.85,
+          "sample_count": 20,
+          "positive_count": 8,
+          "negative_count": 12,
+          "accepted_total": 0,
+          "strict_correct": 0,
+          "strict_precision": null,
+          "correct_positive_coverage": 0.0,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": []
+        }
+      },
+      "threshold_count": 185,
+      "strict90": {
+        "target": 0.9,
+        "require_no_development_negative_accepts": true,
+        "selected_development": {
+          "threshold": 0.7787575525529611,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 2,
+          "strict_correct": 2,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.0625,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:8",
+            "cases.json:positive:28"
+          ]
+        },
+        "retained_at_selected": {
+          "threshold": 0.7787575525529611,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:20"
+          ]
+        },
+        "challenge_at_selected": {
+          "threshold": 0.7787575525529611,
+          "sample_count": 20,
+          "positive_count": 8,
+          "negative_count": 12,
+          "accepted_total": 0,
+          "strict_correct": 0,
+          "strict_precision": null,
+          "correct_positive_coverage": 0.0,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": []
+        }
+      },
+      "strategies": [
+        {
+          "target": 0.95,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 2,
+            "strict_correct": 2,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.0625,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:8",
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.9,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 2,
+            "strict_correct": 2,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.0625,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:8",
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.8,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 2,
+            "strict_correct": 2,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.0625,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:8",
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.7,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 2,
+            "strict_correct": 2,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.0625,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:8",
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.5,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 2,
+            "strict_correct": 2,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.0625,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:8",
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7787575525529611,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        }
+      ],
+      "development_pareto": [
+        {
+          "threshold": 0.02811278082254451,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 34,
+          "strict_correct": 14,
+          "strict_precision": 0.4117647058823529,
+          "correct_positive_coverage": 0.4375,
+          "positive_source_id_misses": 16,
+          "negative_accepts": 4,
+          "accepted_ids": [
+            "cases.json:positive:0",
+            "cases.json:positive:1",
+            "cases.json:positive:3",
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:17",
+            "cases.json:positive:21",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:27",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "cases.json:negative:1",
+            "cases.json:negative:11",
+            "extended_cases.json:positive:2",
+            "extended_cases.json:positive:5",
+            "extended_cases.json:positive:7",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:10",
+            "extended_cases.json:positive:15",
+            "extended_cases.json:positive:16",
+            "extended_cases.json:positive:18",
+            "extended_cases.json:positive:19",
+            "extended_cases.json:positive:20",
+            "extended_cases.json:positive:22",
+            "extended_cases.json:positive:25",
+            "extended_cases.json:positive:28",
+            "extended_cases.json:positive:31",
+            "extended_cases.json:negative:7",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.07890484173141821,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 25,
+          "strict_correct": 13,
+          "strict_precision": 0.52,
+          "correct_positive_coverage": 0.40625,
+          "positive_source_id_misses": 10,
+          "negative_accepts": 2,
+          "accepted_ids": [
+            "cases.json:positive:0",
+            "cases.json:positive:3",
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:21",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:27",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "cases.json:negative:11",
+            "extended_cases.json:positive:2",
+            "extended_cases.json:positive:5",
+            "extended_cases.json:positive:7",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:10",
+            "extended_cases.json:positive:16",
+            "extended_cases.json:positive:18",
+            "extended_cases.json:positive:25",
+            "extended_cases.json:positive:31",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.1186974307224473,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 16,
+          "strict_correct": 11,
+          "strict_precision": 0.6875,
+          "correct_positive_coverage": 0.34375,
+          "positive_source_id_misses": 4,
+          "negative_accepts": 1,
+          "accepted_ids": [
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:21",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:27",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "extended_cases.json:positive:7",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:18",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.15101878322137566,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 12,
+          "strict_correct": 10,
+          "strict_precision": 0.8333333333333334,
+          "correct_positive_coverage": 0.3125,
+          "positive_source_id_misses": 1,
+          "negative_accepts": 1,
+          "accepted_ids": [
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.2551728642477551,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 8,
+          "strict_correct": 7,
+          "strict_precision": 0.875,
+          "correct_positive_coverage": 0.21875,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 1,
+          "accepted_ids": [
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:13",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.7787575525529611,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 2,
+          "strict_correct": 2,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.0625,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:8",
+            "cases.json:positive:28"
+          ]
+        }
+      ],
+      "score_distributions": {
+        "development": {
+          "correct_positive": {
+            "count": 14,
+            "no_candidate": 0,
+            "min": 0.030353601763611408,
+            "median": 0.26971406746687737,
+            "max": 0.9960592832880902
+          },
+          "incorrect_positive": {
+            "count": 18,
+            "no_candidate": 0,
+            "min": 0.022130035782717047,
+            "median": 0.10376498813236182,
+            "max": 0.25517286424775504
+          },
+          "negative": {
+            "count": 12,
+            "no_candidate": 1,
+            "min": 0.0002206421700042985,
+            "median": 0.0053502279749001215,
+            "max": 0.778757552552961
+          }
+        },
+        "retained": {
+          "correct_positive": {
+            "count": 10,
+            "no_candidate": 0,
+            "min": 0.08145043823767335,
+            "median": 0.2432677640251592,
+            "max": 0.9942156540547882
+          },
+          "incorrect_positive": {
+            "count": 22,
+            "no_candidate": 0,
+            "min": 0.00625302936035374,
+            "median": 0.08340650588119075,
+            "max": 0.6017957754324365
+          },
+          "negative": {
+            "count": 12,
+            "no_candidate": 0,
+            "min": 0.0024904891087144504,
+            "median": 0.008973920477196987,
+            "max": 0.3641516008041129
+          }
+        },
+        "challenge": {
+          "correct_positive": {
+            "count": 8,
+            "no_candidate": 0,
+            "min": 0.27111925876208554,
+            "median": 0.3834001260571285,
+            "max": 0.5810480394437834
+          },
+          "incorrect_positive": {
+            "count": 0,
+            "no_candidate": 0,
+            "min": null,
+            "median": null,
+            "max": null
+          },
+          "negative": {
+            "count": 12,
+            "no_candidate": 0,
+            "min": 0.0002206421700042985,
+            "median": 0.27588775231870166,
+            "max": 0.46393160027917874
+          }
+        }
+      }
+    },
+    "jieba_lcut_for_search": {
+      "top1": {
+        "development": {
+          "positive_count": 32,
+          "source_id_hits": 14,
+          "source_id_hit_rate": 0.4375,
+          "no_candidate": 1
+        },
+        "retained": {
+          "positive_count": 32,
+          "source_id_hits": 10,
+          "source_id_hit_rate": 0.3125,
+          "no_candidate": 0
+        },
+        "all_regression": {
+          "positive_count": 64,
+          "source_id_hits": 24,
+          "source_id_hit_rate": 0.375,
+          "no_candidate": 1
+        },
+        "challenge": {
+          "positive_count": 8,
+          "source_id_hits": 8,
+          "source_id_hit_rate": 1.0,
+          "no_candidate": 0
+        }
+      },
+      "fixed_085": {
+        "development": {
+          "threshold": 0.85,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:28"
+          ]
+        },
+        "retained": {
+          "threshold": 0.85,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:20"
+          ]
+        },
+        "challenge": {
+          "threshold": 0.85,
+          "sample_count": 20,
+          "positive_count": 8,
+          "negative_count": 12,
+          "accepted_total": 0,
+          "strict_correct": 0,
+          "strict_precision": null,
+          "correct_positive_coverage": 0.0,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": []
+        }
+      },
+      "threshold_count": 185,
+      "strict90": {
+        "target": 0.9,
+        "require_no_development_negative_accepts": true,
+        "selected_development": {
+          "threshold": 0.7420077096326618,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:28"
+          ]
+        },
+        "retained_at_selected": {
+          "threshold": 0.7420077096326618,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:20"
+          ]
+        },
+        "challenge_at_selected": {
+          "threshold": 0.7420077096326618,
+          "sample_count": 20,
+          "positive_count": 8,
+          "negative_count": 12,
+          "accepted_total": 0,
+          "strict_correct": 0,
+          "strict_precision": null,
+          "correct_positive_coverage": 0.0,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": []
+        }
+      },
+      "strategies": [
+        {
+          "target": 0.95,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.9,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.8,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.7,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        },
+        {
+          "target": 0.5,
+          "require_no_development_negative_accepts": true,
+          "selected_development": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:28"
+            ]
+          },
+          "retained_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 44,
+            "positive_count": 32,
+            "negative_count": 12,
+            "accepted_total": 1,
+            "strict_correct": 1,
+            "strict_precision": 1.0,
+            "correct_positive_coverage": 0.03125,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": [
+              "cases.json:positive:20"
+            ]
+          },
+          "challenge_at_selected": {
+            "threshold": 0.7420077096326618,
+            "sample_count": 20,
+            "positive_count": 8,
+            "negative_count": 12,
+            "accepted_total": 0,
+            "strict_correct": 0,
+            "strict_precision": null,
+            "correct_positive_coverage": 0.0,
+            "positive_source_id_misses": 0,
+            "negative_accepts": 0,
+            "accepted_ids": []
+          }
+        }
+      ],
+      "development_pareto": [
+        {
+          "threshold": 0.029952605172293777,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 34,
+          "strict_correct": 14,
+          "strict_precision": 0.4117647058823529,
+          "correct_positive_coverage": 0.4375,
+          "positive_source_id_misses": 15,
+          "negative_accepts": 5,
+          "accepted_ids": [
+            "cases.json:positive:0",
+            "cases.json:positive:1",
+            "cases.json:positive:3",
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:17",
+            "cases.json:positive:21",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:27",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "cases.json:negative:1",
+            "cases.json:negative:8",
+            "cases.json:negative:11",
+            "extended_cases.json:positive:2",
+            "extended_cases.json:positive:5",
+            "extended_cases.json:positive:7",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:10",
+            "extended_cases.json:positive:15",
+            "extended_cases.json:positive:16",
+            "extended_cases.json:positive:18",
+            "extended_cases.json:positive:20",
+            "extended_cases.json:positive:22",
+            "extended_cases.json:positive:25",
+            "extended_cases.json:positive:28",
+            "extended_cases.json:positive:31",
+            "extended_cases.json:negative:2",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.06855342847466048,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 28,
+          "strict_correct": 12,
+          "strict_precision": 0.42857142857142855,
+          "correct_positive_coverage": 0.375,
+          "positive_source_id_misses": 13,
+          "negative_accepts": 3,
+          "accepted_ids": [
+            "cases.json:positive:3",
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:21",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:27",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "cases.json:negative:8",
+            "cases.json:negative:11",
+            "extended_cases.json:positive:2",
+            "extended_cases.json:positive:5",
+            "extended_cases.json:positive:7",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:10",
+            "extended_cases.json:positive:16",
+            "extended_cases.json:positive:18",
+            "extended_cases.json:positive:20",
+            "extended_cases.json:positive:22",
+            "extended_cases.json:positive:25",
+            "extended_cases.json:positive:28",
+            "extended_cases.json:positive:31",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.08955469849700438,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 25,
+          "strict_correct": 11,
+          "strict_precision": 0.44,
+          "correct_positive_coverage": 0.34375,
+          "positive_source_id_misses": 11,
+          "negative_accepts": 3,
+          "accepted_ids": [
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:21",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "cases.json:negative:8",
+            "cases.json:negative:11",
+            "extended_cases.json:positive:2",
+            "extended_cases.json:positive:5",
+            "extended_cases.json:positive:7",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:10",
+            "extended_cases.json:positive:16",
+            "extended_cases.json:positive:18",
+            "extended_cases.json:positive:22",
+            "extended_cases.json:positive:25",
+            "extended_cases.json:positive:28",
+            "extended_cases.json:positive:31",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.1631676763473414,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 15,
+          "strict_correct": 10,
+          "strict_precision": 0.6666666666666666,
+          "correct_positive_coverage": 0.3125,
+          "positive_source_id_misses": 3,
+          "negative_accepts": 2,
+          "accepted_ids": [
+            "cases.json:positive:6",
+            "cases.json:positive:8",
+            "cases.json:positive:10",
+            "cases.json:positive:12",
+            "cases.json:positive:13",
+            "cases.json:positive:14",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:28",
+            "cases.json:positive:30",
+            "cases.json:negative:8",
+            "extended_cases.json:positive:8",
+            "extended_cases.json:positive:10",
+            "extended_cases.json:positive:28",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.32865688964152107,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 7,
+          "strict_correct": 5,
+          "strict_precision": 0.7142857142857143,
+          "correct_positive_coverage": 0.15625,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 2,
+          "accepted_ids": [
+            "cases.json:positive:8",
+            "cases.json:positive:13",
+            "cases.json:positive:22",
+            "cases.json:positive:25",
+            "cases.json:positive:28",
+            "cases.json:negative:8",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.6677488777111378,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 4,
+          "strict_correct": 3,
+          "strict_precision": 0.75,
+          "correct_positive_coverage": 0.09375,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 1,
+          "accepted_ids": [
+            "cases.json:positive:8",
+            "cases.json:positive:22",
+            "cases.json:positive:28",
+            "extended_cases.json:negative:9"
+          ]
+        },
+        {
+          "threshold": 0.7420077096326618,
+          "sample_count": 44,
+          "positive_count": 32,
+          "negative_count": 12,
+          "accepted_total": 1,
+          "strict_correct": 1,
+          "strict_precision": 1.0,
+          "correct_positive_coverage": 0.03125,
+          "positive_source_id_misses": 0,
+          "negative_accepts": 0,
+          "accepted_ids": [
+            "cases.json:positive:28"
+          ]
+        }
+      ],
+      "score_distributions": {
+        "development": {
+          "correct_positive": {
+            "count": 14,
+            "no_candidate": 0,
+            "min": 0.03199247245880008,
+            "median": 0.22941362623919084,
+            "max": 0.9979910369596251
+          },
+          "incorrect_positive": {
+            "count": 18,
+            "no_candidate": 0,
+            "min": 0.005395694886248087,
+            "median": 0.11614107906051943,
+            "max": 0.328656889641521
+          },
+          "negative": {
+            "count": 12,
+            "no_candidate": 1,
+            "min": 0.00021952758820671352,
+            "median": 0.029735928076891696,
+            "max": 0.7420077096326617
+          }
+        },
+        "retained": {
+          "correct_positive": {
+            "count": 10,
+            "no_candidate": 0,
+            "min": 0.03818836162812313,
+            "median": 0.18977908289230802,
+            "max": 0.995783531712062
+          },
+          "incorrect_positive": {
+            "count": 22,
+            "no_candidate": 0,
+            "min": 0.007603851348965649,
+            "median": 0.10398916306330894,
+            "max": 0.5061378474769261
+          },
+          "negative": {
+            "count": 12,
+            "no_candidate": 0,
+            "min": 0.0023079423610613526,
+            "median": 0.015814856667433895,
+            "max": 0.49905165322560935
+          }
+        },
+        "challenge": {
+          "correct_positive": {
+            "count": 8,
+            "no_candidate": 0,
+            "min": 0.267648933033995,
+            "median": 0.364664072867094,
+            "max": 0.6111304133389501
+          },
+          "incorrect_positive": {
+            "count": 0,
+            "no_candidate": 0,
+            "min": null,
+            "median": null,
+            "max": null
+          },
+          "negative": {
+            "count": 12,
+            "no_candidate": 0,
+            "min": 0.00021952758820671352,
+            "median": 0.29027273051705627,
+            "max": 0.45756711697870694
+          }
+        }
+      }
+    }
+  },
+  "development_selected": {
+    "tokenizer": "jieba_lcut_original",
+    "threshold": 0.7787575525529611
+  },
+  "frozen_bigram_baseline_top1": {
+    "all_regression": {
+      "positive_count": 64,
+      "source_id_hits": 26,
+      "source_id_hit_rate": 0.40625,
+      "no_candidate": 12
+    },
+    "development": {
+      "positive_count": 32,
+      "source_id_hits": 13,
+      "source_id_hit_rate": 0.40625,
+      "no_candidate": 6
+    },
+    "retained": {
+      "positive_count": 32,
+      "source_id_hits": 13,
+      "source_id_hit_rate": 0.40625,
+      "no_candidate": 6
+    },
+    "challenge": {
+      "positive_count": 8,
+      "source_id_hits": 8,
+      "source_id_hit_rate": 1.0,
+      "no_candidate": 3
+    }
+  },
+  "input_sha256": {
+    "faq.py": "6be3ff1663f408435e6561c53335c3ff5da7201f0e34e6a4170d8d1ce91b1cab",
+    "faq.jsonl": "fb97fc0d76a6f52e55ff53859bb75b9671d096adeca8688478f19993b7a72b8c",
+    "knowledge.jsonl": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7",
+    "frozen_cases.json": "9fdf5ef342e1396dd7f200510ce9c5d90f3af188ed426edcb4e31338dce0076b",
+    "challenge_cases.json": "c99b24eb2083d4e18fe10d79637698c2852f139cb7f889de13d965f82876f4dc",
+    "original_preprocess.py": "0dfb26faf416e5132d61b1ab41d7b4d2556fa003b56d5708bb86e93d6da5ce91",
+    "frozen_bigram_results.jsonl": "960ed49a6cbf3ece4f4b1fa7ee8e52994a63c7aced8af67f27bc734e17876c39"
+  },
+  "core_unchanged": true,
+  "original_education_preprocess_unchanged": true,
+  "elapsed_seconds": 3.2399503999986337,
+  "limitations": [
+    "Prior synthetic development and retained material are not a blind external benchmark.",
+    "This is a targeted experiment after prior bad-score analysis; thresholds alone cannot fix missing FAQ coverage.",
+    "Source-ID correctness is a strict relevance proxy and does not prove answer completeness.",
+    "No negative relabeling or safe-denial credit is applied to strict selection.",
+    "Retained and challenge observations do not enter tokenizer/threshold selection.",
+    "Two predeclared variants are tried; no stopword tuning or question-derived FAQ generation.",
+    "The relative Softmax score changes with corpus/tokenization and is not calibrated correctness.",
+    "Whole-system BERT routing/RAG fallback can change final outcomes and is not run here."
+  ]
+}

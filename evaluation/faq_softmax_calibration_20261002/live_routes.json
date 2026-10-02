@@ -1,0 +1,444 @@
+{
+  "created_at_utc": "2026-10-02T08:21:20.157236+00:00",
+  "threshold": 0.55,
+  "scope": "Eight targeted real BERT/MySQL/Redis/FAQ and neural RAG routes; Qwen disabled; not a representative answer accuracy benchmark.",
+  "selection": [
+    "cases.json:positive:2",
+    "cases.json:positive:6",
+    "cases.json:positive:20",
+    "cases.json:positive:9",
+    "cases.json:positive:0",
+    "missing-01",
+    "missing-05",
+    "extended_cases.json:negative:9"
+  ],
+  "observations": [
+    {
+      "case_id": "cases.json:positive:2",
+      "query": "给同事发的邀请链接过期了",
+      "expected_source_ids": [
+        "ORG-09"
+      ],
+      "source_id_hit": true,
+      "source_ids": [
+        "ORG-09"
+      ],
+      "answer": "组织成员常见问题：邀请链接过期。处理步骤：邀请有效期7天；撤销旧邀请后重发，核对被邀请邮箱，不要新建重复账号。排查后记录资源ID、时间和脱敏错误信息；若仍失败由组织管理员提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [ORG-09]",
+      "mode": "faq",
+      "trace": {
+        "original_query": "给同事发的邀请链接过期了",
+        "contextual_query": "给同事发的邀请链接过期了",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.5575459599494934,
+          "probabilities": {
+            "support_knowledge": 0.4424475133419037,
+            "handoff": 0.5575459599494934,
+            "out_of_scope": 6.5174922383448575e-06
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.8098110036509526,
+          "raw_score": 37.40485450380736,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": true,
+          "reason": "accepted",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 200,
+          "eligible_count": 4736,
+          "id": "FAQ-ORG-09-1",
+          "question": "组织成员的邀请链接过期怎么办？",
+          "source_id": "ORG-09",
+          "matches": 6
+        }
+      },
+      "elapsed_ms": 2325.32
+    },
+    {
+      "case_id": "cases.json:positive:6",
+      "query": "在线咨询的访客一直在排队",
+      "expected_source_ids": [
+        "CHAT-09"
+      ],
+      "source_id_hit": true,
+      "source_ids": [
+        "CHAT-09"
+      ],
+      "answer": "在线会话常见问题：访客一直排队。处理步骤：检查渠道营业时段、坐席在线状态和并发配额，必要时提示访客提交工单。排查后记录资源ID、时间和脱敏错误信息；若仍失败由坐席主管提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [CHAT-09]",
+      "mode": "faq",
+      "trace": {
+        "original_query": "在线咨询的访客一直在排队",
+        "contextual_query": "在线咨询的访客一直在排队",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.6790105700492859,
+          "probabilities": {
+            "support_knowledge": 0.0020494440104812384,
+            "handoff": 0.6790105700492859,
+            "out_of_scope": 0.3189399838447571
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.7992269942070418,
+          "raw_score": 36.22971094281603,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": true,
+          "reason": "accepted",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 671,
+          "eligible_count": 4736,
+          "id": "FAQ-CHAT-09-1",
+          "question": "在线会话的访客一直排队怎么办？",
+          "source_id": "CHAT-09",
+          "matches": 6
+        }
+      },
+      "elapsed_ms": 1408.55
+    },
+    {
+      "case_id": "cases.json:positive:20",
+      "query": "导入的资产编号重复了怎么办？",
+      "expected_source_ids": [
+        "ASSET-09"
+      ],
+      "source_id_hit": true,
+      "source_ids": [
+        "ASSET-09"
+      ],
+      "answer": "资产管理常见问题：资产编号重复。处理步骤：导入前按资产编号去重，核对历史报废记录；确需复用编号应由管理员确认关联关系。排查后记录资源ID、时间和脱敏错误信息；若仍失败由资产管理员提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [ASSET-09]",
+      "mode": "faq",
+      "trace": {
+        "original_query": "导入的资产编号重复了怎么办？",
+        "contextual_query": "导入的资产编号重复了怎么办？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "support_knowledge",
+          "confidence": 0.9315038919448853,
+          "probabilities": {
+            "support_knowledge": 0.9315038919448853,
+            "handoff": 0.06700025498867035,
+            "out_of_scope": 0.0014958456158638
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.7883495710919775,
+          "raw_score": 36.41418915332248,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": true,
+          "reason": "accepted",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 872,
+          "eligible_count": 4736,
+          "id": "FAQ-ASSET-09-1",
+          "question": "资产管理的资产编号重复怎么办？",
+          "source_id": "ASSET-09",
+          "matches": 6
+        }
+      },
+      "elapsed_ms": 1464.44
+    },
+    {
+      "case_id": "cases.json:positive:9",
+      "query": "AI写好的帮助文章能直接发布吗？",
+      "expected_source_ids": [
+        "KB-13"
+      ],
+      "source_id_hit": false,
+      "source_ids": [
+        "KB-09"
+      ],
+      "answer": "知识中心常见问题：更新后搜不到文章。处理步骤：确认文章已发布且访问范围正确，等待索引完成；记录文章ID供管理员检查索引任务。排查后记录资源ID、时间和脱敏错误信息；若仍失败由知识库管理员提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [KB-09]",
+      "mode": "faq",
+      "trace": {
+        "original_query": "AI写好的帮助文章能直接发布吗？",
+        "contextual_query": "AI写好的帮助文章能直接发布吗？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.8346930742263794,
+          "probabilities": {
+            "support_knowledge": 0.15700718760490417,
+            "handoff": 0.8346930742263794,
+            "out_of_scope": 0.008299725130200386
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.9826171067034652,
+          "raw_score": 13.70679723321891,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": true,
+          "reason": "accepted",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 16,
+          "eligible_count": 4736,
+          "id": "FAQ-KB-09-6",
+          "question": "客服您好，知识中心更新后搜不到文章能解释一下吗",
+          "source_id": "KB-09",
+          "matches": 2
+        }
+      },
+      "elapsed_ms": 1422.13
+    },
+    {
+      "case_id": "cases.json:positive:0",
+      "query": "我把登录密码忘了，可以怎么找回？",
+      "expected_source_ids": [
+        "ACC-13"
+      ],
+      "source_id_hit": true,
+      "source_ids": [
+        "ACC-13",
+        "ACC-RB06-1",
+        "ACC-01",
+        "RET-01",
+        "ORG-01"
+      ],
+      "answer": "根据当前演示资料：\n登录页点击忘记密码，输入注册工作邮箱，通过重置邮件设置新密码。链接过期后重新申请；企业SSO账号的密码由公司身份提供方管理，请联系企业IT管理员。客服不会索取密码或验证码。 [ACC-13]",
+      "mode": "retrieval_only",
+      "trace": {
+        "original_query": "我把登录密码忘了，可以怎么找回？",
+        "contextual_query": "我把登录密码忘了，可以怎么找回？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "support_knowledge",
+          "confidence": 0.5771429538726807,
+          "probabilities": {
+            "support_knowledge": 0.5771429538726807,
+            "handoff": 0.40482521057128906,
+            "out_of_scope": 0.018031872808933258
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.0486017323662261,
+          "raw_score": 6.822678580567188,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": false,
+          "reason": "below_threshold",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 104,
+          "eligible_count": 4736,
+          "id": "FAQ-ACC-13-5",
+          "question": "客服您好，账号安全忘记密码与重置密码",
+          "source_id": "ACC-13",
+          "matches": 1
+        },
+        "rewrite": {
+          "method": "context_rules",
+          "query": "我把登录密码忘了，可以怎么找回？"
+        },
+        "retrieval": {
+          "queries": [
+            "我把登录密码忘了，可以怎么找回？"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "elapsed_ms": 14677.0
+    },
+    {
+      "case_id": "missing-01",
+      "query": "账号安全忘记密码与重置密码：重置链接的有效期具体是多少分钟？",
+      "expected_source_ids": [],
+      "source_id_hit": false,
+      "source_ids": [
+        "ACC-06",
+        "ACC-13",
+        "ACC-RB06-1",
+        "ACC-RB06-3",
+        "ACC-RB06-4"
+      ],
+      "answer": "根据当前演示资料：\n账号安全导出由账号本人执行。选择组织、时间范围和字段后提交导出任务，再凭任务ID查看进度。仅导出有权限的账号，演示下载链接有效期24小时；到期后重新申请。下载完成核对条数，将文件存放于组织批准的位置。 [ACC-06]",
+      "mode": "retrieval_only",
+      "trace": {
+        "original_query": "账号安全忘记密码与重置密码：重置链接的有效期具体是多少分钟？",
+        "contextual_query": "账号安全忘记密码与重置密码：重置链接的有效期具体是多少分钟？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "support_knowledge",
+          "confidence": 0.9044591188430786,
+          "probabilities": {
+            "support_knowledge": 0.9044591188430786,
+            "handoff": 0.09550832957029343,
+            "out_of_scope": 3.258372817072086e-05
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.4157416888969305,
+          "raw_score": 60.717908220131,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": false,
+          "reason": "below_threshold",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 814,
+          "eligible_count": 4736,
+          "id": "FAQ-ACC-13-5",
+          "question": "客服您好，账号安全忘记密码与重置密码",
+          "source_id": "ACC-13",
+          "matches": 11
+        },
+        "rewrite": {
+          "method": "context_rules",
+          "query": "账号安全忘记密码与重置密码：重置链接的有效期具体是多少分钟？"
+        },
+        "retrieval": {
+          "queries": [
+            "账号安全忘记密码与重置密码：重置链接的有效期具体是多少分钟？"
+          ],
+          "branch_candidates": [
+            {
+              "neural": 20,
+              "lexical": 20
+            }
+          ],
+          "merged_candidates": 20,
+          "reranked": 5,
+          "unpublished_skipped": 0,
+          "fusion": "Milvus WeightedRanker dense/sparse + BM25 RRF(k=60)",
+          "reranker": "BGE-Reranker cross-encoder"
+        }
+      },
+      "elapsed_ms": 13953.53
+    },
+    {
+      "case_id": "missing-05",
+      "query": "发票管理发票申请资料：发票寄送邮费具体是多少钱？",
+      "expected_source_ids": [],
+      "source_id_hit": false,
+      "source_ids": [],
+      "answer": "当前知识库没有经确认的价格表。请由销售或账单人员核对套餐、席位数和订单条款后报价。",
+      "mode": "insufficient_evidence",
+      "trace": {
+        "original_query": "发票管理发票申请资料：发票寄送邮费具体是多少钱？",
+        "contextual_query": "发票管理发票申请资料：发票寄送邮费具体是多少钱？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "support_knowledge",
+          "confidence": 0.8174834251403809,
+          "probabilities": {
+            "support_knowledge": 0.8174834251403809,
+            "handoff": 0.18240132927894592,
+            "out_of_scope": 0.00011514188372530043
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        }
+      },
+      "elapsed_ms": 1630.58
+    },
+    {
+      "case_id": "extended_cases.json:negative:9",
+      "query": "客户退货后是否必定七天内收到退款？",
+      "expected_source_ids": [],
+      "source_id_hit": false,
+      "source_ids": [
+        "RET-09"
+      ],
+      "answer": "退换服务常见问题：退货退款未到账。处理步骤：核对审核、验收和支付渠道状态；退款资格及到账时间取决于订单规则和渠道，不凭聊天直接承诺。排查后记录资源ID、时间和脱敏错误信息；若仍失败由售后主管提交工单。不要关闭身份校验或删除历史记录来绕过错误。 [RET-09]",
+      "mode": "faq",
+      "trace": {
+        "original_query": "客户退货后是否必定七天内收到退款？",
+        "contextual_query": "客户退货后是否必定七天内收到退款？",
+        "cache_hit": false,
+        "bert": {
+          "intent": "handoff",
+          "confidence": 0.8962056636810303,
+          "probabilities": {
+            "support_knowledge": 0.10374855995178223,
+            "handoff": 0.8962056636810303,
+            "out_of_scope": 4.5801603846484795e-05
+          },
+          "artifact_verified": true,
+          "dataset_sha256": "bca9d8aa81a9f7ea603aa6661fcf2827e590c3ec003d126195cde0bee38ad243",
+          "training_scope": "BERT classification head fine-tuning; backbone frozen; synthetic support data"
+        },
+        "faq": {
+          "method": "bm25",
+          "score": 0.9889255297085455,
+          "raw_score": 15.324433403977952,
+          "normalization": "softmax_all_faq",
+          "threshold": 0.55,
+          "accepted": true,
+          "reason": "accepted",
+          "index_version": "9c598a18049848ee8315d9f8a4666291",
+          "candidate_count": 152,
+          "eligible_count": 4736,
+          "id": "FAQ-RET-09-5",
+          "question": "退换服务使用中遇到退货退款未到账问题怎么处理",
+          "source_id": "RET-09",
+          "matches": 3
+        }
+      },
+      "elapsed_ms": 1414.74
+    }
+  ],
+  "complete": true,
+  "code_sha256": {
+    "cloudcare/settings.py": "9a8765d884dc4f213558dc765a094652ea4ae59afd2e8493eb435424413e5fa3",
+    "cloudcare/faq.py": "6be3ff1663f408435e6561c53335c3ff5da7201f0e34e6a4170d8d1ce91b1cab",
+    "cloudcare/pipeline.py": "50e803d7431eae953b45482613748c065e55784f0208a9bc27cec38f5d8c7b55",
+    "cloudcare/storage.py": "72fc14d8e4b68564e1425e120bfa6599c4992a5dfe018f218048271ec28d72f2"
+  },
+  "storage_before": {
+    "documents": 112,
+    "parents": 112,
+    "chunks": 592,
+    "faq": 4736,
+    "sessions": 162,
+    "messages": 324,
+    "tickets": 0
+  },
+  "provider_calls": 0,
+  "storage_after_cleanup": {
+    "documents": 112,
+    "parents": 112,
+    "chunks": 592,
+    "faq": 4736,
+    "sessions": 162,
+    "messages": 324,
+    "tickets": 0
+  },
+  "wall_seconds": 39.051690999998755
+}

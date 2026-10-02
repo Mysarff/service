@@ -441,7 +441,7 @@ class RedisStore:
             record_map[identifier] = json.dumps(row, ensure_ascii=False, default=str)
             indexed_rows.append(row)
         snapshot = FAQBM25Index(sorted(indexed_rows, key=lambda row: row["id"]))
-        metadata = {"algorithm": FAQ_BM25_ALGORITHM, "count": len(record_map),
+        metadata = {"algorithm": FAQ_BM25_ALGORITHM, "normalization": "softmax_all_faq", "count": len(record_map),
                     "terms": len(snapshot.postings), "avg_length": snapshot.avg_length,
                     "k1": FAQ_BM25_K1, "b": FAQ_BM25_B}
         # Publish the pointer only after all records and metadata are written.
@@ -468,13 +468,13 @@ class RedisStore:
 
     def find_faq(self, query: str, category: str = "", min_score: float = 0.0,
                  index_version: str | None = None) -> dict[str, Any] | None:
-        """Return the highest scoring FAQ question, using raw BM25 only.
+        """Return the top BM25 FAQ with whole-index Softmax and raw score.
 
         The answer pipeline requests the unfiltered top candidate so its trace
         records the score even when it fails the configured direct-answer gate.
         """
-        if not math.isfinite(min_score) or min_score < 0:
-            raise ValueError("FAQ BM25 minimum score must be finite and non-negative")
+        if not math.isfinite(min_score) or not 0 <= min_score <= 1:
+            raise ValueError("FAQ BM25 Softmax minimum score must be within [0, 1]")
         version = self.faq_index_version() if index_version is None else index_version
         if not version:
             return None

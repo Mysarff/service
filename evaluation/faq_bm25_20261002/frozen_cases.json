@@ -1,0 +1,1000 @@
+[
+  {
+    "id": "cases.json:positive:0",
+    "query": "我把登录密码忘了，可以怎么找回？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "账号安全",
+    "expected_source_ids": [
+      "ACC-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:1",
+    "query": "换了手机之后验证器怎么迁移？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "账号安全",
+    "expected_source_ids": [
+      "ACC-14"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:2",
+    "query": "给同事发的邀请链接过期了",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "组织成员",
+    "expected_source_ids": [
+      "ORG-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:3",
+    "query": "同事离职，名下的工单和文章需要先交接吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "组织成员",
+    "expected_source_ids": [
+      "ORG-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:4",
+    "query": "工单一直没有分给任何坐席",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "工单管理",
+    "expected_source_ids": [
+      "TKT-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:5",
+    "query": "提交工单后能保证多少分钟解决？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "工单管理",
+    "expected_source_ids": [
+      "TKT-13",
+      "TKT-12"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:6",
+    "query": "在线咨询的访客一直在排队",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "在线会话",
+    "expected_source_ids": [
+      "CHAT-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:7",
+    "query": "晚上没有客服时可以留言吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "在线会话",
+    "expected_source_ids": [
+      "CHAT-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:8",
+    "query": "知识文章更新发布后为什么搜索不到？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "知识中心",
+    "expected_source_ids": [
+      "KB-09",
+      "KB-07"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:9",
+    "query": "AI写好的帮助文章能直接发布吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "知识中心",
+    "expected_source_ids": [
+      "KB-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:10",
+    "query": "订单重复创建了要重新扣钱吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "订单服务",
+    "expected_source_ids": [
+      "ORD-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:11",
+    "query": "已支付并出库的订单还能直接取消吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "订单服务",
+    "expected_source_ids": [
+      "ORD-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:12",
+    "query": "关掉自动续费就会自动退款吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "订阅管理",
+    "expected_source_ids": [
+      "SUB-13",
+      "SUB-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:13",
+    "query": "这次续费扣款失败该查哪里？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "订阅管理",
+    "expected_source_ids": [
+      "SUB-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:14",
+    "query": "发票已经开出来但抬头写错了",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "发票管理",
+    "expected_source_ids": [
+      "INV-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:15",
+    "query": "申请发票要提供哪些信息？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "发票管理",
+    "expected_source_ids": [
+      "INV-13",
+      "INV-02"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:16",
+    "query": "运单轨迹好久没有更新了",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "物流服务",
+    "expected_source_ids": [
+      "SHIP-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:17",
+    "query": "显示签收但是客户说没收到货",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "物流服务",
+    "expected_source_ids": [
+      "SHIP-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:18",
+    "query": "退回商品后退款还没有到账",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "退换服务",
+    "expected_source_ids": [
+      "RET-09",
+      "RET-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:19",
+    "query": "售后单从申请到结束有哪些状态？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "退换服务",
+    "expected_source_ids": [
+      "RET-03"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:20",
+    "query": "导入的资产编号重复了怎么办？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "资产管理",
+    "expected_source_ids": [
+      "ASSET-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:21",
+    "query": "设备借出和归还如何保留交接记录？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "资产管理",
+    "expected_source_ids": [
+      "ASSET-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:22",
+    "query": "同事看不到我创建的项目",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "项目协作",
+    "expected_source_ids": [
+      "PRJ-09",
+      "PRJ-13",
+      "PRJ-04"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:23",
+    "query": "项目最多一次能导入几行CSV？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "项目协作",
+    "expected_source_ids": [
+      "PRJ-05",
+      "PRJ-10"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:24",
+    "query": "审批卡在已经离职的人那里",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "审批流程",
+    "expected_source_ids": [
+      "APR-13",
+      "APR-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:25",
+    "query": "审批单允许的状态变更是什么？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "审批流程",
+    "expected_source_ids": [
+      "APR-03"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:26",
+    "query": "报表统计结果和之前对不上",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "报表分析",
+    "expected_source_ids": [
+      "REPORT-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:27",
+    "query": "报表导出的下载链接可以用多久？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "报表分析",
+    "expected_source_ids": [
+      "REPORT-06"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:28",
+    "query": "API请求一直返回429怎么办？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "开放接口",
+    "expected_source_ids": [
+      "API-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:29",
+    "query": "不小心把接口密钥泄露了怎么办？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "开放接口",
+    "expected_source_ids": [
+      "API-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:positive:30",
+    "query": "安全管理员导出审计记录失败",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "审计中心",
+    "expected_source_ids": [
+      "AUDIT-09"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:positive:31",
+    "query": "审计日志能直接传给普通客服吗？",
+    "kind": "positive",
+    "origin": "cases.json",
+    "category": "审计中心",
+    "expected_source_ids": [
+      "AUDIT-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:0",
+    "query": "明天上海会下雨吗？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:1",
+    "query": "写一首关于秋天的诗",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:negative:2",
+    "query": "Python如何实现快速排序？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:3",
+    "query": "推荐一只明天会涨的股票",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:negative:4",
+    "query": "感冒应该吃哪种药？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:5",
+    "query": "帮我解一元二次方程",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:negative:6",
+    "query": "火星到地球有多远？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:7",
+    "query": "周末晚餐菜谱推荐",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:negative:8",
+    "query": "你们的SOC2证书编号是什么？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "cases.json:negative:9",
+    "query": "企业套餐当前价格是多少元？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:10",
+    "query": "今天美元兑人民币汇率是多少？",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "cases.json:negative:11",
+    "query": "帮我查询订单ZX987654现在到哪了",
+    "kind": "negative",
+    "origin": "cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:0",
+    "query": "通过公司身份平台验证后又回到了登录画面，该排查什么？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "账号安全",
+    "expected_source_ids": [
+      "ACC-RB01-1",
+      "ACC-RB01-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:1",
+    "query": "手机验证器一直说动态口令不对，时间不同步怎么恢复？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "账号安全",
+    "expected_source_ids": [
+      "ACC-RB02-1",
+      "ACC-RB02-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:2",
+    "query": "准备停用最后一个组织管理员，应该先做什么？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "组织成员",
+    "expected_source_ids": [
+      "ORG-RB04-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:3",
+    "query": "员工调去新部门，还能看到原部门资源，怎么撤权？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "组织成员",
+    "expected_source_ids": [
+      "ORG-RB02-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:4",
+    "query": "同一工单不停在两个客服组之间来回分派，该怎么定位？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "工单管理",
+    "expected_source_ids": [
+      "TKT-RB01-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:5",
+    "query": "客服收到可疑附件，杀毒提示有问题时怎么处置？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "工单管理",
+    "expected_source_ids": [
+      "TKT-RB04-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:6",
+    "query": "聊天转给另一坐席以后历史消息不见了，怎么查？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "在线会话",
+    "expected_source_ids": [
+      "CHAT-RB01-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:7",
+    "query": "访客一刷新网页就多出一个排队位置，如何恢复？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "在线会话",
+    "expected_source_ids": [
+      "CHAT-RB02-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:8",
+    "query": "知识库搜索还在引用已经过期的政策，要怎么修正？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "知识中心",
+    "expected_source_ids": [
+      "KB-RB01-2",
+      "KB-13"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:9",
+    "query": "扫描版PDF传进来没有文本，助手能直接做OCR吗？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "知识中心",
+    "expected_source_ids": [
+      "KB-RB05-2",
+      "KB-RB05-4"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:10",
+    "query": "同一支付通知反复送到订单系统，会不会重复入账，应怎么处理？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "订单服务",
+    "expected_source_ids": [
+      "ORD-RB01-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:11",
+    "query": "渠道已扣钱但订单仍待付款，应该核查什么？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "订单服务",
+    "expected_source_ids": [
+      "ORD-RB02-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:12",
+    "query": "套餐要降级但现有资源比新额度多，应该怎么办？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "订阅管理",
+    "expected_source_ids": [
+      "SUB-RB02-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:13",
+    "query": "试用转为付费后原来的配置都找不到了，要查哪里？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "订阅管理",
+    "expected_source_ids": [
+      "SUB-RB04-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:14",
+    "query": "同一个订单提交两次开票申请，财务怎么处理重复的？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "发票管理",
+    "expected_source_ids": [
+      "INV-RB01-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:15",
+    "query": "旧发票更正还没结束，可以先开一张新的吗？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "发票管理",
+    "expected_source_ids": [
+      "INV-RB03-4",
+      "INV-RB03-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:16",
+    "query": "订单拆成几个包裹只收到其中一个，履约如何跟进？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "物流服务",
+    "expected_source_ids": [
+      "SHIP-RB02-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:17",
+    "query": "物流最新回传事件比上一条还早，要排查哪些时间字段？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "物流服务",
+    "expected_source_ids": [
+      "SHIP-RB04-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:18",
+    "query": "退回设备的序列号不是出库那台，如何处理？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "退换服务",
+    "expected_source_ids": [
+      "RET-RB02-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:19",
+    "query": "组合订单只退其中一件，金额按什么步骤处理？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "退换服务",
+    "expected_source_ids": [
+      "RET-RB03-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:20",
+    "query": "盘点时系统有资产现场没有，该如何保留差异？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "资产管理",
+    "expected_source_ids": [
+      "ASSET-RB01-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:21",
+    "query": "电脑准备报废，硬盘上的业务数据如何清除？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "资产管理",
+    "expected_source_ids": [
+      "ASSET-RB04-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:22",
+    "query": "项目任务A等B、B又等A，负责人应怎么处理？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "项目协作",
+    "expected_source_ids": [
+      "PRJ-RB03-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:23",
+    "query": "从老项目模板创建后带进了旧成员，要怎么修复？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "项目协作",
+    "expected_source_ids": [
+      "PRJ-RB06-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:24",
+    "query": "申请提交后没有一个审批分支符合条件，要排查哪里？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "审批流程",
+    "expected_source_ids": [
+      "APR-RB01-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:25",
+    "query": "代理审批授权过期了还收到待办，怎样撤回？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "审批流程",
+    "expected_source_ids": [
+      "APR-RB04-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:26",
+    "query": "昨天的报表今天又多出事件，增量水位该怎么检查？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "报表分析",
+    "expected_source_ids": [
+      "REPORT-RB02-1"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:27",
+    "query": "当天零会话时解决率出现无穷大，怎么显示才合理？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "报表分析",
+    "expected_source_ids": [
+      "REPORT-RB06-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:28",
+    "query": "Webhook原始请求体被重新格式化后验签失败，应该怎么改？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "开放接口",
+    "expected_source_ids": [
+      "API-RB01-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:positive:29",
+    "query": "分页读取时总漏掉一些记录，游标应该怎么使用？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "开放接口",
+    "expected_source_ids": [
+      "API-RB03-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:30",
+    "query": "审计归档文件算出的哈希和记录不一样，如何处置？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "审计中心",
+    "expected_source_ids": [
+      "AUDIT-RB03-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:positive:31",
+    "query": "调查没完成日志就要到期删除了，应该怎样保全？",
+    "kind": "positive",
+    "origin": "extended_cases.json",
+    "category": "审计中心",
+    "expected_source_ids": [
+      "AUDIT-RB04-2"
+    ],
+    "group": "natural_rewrite_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:0",
+    "query": "你们公司的创始人是谁？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:1",
+    "query": "云栈公司的注册资本是多少？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:2",
+    "query": "目前有多少家真实付费客户？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:3",
+    "query": "请直接替我批准这张采购申请",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:negative:4",
+    "query": "帮我执行一笔退款到银行卡",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:negative:5",
+    "query": "请马上删除我公司的所有审计记录",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:negative:6",
+    "query": "开票适用的税率具体是多少？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:negative:7",
+    "query": "购买套餐可以保证99.99%的在线率吗？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:8",
+    "query": "你们支持哪一家银行的付款账户？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  },
+  {
+    "id": "extended_cases.json:negative:9",
+    "query": "客户退货后是否必定七天内收到退款？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:10",
+    "query": "你的模型训练了多少亿参数？",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "development"
+  },
+  {
+    "id": "extended_cases.json:negative:11",
+    "query": "给我查询员工张三这个月的工资",
+    "kind": "negative",
+    "origin": "extended_cases.json",
+    "expected_source_ids": [],
+    "group": "non_direct_regression",
+    "partition": "retained"
+  }
+]

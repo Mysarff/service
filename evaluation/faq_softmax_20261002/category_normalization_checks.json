@@ -1,0 +1,82 @@
+[
+  {
+    "category": "发票管理",
+    "eligible_count": 296,
+    "score": 0.9996238683538812
+  },
+  {
+    "category": "在线会话",
+    "eligible_count": 296,
+    "score": 0.9996913562028303
+  },
+  {
+    "category": "审批流程",
+    "eligible_count": 296,
+    "score": 0.9996935154933717
+  },
+  {
+    "category": "审计中心",
+    "eligible_count": 296,
+    "score": 0.9996631533249737
+  },
+  {
+    "category": "工单管理",
+    "eligible_count": 296,
+    "score": 0.9996238683539768
+  },
+  {
+    "category": "开放接口",
+    "eligible_count": 296,
+    "score": 0.9996800022215413
+  },
+  {
+    "category": "报表分析",
+    "eligible_count": 288,
+    "score": 0.9996952333978991
+  },
+  {
+    "category": "物流服务",
+    "eligible_count": 296,
+    "score": 0.9996439651533687
+  },
+  {
+    "category": "知识中心",
+    "eligible_count": 296,
+    "score": 0.999663153325409
+  },
+  {
+    "category": "组织成员",
+    "eligible_count": 296,
+    "score": 0.9996765786968104
+  },
+  {
+    "category": "订单服务",
+    "eligible_count": 296,
+    "score": 0.9996414568177091
+  },
+  {
+    "category": "订阅管理",
+    "eligible_count": 296,
+    "score": 0.9996238683549848
+  },
+  {
+    "category": "账号安全",
+    "eligible_count": 304,
+    "score": 0.9996875861724537
+  },
+  {
+    "category": "资产管理",
+    "eligible_count": 296,
+    "score": 0.9996238683539072
+  },
+  {
+    "category": "退换服务",
+    "eligible_count": 296,
+    "score": 0.9996439651543725
+  },
+  {
+    "category": "项目协作",
+    "eligible_count": 296,
+    "score": 0.9996935154931418
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "created_at_utc": "2026-10-02T08:17:53.853530+00:00",
+  "threshold": 0.55,
+  "scope": "Eight targeted real BERT/MySQL/Redis/FAQ and neural RAG routes; Qwen disabled; not a representative answer accuracy benchmark.",
+  "selection": [
+    "cases.json:positive:2",
+    "cases.json:positive:6",
+    "cases.json:positive:20",
+    "cases.json:positive:9",
+    "cases.json:positive:0",
+    "missing-01",
+    "missing-05",
+    "extended_cases.json:negative:9"
+  ],
+  "observations": [],
+  "complete": false,
+  "code_sha256": {
+    "cloudcare/settings.py": "9a8765d884dc4f213558dc765a094652ea4ae59afd2e8493eb435424413e5fa3",
+    "cloudcare/faq.py": "6be3ff1663f408435e6561c53335c3ff5da7201f0e34e6a4170d8d1ce91b1cab",
+    "cloudcare/pipeline.py": "50e803d7431eae953b45482613748c065e55784f0208a9bc27cec38f5d8c7b55",
+    "cloudcare/storage.py": "72fc14d8e4b68564e1425e120bfa6599c4992a5dfe018f218048271ec28d72f2"
+  },
+  "storage_before": {
+    "documents": 112,
+    "parents": 112,
+    "chunks": 592,
+    "faq": 4736,
+    "sessions": 162,
+    "messages": 324,
+    "tickets": 0
+  },
+  "storage_after_cleanup": {
+    "documents": 112,
+    "parents": 112,
+    "chunks": 592,
+    "faq": 4736,
+    "sessions": 162,
+    "messages": 324,
+    "tickets": 0
+  },
+  "wall_seconds": 1.003690599998663,
+  "interrupted_reason": "Probe assumed an absent SQL session returns None; actual storage returns an empty list. No questions or provider requests were executed."
+}

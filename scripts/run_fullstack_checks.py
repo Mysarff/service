@@ -39,6 +39,7 @@ SCOPES = {
     "test_neural_contracts": "injected_neural_and_milvus_clients_with_small_cpu_tensor",
     "test_pipeline_contracts": "pipeline_and_qwen_contracts_with_injected_backends",
     "test_qwen_contracts": "qwen_prompt_and_response_contracts_with_injected_call",
+    "test_faq_bm25_routing": "faq_bm25_algorithm_and_pipeline_with_injected_backends",
 }
 
 

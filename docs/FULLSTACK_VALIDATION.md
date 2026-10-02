@@ -63,7 +63,7 @@ Qwen 的 8 题检查另行记录真实 API 调用次数、改写、答案模式�
 
 最终冻结代码复测中，Qwen8题的每题2次真实API调用（一次改写、一次证据步骤选择）均成功，合计16/16接口成功，7/8返回 `grounded_llm`，答案缓存命中0次。“换了手机之后验证器怎么迁移？”的生成响应触发 `ValueError`，最终返回带ACC-14出处的 `retrieval_fallback` 原文。该报告没有保存这次原始生成JSON，无法仅凭异常类型确定具体校验字段。报告为 `evaluation/fullstack_metrics_qwen_probe.json`；语义完整性与人工答案正确率没有评分。
 
-修复前的另一完整运行是8/8证据回答通过，保存在 `fullstack_metrics_before_whitespace_fix.json` 和 `fullstack_metrics_qwen_before_whitespace_fix.json`。当前简历采用最终冻结代码的7/8结果，未通过重复请求筛选成功样例，也没有将接口成功率写成答案准确率。
+修复前的另一完整运行是8/8证据回答通过，保存在 `fullstack_metrics_before_whitespace_fix.json` 和 `fullstack_metrics_qwen_before_whitespace_fix.json`。10月1日简历曾采用当时冻结代码的7/8结果；10月2日重新调用得到6/8，旧报告保留。未通过重复请求筛选成功样例，也没有将接口成功率写成答案准确率。
 
 最终功能套95/95通过，0失败、0错误、0跳过，耗时117.201秒，源码 SHA 前后稳定。包括6项真实解析／OCR、4项实际SQL／Redis集成及其余接口、契约、历史基线检查；不能将95项都写为真实模型质量测试。初次历史语料不一致的失败保存为 `fullstack_tests_attempt1.json`，修复使用冻结旧语料回放，未修改历史结果哈希；空白引用修复前的91项报告另行归档，新增4项检查覆盖空白恢复、数字／否定修改、超长原文和纯空白响应。
 
@@ -110,10 +110,14 @@ $env:CLOUDCARE_MYSQL_INTEGRATION='1'
 
 ## FAQ BM25调整与验收状态
 
-FAQ阶段改为对已发布的问题使用BM25（k1=1.2、b=0.75）检索，按Top-1原始分数判断：达到阈值且关联出处通过业务分类、租户及可见性核验时，直接返回该FAQ与出处；低于阈值、没有候选或出处无效时，继续进入RAG。标准化完全匹配也需要通过相同阈值，不再依靠精确匹配捷径或Dice相似度决定直答。
+FAQ阶段对已发布的问题使用BM25（k1=1.2、b=0.75）检索，再按全库Softmax的Top-1归一化分判断：达到阈值且关联出处通过业务分类、租户及可见性核验时，直接返回该FAQ与出处；低于阈值、没有候选或出处无效时，继续进入RAG。标准化完全匹配也需要通过相同阈值，不再依靠精确匹配捷径或Dice相似度决定直答。
 
-配置项为`Settings.faq_bm25_threshold`，环境变量为`CLOUDCARE_FAQ_BM25_THRESHOLD`，INI字段为`[faq] bm25_threshold`。默认`8.0`是未经阈值标定的启动配置；BM25分数随查询词、语料和分词变化，不是0–1概率，也不与旧版0.85／0.98相似度阈值互换。
+配置项为`Settings.faq_bm25_threshold`，环境变量为`CLOUDCARE_FAQ_BM25_THRESHOLD`，INI字段为`[faq] bm25_threshold`。2026-10-02恢复原教育项目的评分流程：先计算BM25，再对全部符合分类条件的FAQ（包含原始0分项）执行Softmax，以0–1归一化分数比较。先以0.85完成全栈评测，后经用户要求比较阈值，当前默认改为0.55保守试用。两者均不是回答正确率；原始8.0／32.0诊断保留在`evaluation/faq_bm25_20261002/`，不与归一化门槛混用。
 
 真实Redis保存FAQ记录和发布版本，各工作进程按Redis版本构建本地BM25快照，兼容已有records索引。Redis并未运行BM25模型。答案缓存键同时包含FAQ版本和阈值；`trace.faq`记录`score`、`threshold`、`accepted`、`reason`和`index_version`，供追踪直答或进入RAG的原因。
 
-本轮未新增或运行测试，没有重新执行10月1日的完整检索、Qwen和延迟评测。因此本页95/95、60/64、7/8及对应延迟均为历史结果，不能归因于本次FAQ修改；FAQ直答率、误答率、阈值选择和性能收益尚未测量。
+0.85 Softmax版本执行113项功能检查，113/113通过、0失败／错误／跳过，18项新增FAQ边界检查涵盖全库0分分母、单候选、同分分布、数值稳定及缓存失效。SQL／Redis保留112来源、592片段及4,736FAQ。结果为`evaluation/validation_20261002_softmax/fullstack_tests.json`。后续0.55专项20/20通过，见`evaluation/faq_softmax_calibration_20261002/threshold_boundary_tests.json`；没有重跑整套113项。测试范围和模型质量分别解释。
+
+独立FAQ评分评测为`evaluation/faq_softmax_20261002/README.md`：4,736索引内原样题Top1出处全部命中，4,732达到0.85；64自然开发正例仅1题达到门槛且匹配了错误步骤，24原负例中1题返回否定固定退款时限的原文候选，新增20题均未通过门槛。99.92%仅为原样FAQ门槛通过率，不能写自然问法准确率。高分错误是“AI写好的帮助文章能直接发布吗”匹配KB-09搜索故障段而非KB-13发布审核段，归一化分数0.9826。阈值本身不能保证语义正确，本轮没有据此宣称FAQ精准拦截或业务降本。
+
+上文10月1日的95/95、60/64、7/8及耗时仍为历史留档；10月2日真实神经检索、实际分流和Qwen复测另存`evaluation/resume_eval_20261002/`，不会覆盖历史结果。

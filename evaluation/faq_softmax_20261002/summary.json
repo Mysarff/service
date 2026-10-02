@@ -1,0 +1,159 @@
+{
+  "created_at_utc": "2026-10-02T07:14:56.635802+00:00",
+  "scope": "FAQ BM25 whole-index Softmax only; no BERT, Redis, Milvus, BGE or Qwen calls",
+  "algorithm": "faq_bm25_softmax_v2",
+  "k1": 1.2,
+  "b": 0.75,
+  "normalization": "softmax_all_faq",
+  "fixed_threshold": 0.85,
+  "threshold_tuned": false,
+  "faq_records": 4736,
+  "knowledge_source_ids": 592,
+  "faq_variants_per_source_id": {
+    "8": 592
+  },
+  "normalization_crosschecks": {
+    "all_eligible_including_zero_scores_queries": 108,
+    "category_filtered_queries": 16,
+    "tolerance": 1e-12
+  },
+  "all_regression": {
+    "threshold": 0.85,
+    "sample_count": 88,
+    "positive_count": 64,
+    "negative_count": 24,
+    "accepted_total": 2,
+    "positive_accepted": 1,
+    "positive_correct": 0,
+    "positive_source_id_miss": 1,
+    "negative_accepted": 1,
+    "source_id_precision_proxy": 0.0,
+    "positive_correct_direct_coverage": 0.0,
+    "positive_sent_to_rag": 63,
+    "negative_sent_to_rag": 23
+  },
+  "development_partition": {
+    "threshold": 0.85,
+    "sample_count": 44,
+    "positive_count": 32,
+    "negative_count": 12,
+    "accepted_total": 1,
+    "positive_accepted": 0,
+    "positive_correct": 0,
+    "positive_source_id_miss": 0,
+    "negative_accepted": 1,
+    "source_id_precision_proxy": 0.0,
+    "positive_correct_direct_coverage": 0.0,
+    "positive_sent_to_rag": 32,
+    "negative_sent_to_rag": 11
+  },
+  "retained_partition": {
+    "threshold": 0.85,
+    "sample_count": 44,
+    "positive_count": 32,
+    "negative_count": 12,
+    "accepted_total": 1,
+    "positive_accepted": 1,
+    "positive_correct": 0,
+    "positive_source_id_miss": 1,
+    "negative_accepted": 0,
+    "source_id_precision_proxy": 0.0,
+    "positive_correct_direct_coverage": 0.0,
+    "positive_sent_to_rag": 31,
+    "negative_sent_to_rag": 12
+  },
+  "challenge": {
+    "threshold": 0.85,
+    "sample_count": 20,
+    "positive_count": 8,
+    "negative_count": 12,
+    "accepted_total": 0,
+    "positive_accepted": 0,
+    "positive_correct": 0,
+    "positive_source_id_miss": 0,
+    "negative_accepted": 0,
+    "source_id_precision_proxy": null,
+    "positive_correct_direct_coverage": 0.0,
+    "positive_sent_to_rag": 8,
+    "negative_sent_to_rag": 12
+  },
+  "challenge_by_group": {
+    "missing_fact_near_faq": {
+      "threshold": 0.85,
+      "sample_count": 8,
+      "positive_count": 0,
+      "negative_count": 8,
+      "accepted_total": 0,
+      "positive_accepted": 0,
+      "positive_correct": 0,
+      "positive_source_id_miss": 0,
+      "negative_accepted": 0,
+      "source_id_precision_proxy": null,
+      "positive_correct_direct_coverage": null,
+      "positive_sent_to_rag": 0,
+      "negative_sent_to_rag": 8
+    },
+    "out_of_scope": {
+      "threshold": 0.85,
+      "sample_count": 4,
+      "positive_count": 0,
+      "negative_count": 4,
+      "accepted_total": 0,
+      "positive_accepted": 0,
+      "positive_correct": 0,
+      "positive_source_id_miss": 0,
+      "negative_accepted": 0,
+      "source_id_precision_proxy": null,
+      "positive_correct_direct_coverage": null,
+      "positive_sent_to_rag": 0,
+      "negative_sent_to_rag": 4
+    },
+    "supported_negation_condition": {
+      "threshold": 0.85,
+      "sample_count": 8,
+      "positive_count": 8,
+      "negative_count": 0,
+      "accepted_total": 0,
+      "positive_accepted": 0,
+      "positive_correct": 0,
+      "positive_source_id_miss": 0,
+      "negative_accepted": 0,
+      "source_id_precision_proxy": null,
+      "positive_correct_direct_coverage": 0.0,
+      "positive_sent_to_rag": 8,
+      "negative_sent_to_rag": 0
+    }
+  },
+  "indexed_exact_question_diagnostic": {
+    "query_count": 4736,
+    "correct_top1_source_ids": 4736,
+    "accepted_at_085": 4732,
+    "correct_and_accepted": 4732,
+    "softmax_min": 0.709854933561421,
+    "softmax_median": 0.9183289387580966,
+    "softmax_max": 0.9999999999999956,
+    "note": "Known indexed questions; Top1 correctness is separate from passing the FAQ routing threshold."
+  },
+  "query_duplicate_audit": {
+    "regression_exact_in_faq": 0,
+    "challenge_exact_in_faq": 0
+  },
+  "input_sha256": {
+    "knowledge.jsonl": "2118f66df33b65c74f46fb3d1862078562dfcd06a6091bb6fe5dd872902718b7",
+    "faq.jsonl": "fb97fc0d76a6f52e55ff53859bb75b9671d096adeca8688478f19993b7a72b8c",
+    "faq.py": "6be3ff1663f408435e6561c53335c3ff5da7201f0e34e6a4170d8d1ce91b1cab",
+    "cases.json": "97491819a33fa35b951c81875aacf2fe7cd2e1e7109a2b7f16ba0ee1abfe5944",
+    "extended_cases.json": "5b5012f35d5750c345d06f8c0ea4f70e10eb0025ea45540e3b4a6776b8c58482",
+    "challenge_cases.json": "c99b24eb2083d4e18fe10d79637698c2852f139cb7f889de13d965f82876f4dc"
+  },
+  "limitations": [
+    "0.85 is the user-requested inherited threshold; no optimum/calibration claim.",
+    "Softmax is relative score concentration, not a correctness probability.",
+    "Eight alternate FAQ phrasings per source compete individually in the denominator.",
+    "Regression and challenge material are synthetic developer-authored, not a blind external benchmark.",
+    "Strict source-ID hit measures relevance, not complete answer coverage or factual accuracy.",
+    "No acceptance means the FAQ branch declines; subsequent RAG effectiveness is not measured here.",
+    "Whole-system BERT routing can intercept actions/out-of-scope queries before FAQ."
+  ],
+  "elapsed_seconds": 56.12463000000025
+}

@@ -1,4 +1,4 @@
-"""BM25 question ranking with whole-index Softmax for the FAQ routing gate."""
+"""BM25 over FAQ questions; raw scores are not correctness probabilities."""
 from __future__ import annotations
 
 from collections import Counter
@@ -9,7 +9,7 @@ import unicodedata
 from engine import terms
 
 
-FAQ_BM25_ALGORITHM = "faq_bm25_softmax_v2"
+FAQ_BM25_ALGORITHM = "faq_bm25_v1"
 FAQ_BM25_K1 = 1.2
 FAQ_BM25_B = 0.75
 
@@ -63,17 +63,4 @@ class FAQBM25Index:
         if not ranked:
             return None
         ranked.sort(key=lambda row: (-row["score"], row["id"]))
-        # Match the education system's whole-index Softmax convention. Every
-        # eligible FAQ participates, including questions with no shared terms
-        # (BM25 score 0). Normalizing only the retrieved candidate(s), or dividing
-        # by the maximum score, would make weak singleton matches look certain.
-        eligible_count = (len(self.rows) if not category else
-                          sum(row.get("category") == category for row in self.rows))
-        best = ranked[0]
-        raw_score = best["score"]
-        zero_count = eligible_count - len(ranked)
-        denominator = math.fsum(math.exp(row["score"] - raw_score) for row in ranked)
-        denominator += zero_count * math.exp(-raw_score)
-        return {**best, "raw_score": raw_score, "score": 1.0 / denominator,
-                "normalization": "softmax_all_faq", "candidate_count": len(ranked),
-                "eligible_count": eligible_count}
+        return {**ranked[0], "candidate_count": len(ranked)}

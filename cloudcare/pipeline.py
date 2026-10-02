@@ -260,10 +260,13 @@ class SupportPipeline:
                                       index_version=faq_version)
             threshold = self.settings.faq_bm25_threshold
             trace['faq'] = {'method':'bm25', 'score':faq['score'] if faq else None,
+                            'raw_score':faq.get('raw_score') if faq else None,
+                            'normalization':'softmax_all_faq',
                             'threshold':threshold, 'accepted':False,
                             'reason':'below_threshold' if faq else 'no_candidate',
                             'index_version':faq_version,
-                            'candidate_count':faq.get('candidate_count',0) if faq else 0}
+                            'candidate_count':faq.get('candidate_count',0) if faq else 0,
+                            'eligible_count':faq.get('eligible_count',0) if faq else 0}
             if faq:
                 trace['faq'].update({key:faq.get(key) for key in ('id','question','source_id','matches')})
             if faq and faq['score'] >= threshold:

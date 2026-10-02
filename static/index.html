@@ -54,11 +54,12 @@ function matchingTrace(trace){
   if(faq&&typeof faq==='object'&&faq.method==='bm25'){
     if(faq.question)line(`FAQ 候选：${faq.question}`);
     const score=Number.isFinite(faq.score)?faq.score.toFixed(4):'无候选分数',threshold=Number.isFinite(faq.threshold)?faq.threshold.toFixed(4):'未提供';
-    line(`BM25 分数：${score}；直答阈值：${threshold}`);
+    line(`FAQ 匹配分（BM25 → Softmax）：${score}；直答阈值：${threshold}`);
+    if(Number.isFinite(faq.raw_score))line(`BM25 原始分（用于排查）：${faq.raw_score.toFixed(4)}`);
     const reasons={accepted:'分数达到阈值且答案与来源有效，直接返回 FAQ。',below_threshold:'分数未达到阈值，进入 RAG 检索。',no_candidate:'未找到 FAQ 候选，进入 RAG 检索。',invalid_source:'FAQ 来源无效，进入 RAG 检索。',empty_answer:'FAQ 答案为空，进入 RAG 检索。'};
     line(reasons[faq.reason]||(faq.accepted?'FAQ 已通过直答判断。':'FAQ 未通过直答判断，进入 RAG 检索。'));
     if(faq.accepted&&faq.source_id)line(`FAQ 出处：${faq.source_id}`);
-    line('BM25 分数表示关键词匹配强度，不是概率或回答准确率。',true);
+    line('Softmax 匹配分在 0–1 之间，表示候选分数的相对集中程度，不是回答正确率。',true);
   }else{line('未提供本轮 FAQ 的 BM25 匹配记录。')}
   return box;
 }
